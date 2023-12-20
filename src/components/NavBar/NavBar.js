@@ -88,9 +88,9 @@ const NavBar = () => {
               className={`${navBarStyle.navLi} ${
                 isActive[1] ? navBarStyle.active : ""
               }`}
-              to={"./Librairies"}
+              to={"./Libraries"}
             >
-              Librairies
+              Libraries
             </NavLink>
           </li>
           <li>
