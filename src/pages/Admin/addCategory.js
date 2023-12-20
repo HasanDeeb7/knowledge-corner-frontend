@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import addCategoryStyle from "./addCategory.module.css";
 import axios from "axios";
+import { useParams } from "react-router";
 
-function AddCategory() {
+function AddCategory({handleAdd}) {
   const [categoryName, setCategoryName] = useState("");
-
+const {type}=useParams()
   const handleCategoryNameChange = (e) => {
     setCategoryName(e.target.value);
   };
@@ -16,6 +17,8 @@ function AddCategory() {
       .then((response) => {
         console.log("Category created");
         setCategoryName("");
+        handleAdd()
+
       })
       .catch((error) => {
         console.log("Error creating category");
@@ -37,7 +40,7 @@ function AddCategory() {
         />
 
         <button className={addCategoryStyle.cancelButton}>Cancel</button>
-        <button type="submit" className={addCategoryStyle.addButton}>
+        <button type="submit" className={addCategoryStyle.addButton} >
           Add
         </button>
       </form>

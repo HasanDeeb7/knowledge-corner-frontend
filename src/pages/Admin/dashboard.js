@@ -66,8 +66,9 @@ function Dashboard() {
     .then((response)=>{
       console.log("Category deleted successfully")
 
-      const updatedCategories = categories.filter((category) => category._id !== categoryId);
-      setCategories(updatedCategories)
+      // const updatedCategories = categories.filter((category) => category._id !== categoryId);
+      // setCategories(updatedCategories)
+      handleClick()
     })
     .catch((error)=>{
       console.error('Error deleting category:',error)
@@ -92,6 +93,9 @@ function Dashboard() {
     }
   };
 
+  // const handleFetch=async()=>{
+  //   handleClick()
+  // }
   useEffect(()=>{
     handleClick()
   },[])
@@ -106,10 +110,20 @@ function Dashboard() {
           <Route exact path='/' element={<AdminAllBooks books={books} authors={authors} categories={categories} handleDeleteBook={handleDeleteBook}/> }></Route>
           <Route path='/adminAllBooks' element={<AdminAllBooks books={books} authors={authors} categories={categories} handleDeleteBook={handleDeleteBook}/>}></Route>
           <Route path='/adminAllAuthors' element={<AdminAllAuthors authors={authors} handleDeleteAuthor={handleDeleteAuthor}/>}></Route>
+        {/* /****************************************** */ }
+
+          <Route path='/adminAllLibraries' element={<AdminAllAuthors authors={authors} handleDeleteAuthor={handleDeleteAuthor}/>}></Route>
+{/* /****************************************** */ }
+
           <Route path='/adminAllCategories' element={<AdminAllCategories categories={categories} handleDeleteCategory={handleDeleteCategory}/>}></Route>
-          <Route path='/adminAddBook/:type' element={<AddBookForm/>}></Route>
+          <Route path='/adminAddBook/:type' element={<AddBookForm/>} ></Route>
           <Route path='/adminAddAuthor/:type' element={<AddAuthorForm/>}></Route>
-          <Route path='/adminAddCategory' element={<AddCategoryForm/>}></Route>
+          <Route path='/adminAddCategory/:type' element={<AddCategoryForm/>} handleAdd={handleClick}></Route>
+         {/* /****************************************** */ }
+
+          <Route path='/adminAddLibrary/:type' element={<AddCategoryForm/>}></Route>
+{/* /****************************************** */ }
+
         </Route>
 
         <Route path="/*" element={<NotFound />} />
