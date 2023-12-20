@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "../../assets/icons/books-stack-of-three 2.svg";
 import Icone from "../../assets/icons/Group.svg";
 import navBarStyle from "./navbar.module.css";
@@ -15,6 +15,7 @@ const NavBar = () => {
     false,
     false
   ]);
+  const navigate = useNavigate();
   const [isResponsive, setIsResponsive] = useState(window.innerWidth <= 480);
 
   const handleSearch = () => {
@@ -133,7 +134,12 @@ const NavBar = () => {
             </NavLink>
           </li>
         </ul>
-        <div className={navBarStyle.loginBtn} onClick={()=> console.log('Login')}>Login</div>
+        <div
+          className={navBarStyle.loginBtn}
+          onClick={() => navigate('/login')}
+        >
+          Login
+        </div>
       </nav>
     </div>
   );

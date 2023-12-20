@@ -25,14 +25,14 @@ code {
 }
 
 :root {
-  --primary-color: #03151E; /*the blue color*/
+  --primary-color: #03151e; /*the blue color*/
   --text-color: black; /*text color*/
-  --line-height: 1.4;  /*the height of the line*/
-  --font-size: 16px;  /*font size of text in paragraph*/
-  --font-size-h1: 2rem;  /*font size of heading 1*/
-  --border-radius: 5px;  /*border radius*/
-  --container-width: 90%;  /*cointainer width of the main content in the page*/
-  --breakpoint-small: 576px;  /*small screen breakpoints*/
+  --line-height: 1.4; /*the height of the line*/
+  --font-size: 16px; /*font size of text in paragraph*/
+  --font-size-h1: 2rem; /*font size of heading 1*/
+  --border-radius: 5px; /*border radius*/
+  --container-width: 90%; /*cointainer width of the main content in the page*/
+  --breakpoint-small: 576px; /*small screen breakpoints*/
   --breakpoint-medium: 768px; /*medium screen breakpoint*/
   --breakpoint-large: 992px; /*large screen breakpoints*/
 }

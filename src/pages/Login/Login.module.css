@@ -10,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 15px;
 }
 .loginHeroSide{
     width: 50%;
@@ -21,4 +22,14 @@
 }
 .loginHeroSide h1{
     width: 60%;
+}
+.actionButton{
+  margin-left: 5px;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.actionButton:hover{
+  color: #00005b;
 }

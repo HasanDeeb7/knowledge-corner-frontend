@@ -41,7 +41,7 @@
   width: 50%;
   height: 100%;
   margin-left: 1.5rem;
-  gap:10px ;
+  gap: 10px;
   /* border: 1px solid black; */
 }
 .navLi {
@@ -57,26 +57,30 @@
   padding: 4px;
 
   /* border: 2px solid black; */
-
 }
 .navUl li {
   list-style-type: none;
   width: 8rem;
   /* border: 1px solid black; */
-
 }
 
 .navLi:not(.active):hover {
-  /* padding: 10px; */
   border-bottom: 2px solid var(--primary-color);
 }
-.loginBtn{
-  background-color: #03151E;
+.loginBtn {
+  background-color: #03151e;
   color: white;
   border: 1px solid white;
-  padding: 10px;
+  padding: 10px 30px;
   cursor: pointer;
   border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+
+.loginBtn:hover {
+  color: #03151e;
+  border-color: #03151e;
+  background-color: #fff;
 }
 
 .loginBtnNav {

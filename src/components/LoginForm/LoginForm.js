@@ -1,10 +1,27 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import style from "./LoginFrom.module.css";
+import axios from "axios";
+import { userContext } from "../../App";
 
 function LoginForm() {
+  const { user, setUser } = useContext(userContext);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   function handleChange(e) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  }
+  async function handleLogin() {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/user/signin",
+        credentials
+      );
+      if (response) {
+        setUser(response.data.user);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>
@@ -35,7 +52,7 @@ function LoginForm() {
           className={style.loginSubmit}
           onClick={(e) => {
             e.preventDefault();
-            console.log("Button");
+            handleLogin();
           }}
         >
           Sign In
