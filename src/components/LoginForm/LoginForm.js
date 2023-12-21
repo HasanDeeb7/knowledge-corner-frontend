@@ -1,14 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from "./LoginFrom.module.css";
 import axios from "axios";
 import { userContext } from "../../App";
 
 function LoginForm() {
   const { user, setUser } = useContext(userContext);
+  const [message,setMessage]=useState()
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   function handleChange(e) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    console.log(credentials)
   }
+
   async function handleLogin() {
     try {
       const response = await axios.post(
@@ -17,12 +20,18 @@ function LoginForm() {
       );
       if (response) {
         setUser(response.data.user);
-        console.log(response);
+        console.log(response.data);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setMessage(error.response.data.message)
+
     }
   }
+ 
+  useEffect(()=>{
+
+  },[message])
   return (
     <>
       <div className={style.loginWrapper}>
@@ -46,6 +55,7 @@ function LoginForm() {
             onChange={handleChange}
           />
         </div>
+        <div style={{color:"red"}}>{message?message:null}</div>
       </div>
       <div className={style.loginBtnWrapper}>
         <button

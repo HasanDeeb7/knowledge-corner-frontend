@@ -24,7 +24,7 @@ function Login() {
       ) : (
         <div className={style.loginFormContainer}>
           <h2>Sign Up</h2>
-          <SignUp />
+          <SignUp setLogin={setLogin} />
           <p>
             Already have an account?
             <span onClick={() => setLogin(true)} className={style.actionButton}>
