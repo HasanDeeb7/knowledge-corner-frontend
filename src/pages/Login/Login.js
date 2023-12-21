@@ -4,13 +4,18 @@ import style from "./Login.module.css";
 import SignUp from "../../components/SignUp/SignUp";
 import log from '../../assets/icons/log-in (2).png'
 import sign from '../../assets/icons/add-user.png'
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 function Login() {
   const [login, setLogin] = useState(true);
   return (
     <div className={style.loginPageContainer}>
+      <Helmet>
+        <title>Hi!! log in please :(</title>
+        <link rel="shortcut icon" href={good}></link>
+      </Helmet>
 
+      
       {login ? (
         <div className={style.loginFormContainer}>
             <Helmet>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createContext } from "react";
 import AppRoutes from "./routes/AppRoutes";
 import axios from "axios";
-
+import { HelmetProvider } from "react-helmet-async";
 export const userContext = createContext();
 
 function App() {
@@ -28,11 +28,13 @@ function App() {
     getUser()
   }, [])
   return (
-    <userContext.Provider value={{ user, setUser }}>
-      <div className="App">
-        <AppRoutes />
-      </div>
-    </userContext.Provider>
+    <HelmetProvider>
+      <userContext.Provider value={{ user, setUser }}>
+        <div className="App">
+          <AppRoutes />
+        </div>
+      </userContext.Provider>
+    </HelmetProvider>
   );
 }
 
