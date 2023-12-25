@@ -5,17 +5,16 @@ import SignUp from "../../components/SignUp/SignUp";
 import log from '../../assets/icons/log-in (2).png'
 import sign from '../../assets/icons/add-user.png'
 import { Helmet } from "react-helmet-async";
-
+import OAuth from "../../OAuth";
 function Login() {
   const [login, setLogin] = useState(true);
   return (
     <div className={style.loginPageContainer}>
       <Helmet>
-        <title>Hi!! log in please :(</title>
-        <link rel="shortcut icon" href={good}></link>
+        <title>Login</title>
+        <link rel="shortcut icon"></link>
       </Helmet>
 
-      
       {login ? (
         <div className={style.loginFormContainer}>
             <Helmet>
@@ -26,6 +25,7 @@ function Login() {
       </Helmet>
           <h2>Log In</h2>
           <LoginForm />
+          <OAuth />
           <p>
             Don't have an account?
             <span

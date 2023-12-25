@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "./SignUp.module.css";
-import axios from "axios";
-function SignUp({ setLogin }) {
+import OAuth from "../../OAuth";
+function SignUp() {
   const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
@@ -126,6 +126,7 @@ function SignUp({ setLogin }) {
           Sign Up
         </button>
       </div>
+      <OAuth />
     </>
   );
 }

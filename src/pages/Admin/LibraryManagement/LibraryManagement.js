@@ -11,98 +11,111 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function LibraryManagement() {
   const [isLoading, setIsLoading] = useState(true);
-  const [books, setBooks] = useState();
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [bookList, setBookList] = useState([]);
-  const [search, setSearch] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState();
-  async function getBooks() {
-    console.log(process.env.REACT_APP_PATH);
+  const [libraryBooks, setLibraryBooks] = useState();
+  const [allBooks, setAllBooks] = useState();
+  const [search, setSearch] = useState();
+  const [action, setAction] = useState("editLibrary");
+
+  const id = 1;
+
+  async function getLibraryBooks() {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_PATH}api/books`
+      const responseLibraryBooks = await axios.get(
+        `${process.env.REACT_APP_PATH}api/books/libraryBooks`,
+        { params: { id: 1 } }
       );
-      if (response) {
-        console.log(response);
-        setBooks(response.data);
-        setFilteredBooks(
-          search.length > 0
-            ? response.data.filter((item) => {
-                item.title.toLowerCase().includes(search.toLocaleLowerCase);
-              })
-            : books
-        );
+      if (responseLibraryBooks) {
+        setLibraryBooks(responseLibraryBooks.data);
+        try {
+          const responseAllBooks = await axios.get(
+            `${process.env.REACT_APP_PATH}api/books/`
+          );
+          if (responseAllBooks) {
+            const bookIds = [];
+            responseLibraryBooks.data.map((item) => bookIds.push(item.id));
+            setAllBooks(
+              responseAllBooks.data.filter((item) => !bookIds.includes(item.id))
+            );
+            console.log(
+              responseAllBooks.data.filter((item) => !bookIds.includes(item.id))
+            );
+          }
+        } catch (error) {
+          console.log(error);
+        }
         setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
   }
+
   function getData() {
     if (!isLoading) {
-      if (search.length > 0) {
-        const result = books.filter((item) => {
-          item.title.toLowerCase().includes;
-        });
+      let result = libraryBooks;
+      if (search) {
+        result = libraryBooks.filter((item) =>
+          item.title.toLowerCase().includes(search.toLowerCase())
+        );
       }
+
+      return result;
     }
   }
   useEffect(() => {
-    getBooks();
-  }, [search]);
+    getLibraryBooks();
+    // getAllBooks();
+  }, []);
   return (
-    !isLoading && (
-      <div>
-        <TextField
-          onChange={(e) => {
-            setSearch(e.target.value);
-            console.log(search);
-            console.log(filteredBooks);
-          }}
-          value={search}
-        />
+    !isLoading &&
+    (action === "editLibrary" ? (
+      <div className={style.libraryManagementContainer}>
+        <div className={style.optionsContainer}>
+          <TextField
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            sx={{ width: 300 }}
+            label="Search..."
+          />
+          <button
+            className={style.addBookBtn}
+            onClick={() => setAction("addBook")}
+          >
+            Add Book
+          </button>
+        </div>
         <DataGrid
           columns={[
             { field: "id", headerName: "ID", width: 100 },
             { field: "title", headerName: "Title", width: 300 },
-            // { field: "role", headerName: "Role", width: 300 },
-            // { field: "status", headerName: "Status", width: 300 },
             {
               field: "actions",
               width: 300,
               renderCell: (params) => {
-                return (
-                  <div className={style.changeStatusBtn}>
-                    {params.row.status === "active" ? "Deactivate" : "Activate"}
-                  </div>
-                );
+                return <div className={style.changeStatusBtn}>Remove</div>;
               },
             },
           ]}
-          rows={
-            filteredBooks
-              ? filteredBooks.map((item) => {
-                  return {
-                    id: item.id,
-                    title: item.title,
-                  };
-                })
-              : books.map((item) => {
-                  return {
-                    id: item.id,
-                    title: item.title,
-                  };
-                })
-          }
+          rows={getData().map((item) => {
+            return {
+              id: item.id,
+              title: item.title,
+            };
+          })}
           checkboxSelection
           disableRowSelectionOnClick
-          onRowSelectionModelChange={(ids) => {
-            setBookList(ids);
-            console.log(ids);
-          }}
+          // onRowSelectionModelChange={(ids) => {
+          //   setBookList(ids);
+          // }}
         />
       </div>
-    )
+    ) : (
+      <Autocomplete
+        options={allBooks}
+        renderInput={(params) => <TextField {...params} label="title" />}
+      />
+    ))
   );
 }
 

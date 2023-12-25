@@ -1,0 +1,26 @@
+.libraryManagementContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 2rem 10rem;
+}
+.optionsContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+.addBookBtn {
+  background-color: #03151e;
+  color: white;
+  border: 1px solid white;
+  padding: 10px 30px;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+.addBookBtn:hover {
+  color: #03151e;
+  border-color: #03151e;
+  background-color: #fff;
+}
+
