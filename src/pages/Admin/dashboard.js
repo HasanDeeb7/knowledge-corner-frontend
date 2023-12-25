@@ -62,21 +62,17 @@ function Dashboard() {
       });
   };
 
-  const handleDeleteCategory = (categoryId) => {
-    axios
-      .delete(`${process.env.REACT_APP_PATH}api/categories/${categoryId}`)
-      .then((response) => {
-        console.log("Category deleted successfully");
 
-        const updatedCategories = categories.filter(
-          (category) => category._id !== categoryId
-        );
-        setCategories(updatedCategories);
-      })
-      .catch((error) => {
-        console.error("Error deleting category:", error);
-      });
-  };
+      // const updatedCategories = categories.filter((category) => category._id !== categoryId);
+      // setCategories(updatedCategories)
+      handleClick()
+    })
+    .catch((error)=>{
+      console.error('Error deleting category:',error)
+    })
+  }
+  
+
 
   const handleClick = async () => {
     try {
@@ -95,67 +91,40 @@ function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    handleClick();
-  }, []);
+
+  // const handleFetch=async()=>{
+  //   handleClick()
+  // }
+  useEffect(()=>{
+    handleClick()
+  },[])
+
 
   return (
     <div>
       <ToastContainer />
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={<AdminOutlet handleClick={handleClick} />}
-        >
-          <Route
-            exact
-            path="/"
-            element={
-              <AdminAllBooks
-                books={books}
-                authors={authors}
-                categories={categories}
-                handleDeleteBook={handleDeleteBook}
-              />
-            }
-          ></Route>
-          <Route
-            path="/adminAllBooks"
-            element={
-              <AdminAllBooks
-                books={books}
-                authors={authors}
-                categories={categories}
-                handleDeleteBook={handleDeleteBook}
-              />
-            }
-          ></Route>
-          <Route
-            path="/adminAllAuthors"
-            element={
-              <AdminAllAuthors
-                authors={authors}
-                handleDeleteAuthor={handleDeleteAuthor}
-              />
-            }
-          ></Route>
-          <Route
-            path="/adminAllCategories"
-            element={
-              <AdminAllCategories
-                categories={categories}
-                handleDeleteCategory={handleDeleteCategory}
-              />
-            }
-          ></Route>
-          <Route path="/adminAddBook/:type" element={<AddBookForm />}></Route>
-          <Route
-            path="/adminAddAuthor/:type"
-            element={<AddAuthorForm />}
-          ></Route>
-          <Route path="/adminAddCategory" element={<AddCategoryForm />}></Route>
+
+
+        <Route exact path='/' element={<AdminOutlet handleClick={handleClick}/>}>
+          <Route exact path='/' element={<AdminAllBooks books={books} authors={authors} categories={categories} handleDeleteBook={handleDeleteBook}/> }></Route>
+          <Route path='/adminAllBooks' element={<AdminAllBooks books={books} authors={authors} categories={categories} handleDeleteBook={handleDeleteBook}/>}></Route>
+          <Route path='/adminAllAuthors' element={<AdminAllAuthors authors={authors} handleDeleteAuthor={handleDeleteAuthor}/>}></Route>
+        {/* /****************************************** */ }
+
+          <Route path='/adminAllLibraries' element={<AdminAllAuthors authors={authors} handleDeleteAuthor={handleDeleteAuthor}/>}></Route>
+{/* /****************************************** */ }
+
+          <Route path='/adminAllCategories' element={<AdminAllCategories categories={categories} handleDeleteCategory={handleDeleteCategory}/>}></Route>
+          <Route path='/adminAddBook/:type' element={<AddBookForm/>} ></Route>
+          <Route path='/adminAddAuthor/:type' element={<AddAuthorForm/>}></Route>
+          <Route path='/adminAddCategory/:type' element={<AddCategoryForm/>} handleAdd={handleClick}></Route>
+         {/* /****************************************** */ }
+
+          <Route path='/adminAddLibrary/:type' element={<AddCategoryForm/>}></Route>
           <Route path="/libraries" element={<LibraryManagement />}></Route>
+{/* /****************************************** */ }
+
         </Route>
 
         <Route path="/*" element={<NotFound />} />

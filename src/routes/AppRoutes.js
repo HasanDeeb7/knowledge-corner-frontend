@@ -13,6 +13,7 @@ import Login from "../pages/Login/Login";
 import { Librairies } from "../pages/Libraries/Librairies";
 import Users from "../pages/Admin/Users/Users";
 
+
 function AppRoutes() {
   return (
     <Routes>
@@ -23,9 +24,11 @@ function AppRoutes() {
         <Route path="/AllBooks" element={<AllBooks />}></Route>
         <Route path="/AllAuthors" element={<AllAuthors />}></Route>
         <Route path="/SingleBook" element={<SingleBook />}></Route>
-        <Route path="/AboutUs" element={<AboutUs />}></Route>
-        <Route path="/SingleAuthor" element={<SingleAuther />}></Route>
-        <Route path="/Librairies" element={<Librairies />}></Route>
+
+        <Route path='/AboutUs' element={<AboutUs />}></Route>
+        <Route path='/SingleAuthor' element={<SingleAuther />}></Route>
+        <Route path='/Libraries' element={<Libraries />}></Route>
+
         <Route path="/AllBooks" element={<AllBooks />}></Route>
         <Route path="/AllAuthors" element={<AllAuthors />}></Route>
         <Route path="/SingleBook" element={<SingleBook />}></Route>

@@ -3,8 +3,10 @@ import adminNavbarStyle from "./adminNavbar.module.css";
 import books from "../../../assets/icons/download 1.svg";
 import authors from "../../../assets/icons/4649486-200 1.svg";
 import categories from "../../../assets/icons/Category.svg";
+import libraries from '../../../assets/icons/books-stack-of-three 2.svg'
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { Libraries } from "../../Libraries/Libraries";
 
 
  function AdminNavbar({ handleClick }) {
@@ -13,7 +15,7 @@ import { useLocation } from "react-router-dom";
   let locationTitle=currentLocation.slice(16)
   if(locationTitle===""){ locationTitle="All Books"}
   else{
-    locationTitle=locationTitle.slice(0,3)+" "+locationTitle.slice(3)
+    locationTitle=locationTitle.slice(0,3)+" "+locationTitle.slice(3).split('/')[0]
   }
   return (
   
@@ -22,7 +24,7 @@ import { useLocation } from "react-router-dom";
         Dashboard - {locationTitle}
         </h1>
       <div className={adminNavbarStyle.outerDiv}>
-        <div onClick={handleClick}>
+        {/* <div onClick={handleClick}> */}
           <Link
             to={"/dashboard/adminAllBooks"} 
             className={`${adminNavbarStyle.innerDiv} ${currentLocation==="/dashboard"|| currentLocation==="/dashboard/adminAllBooks"?adminNavbarStyle.innerDivActive:null} `}
@@ -30,7 +32,17 @@ import { useLocation } from "react-router-dom";
             <img src={books} alt="books" />
             <p className={adminNavbarStyle.threeButton}>Books</p>
           </Link>
-        </div>
+        {/* </div> */}
+{/* /****************************************** */ }
+        <Link
+            to={"/dashboard/adminAllLibraries"} 
+            className={`${adminNavbarStyle.innerDiv} ${currentLocation==="/dashboard/adminAllLibraries"?adminNavbarStyle.innerDivActive:null} `}
+          >
+            <img src={libraries} alt="libraries" />
+            <p className={adminNavbarStyle.threeButton}>Libraries</p>
+          </Link>
+ {/* /************************************* */ }
+
 
         <Link
           to={"/dashboard/adminAllAuthors"} 
@@ -59,6 +71,13 @@ import { useLocation } from "react-router-dom";
         </Link>
 
         <Link
+          to={"/dashboard/adminAddLibrary/Add"}
+          className={adminNavbarStyle.addMVC}
+        >
+          <button className={adminNavbarStyle.addButton}>Add Library</button>
+        </Link>
+
+        <Link
           to={"/dashboard/adminAddAuthor/Add"}
           className={adminNavbarStyle.addMVC}
         >
@@ -66,7 +85,7 @@ import { useLocation } from "react-router-dom";
         </Link>
 
         <Link
-          to={"/dashboard/adminAddCategory"}
+          to={"/dashboard/adminAddCategory/Add"}
           className={adminNavbarStyle.addMVC}
         >
           <button className={adminNavbarStyle.addButton}>Add Category</button>
