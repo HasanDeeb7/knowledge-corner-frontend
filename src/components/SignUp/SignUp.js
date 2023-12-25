@@ -1,5 +1,6 @@
 import { useState } from "react";
 import style from "./SignUp.module.css";
+import OAuth from "../../OAuth";
 function SignUp() {
   const [newUser, setNewUser] = useState({
     firstName: "",
@@ -76,6 +77,7 @@ function SignUp() {
           Sign Up
         </button>
       </div>
+      <OAuth />
     </>
   );
 }
