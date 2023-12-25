@@ -16,16 +16,16 @@ function Contents() {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_PATH}/api/books/limitedBooks?limit=6`
+          `${process.env.REACT_APP_PATH}api/books/limitedBooks?limit=6`
         );
-        
+
         setBook(response.data);
       } catch (error) {
         console.error("Error:", error);
       }
     }
 
-    fetchData(); 
+    fetchData();
   }, []);
 
   return (
@@ -34,10 +34,7 @@ function Contents() {
       <section className={contentsStyle.imageContainer}>
         {book.map((item, id) => (
           <div key={id} className={contentsStyle.bookContainer}>
-            <Link
-              to="/SingleBook"
-              state= {{ book: item }}
-            >
+            <Link to="/SingleBook" state={{ book: item }}>
               <button className={contentsStyle.imageButton}>
                 <img
                   src={`${process.env.REACT_APP_PATH}/images/${item.image}`}

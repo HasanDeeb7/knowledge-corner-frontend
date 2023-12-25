@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "../../assets/icons/books-stack-of-three 2.svg";
 import Icone from "../../assets/icons/Group.svg";
 import navBarStyle from "./navbar.module.css";
+import { userContext } from "../../App";
+import LogoutModal from "../logoutModal/logoutModal";
 
 const NavBar = () => {
+  const { user, setUser } = useContext(userContext);
   const [menuOpenn, setMenuOpenn] = useState(false);
   const [isActive, setActive] = useState([
     false,
@@ -13,11 +16,11 @@ const NavBar = () => {
     false,
     false,
     false,
-    false
+    false,
   ]);
   const navigate = useNavigate();
   const [isResponsive, setIsResponsive] = useState(window.innerWidth <= 480);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSearch = () => {
     setMenuOpenn(!menuOpenn);
     console.log("clicked"); // Toggle the menuOpen state
@@ -38,6 +41,9 @@ const NavBar = () => {
 
   return (
     <div className={navBarStyle.navContainer}>
+      {isModalOpen && (
+        <LogoutModal closeHandler={() => setIsModalOpen(false)} />
+      )}
       <nav className={navBarStyle.navBar}>
         <div className={navBarStyle.logoContainer}>
           <NavLink
@@ -97,7 +103,7 @@ const NavBar = () => {
           <li>
             <NavLink
               onClick={() => {
-                setActive([false, false,true, false, false, false]);
+                setActive([false, false, true, false, false, false]);
               }}
               className={`${navBarStyle.navLi} ${
                 isActive[2] ? navBarStyle.active : ""
@@ -110,7 +116,7 @@ const NavBar = () => {
           <li>
             <NavLink
               onClick={() => {
-                setActive([false, false,false, true, false, false, false]);
+                setActive([false, false, false, true, false, false, false]);
               }}
               className={`${navBarStyle.navLi} ${
                 isActive[3] ? navBarStyle.active : ""
@@ -123,7 +129,7 @@ const NavBar = () => {
           <li>
             <NavLink
               onClick={() => {
-                setActive([false,false, false, false, true, false, false]);
+                setActive([false, false, false, false, true, false, false]);
               }}
               className={`${navBarStyle.navLi} ${
                 isActive[4] ? navBarStyle.active : ""
@@ -134,12 +140,21 @@ const NavBar = () => {
             </NavLink>
           </li>
         </ul>
-        <div
-          className={navBarStyle.loginBtn}
-          onClick={() => navigate('/login')}
-        >
-          Login
-        </div>
+        {!user ? (
+          <div
+            className={navBarStyle.loginBtn}
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </div>
+        ) : (
+          <div
+            className={navBarStyle.loginBtn}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Logout
+          </div>
+        )}
       </nav>
     </div>
   );

@@ -9,9 +9,20 @@ function App() {
   const [user, setUser] = useState(null);
   axios.defaults.withCredentials = true;
   async function getUser() {
-    const response = await axios.get(`http://localhost:5000/api/user/getUser/`);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/user/getUser/`
+      );
+      if (response) {
+        setUser(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <HelmetProvider>
       <userContext.Provider value={{ user, setUser }}>

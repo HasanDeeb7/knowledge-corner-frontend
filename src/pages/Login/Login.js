@@ -3,21 +3,21 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import style from "./Login.module.css";
 import SignUp from "../../components/SignUp/SignUp";
 import { Helmet } from "react-helmet-async";
-import good from "../../assets/icons/good (1).png";
+import OAuth from "../../OAuth";
 function Login() {
   const [login, setLogin] = useState(true);
   return (
     <div className={style.loginPageContainer}>
       <Helmet>
-        <title>Hi!! log in please :(</title>
-        <link rel="shortcut icon" href={good}></link>
+        <title>Login</title>
+        <link rel="shortcut icon"></link>
       </Helmet>
 
-      
       {login ? (
         <div className={style.loginFormContainer}>
           <h2>Log In</h2>
           <LoginForm />
+          <OAuth />
           <p>
             Don't have an account?
             <span
