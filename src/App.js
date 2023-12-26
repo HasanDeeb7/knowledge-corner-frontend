@@ -6,7 +6,7 @@ import axios from "axios";
 export const userContext = createContext();
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({role:"admin"});
   axios.defaults.withCredentials = true;
   async function getUser(){
     if(!user){

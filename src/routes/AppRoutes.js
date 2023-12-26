@@ -11,7 +11,9 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import SingleAuther from "../pages/SingleAuther/SingleAuther";
 import Login from "../pages/Login/Login";
 import { Libraries } from '../pages/Libraries/Libraries';
-
+import NotAuthorised from '../components/NotFound/notauthorised.js'
+import ProtectedRoutes from './protectedRoutes.js'
+import SideBar from "../components/SideBar/SideBar";
 function AppRoutes() {
   return (
     <Routes>
@@ -29,12 +31,19 @@ function AppRoutes() {
         <Route path="/SingleBook" element={<SingleBook />}></Route>
         <Route path="/AboutUs" element={<AboutUs />}></Route>
         <Route path="/SingleAuthor" element={<SingleAuther />}></Route>
+        <Route path="/side" element={<SideBar />}></Route>
+
       </Route>
       <Route path="/login" element={<Login />}></Route>
-
-      <Route path="/dashboard/*" element={<Dashboard />}></Route>
+      <Route
+        path="/dashboard/*"
+        element={
+            <Dashboard />
+        }
+      ></Route>
 
       <Route path="/*" element={<NotFound />}></Route>
+      <Route path='/notAuth' element={<NotAuthorised />}></Route>
     </Routes>
   );
 }
