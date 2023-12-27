@@ -6,6 +6,8 @@ import axios from "axios";
 import magnifire from "../../assets/icons/magnifire.jpeg";
 import TempBookCard from "../../components/BookCard/tempBookCard";
 import { Link } from "react-router-dom";
+import library from '../../assets/icons/library1.png'
+import {Helmet} from "react-helmet";
 
 export const Libraries = () => {
     const [menuOpen, setMenuOpen] = useState(true);
@@ -141,6 +143,15 @@ export const Libraries = () => {
     const filteredBooks = filterBooksByName(filteredByCategories, searchInput);
   
     return (
+      <>
+      <Helmet>
+      <meta charSet="utf-8" />
+      <title>Libraries</title>
+      <meta name="description" content="All the available Libraries" />
+      <link rel="icon" type="image/png" href={library}/>
+  </Helmet>
+
+
       <div>
         <h1 className={AllBooksStyle.titleh1}>Libraries</h1>
         <form className={AllBooksStyle.bookSearch}>
@@ -218,5 +229,7 @@ export const Libraries = () => {
             </>
           )}
         </div>
-      </div>  )
+      </div>  
+      </>
+      )
 }
