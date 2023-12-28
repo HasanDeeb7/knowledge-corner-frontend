@@ -5,6 +5,9 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect,useState } from "react";
 import axios from "axios";
 // import axios from "axios";
+import { Helmet } from "react-helmet";
+import authorI from '../../assets/icons/author.png'
+
 function SingleAuther() {
   const location = useLocation();
   const [books, setBooks] = useState([]);
@@ -33,6 +36,12 @@ function SingleAuther() {
 
   return (
     <section className={style.singleAuthorContainer}>
+         <Helmet>
+        <meta charSet="utf-8" />
+        <title>{author? author.firstName+" "+author.lastName:"Single author"}</title>
+        <meta name="description" content="Single author page" />
+        <link rel="icon" href={authorI} />
+      </Helmet>
       <div className={style.mainInfoContainer}>
         <article className={style.imgContainer}>
           <img className={style.image} src={`${process.env.REACT_APP_PATH}/images/${author.image}`} alt="AuthorPhoto" />

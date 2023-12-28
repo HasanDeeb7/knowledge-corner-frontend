@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AllBooksStyle from "../AllBooks/AllBooks.module.css";
-
+import author from '../../assets/icons/writer.png'
 import axios from "axios";
 import magnifire from "../../assets/icons/magnifire.jpeg";
 import TemAuthorCard from "./TemAuthorCard";
+import {Helmet} from 'react-helmet'
+
 import { Link } from "react-router-dom";
 const AllAuthors = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -37,6 +39,12 @@ const AllAuthors = () => {
   const authorsFiltred = filterAuthorsByName(authors, searchInput);
   return (
     <div>
+         <Helmet>
+        <meta charSet="utf-8" />
+        <title>All Authors</title>
+        <meta name="description" content="all authors" />
+        <link rel="icon" href={author} />
+      </Helmet>
       <h1 className={AllBooksStyle.titleh1}>Authors List</h1>
       <form className={AllBooksStyle.bookSearch}>
         <input

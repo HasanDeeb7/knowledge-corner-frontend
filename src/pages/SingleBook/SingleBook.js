@@ -5,6 +5,8 @@ import Stars from "../../components/Stars/Stars";
 import { useEffect, useState } from "react";
 import { useLocation, Link } from 'react-router-dom';
 import axios from "axios";
+import { Helmet } from "react-helmet";
+import bookIcon from '../../assets/icons/open-book.png'
 
 function SingleBook() {
 
@@ -62,6 +64,12 @@ function SingleBook() {
   return (
     
     <section className={style.singleBookContainer}>
+         <Helmet>
+        <meta charSet="utf-8" />
+        <title>{book.title?book.title:"Single Book"}</title>
+        <meta name="description" content="Single Book" />
+        <link rel="icon" href={bookIcon} />
+      </Helmet>
       <div className={style.mainInfoContainer}>
         <article className={style.imgContainer}>
   

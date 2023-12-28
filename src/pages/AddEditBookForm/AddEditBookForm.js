@@ -4,6 +4,9 @@ import { useParams, useLocation,Link } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { Helmet } from "react-helmet";
+import bookIcon from '../../assets/icons/open-book.png'
+
 function AddEditBookForm() {
   const handleSuccessAlert = () => {
     const message = type === "Add" ? "The book is added" : "The book is edited";
@@ -123,6 +126,13 @@ function AddEditBookForm() {
   }, []);
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{type+" Book"}</title>
+        <meta name="description" content="Admin Manage Books" />
+        <link rel="icon"  href={bookIcon} sizes="16x16" />
+      </Helmet>
+
       <ToastContainer />
       <div className={style.fromContainer}>
         <form className={style.bookform} id="bookForm" onSubmit={addBook}>

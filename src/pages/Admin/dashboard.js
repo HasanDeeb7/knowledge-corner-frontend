@@ -1,23 +1,33 @@
+
 import React, { useEffect, useState } from "react";
 // import AdminNavbar from './AdminNavbar/adminNavbar'
 import AdminAllBooks from "./AdminRead/adminAllBooks";
 import { Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-import AdminAllAuthors from "./AdminRead/adminAllAuthors";
-import AdminAllCategories from "./AdminRead/adminAllCategories";
-import AddBookForm from "../AddEditBookForm/AddEditBookForm";
-import AddAuthorForm from "../AddEditAutherForm/AddEditAutherForm";
-import AddCategoryForm from "./addCategory";
-import AdminOutlet from "../../Outlet/AdminOutlet";
-import NotFound from "../../components/NotFound/AdminNotFound";
-import axios from "axios";
+
+import AdminAllAuthors from './AdminRead/adminAllAuthors'
+import AdminAllCategories from './AdminRead/adminAllCategories';
+import AddBookForm from '../AddEditBookForm/AddEditBookForm'
+import AddAuthorForm from '../AddEditAutherForm/AddEditAutherForm'
+import AddCategoryForm from './addCategory'
+import AdminOutlet from '../../Outlet/AdminOutlet';
+import NotFound from '../../components/NotFound/AdminNotFound'
+import axios from 'axios';
+import ProtectedRoutes from '../../routes/protectedRoutes';
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
+
 
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
+
+
+  const [books, setBooks] = useState([])
+  const [authors, setAuthors] = useState([])
+  const [categories, setCategories] = useState([])
+
 
   const handleDeleteAlert = () => {
     const message = "The Book is deleted";
@@ -70,12 +80,14 @@ function Dashboard() {
     .catch((error)=>{
       console.error('Error deleting category:',error)
     })
+
   }
-  
+
 
 
   const handleClick = async () => {
     try {
+
       const [booksResponse, authorsResponse, categoriesResponse] =
         await Promise.all([
           axios.get(`${process.env.REACT_APP_PATH}api/books`),
@@ -95,13 +107,14 @@ function Dashboard() {
   // const handleFetch=async()=>{
   //   handleClick()
   // }
-  useEffect(()=>{
+  useEffect(() => {
     handleClick()
-  },[])
+  }, [])
 
 
   return (
     <div>
+
       <ToastContainer />
       <Routes>
 
@@ -125,9 +138,11 @@ function Dashboard() {
           <Route path="/libraries" element={<LibraryManagement />}></Route>
 {/* /****************************************** */ }
 
+
         </Route>
 
         <Route path="/*" element={<NotFound />} />
+        {/* </ProtectedRoutes> */}
       </Routes>
     </div>
   );
