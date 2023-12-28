@@ -1,6 +1,6 @@
 import style from "./AddEditBookForm.module.css";
 import { useState, useEffect } from "react";
-import { useParams, useLocation,Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -77,7 +77,7 @@ function AddEditBookForm() {
     if (type === "Add") {
       showWaitingToast();
       axios
-        .post(`${process.env.REACT_APP_PATH}/api/books`, formData)
+        .post(`${process.env.REACT_APP_PATH}api/books/add`, formData)
         .then(() => {
           handleSuccessAlert();
           resetForm();
@@ -89,7 +89,7 @@ function AddEditBookForm() {
     } else if (type === "Edit") {
       showWaitingToast();
       axios
-        .patch(`${process.env.REACT_APP_PATH}/api/books/${book._id}`, formData)
+        .patch(`${process.env.REACT_APP_PATH}api/books/${book._id}`, formData)
         .then(() => {
           handleSuccessAlert();
         })
@@ -101,9 +101,10 @@ function AddEditBookForm() {
 
   function fetchAuthorData() {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors`)
+      .get(`${process.env.REACT_APP_PATH}api/authors/`)
       .then((response) => {
         setAuthors(response.data);
+        console.log(response.data);
       })
       .catch(() => {
         handleErrorAlert("Error while getting authors data");
@@ -112,7 +113,7 @@ function AddEditBookForm() {
 
   function fetchCategoryData() {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories`)
+      .get(`${process.env.REACT_APP_PATH}api/categories`)
       .then((response) => {
         setOptionCategory(response.data);
       })
@@ -262,7 +263,9 @@ function AddEditBookForm() {
             />
           </div>
           <div className={style.buttonContainer}>
-            <Link to={'/dashboard'}><button className={style.cancel}>Cancel</button></Link>
+            <Link to={"/dashboard"}>
+              <button className={style.cancel}>Cancel</button>
+            </Link>
             <button className={style.add}>
               {type === "Add" ? "Add" : "Edit"}
             </button>
