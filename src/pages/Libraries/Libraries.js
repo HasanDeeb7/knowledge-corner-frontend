@@ -28,7 +28,7 @@ export const Libraries = () => {
   // Fetch categories and books on component load.
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories`)
+      .get(`${process.env.REACT_APP_PATH}api/categories`)
       .then((response) => {
         setCategories(response.data);
         setIsLoading(false);
@@ -43,7 +43,7 @@ export const Libraries = () => {
       });
 
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/books`)
+      .get(`${process.env.REACT_APP_PATH}api/books`)
       .then((res) => {
         setBooks(res.data);
         setIsLoading(false);
@@ -59,7 +59,7 @@ export const Libraries = () => {
   // Fetch the name of the authors based on authorID in books.
   const fetchAuthors = (authorIds) => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors`, {
+      .get(`${process.env.REACT_APP_PATH}api/authors`, {
         params: { authorIds: authorIds },
       })
       .then((res) => {
@@ -77,7 +77,7 @@ export const Libraries = () => {
   // Fetch the category name based on categoryID in books.
   const fetchCategories = (categIds) => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories`, {
+      .get(`${process.env.REACT_APP_PATH}api/categories`, {
         params: { categIds: categIds },
       })
       .then((res) => {

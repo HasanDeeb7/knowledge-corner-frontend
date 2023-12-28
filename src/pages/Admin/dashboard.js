@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 // import AdminNavbar from './AdminNavbar/adminNavbar'
 import AdminAllBooks from "./AdminRead/adminAllBooks";
 import { Route, Routes } from "react-router-dom";
@@ -12,6 +12,7 @@ import AddCategoryForm from "./addCategory";
 import AdminOutlet from "../../Outlet/AdminOutlet";
 import NotFound from "../../components/NotFound/AdminNotFound";
 import axios from "axios";
+import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
 
 function Dashboard() {
@@ -33,7 +34,9 @@ function Dashboard() {
 
   const handleDeleteBook = (bookId) => {
     axios
-      .delete(`${process.env.REACT_APP_PATH}/api/books/${bookId}`)
+      .delete(`${process.env.REACT_APP_PATH}api/books/delete`, {
+        params: { id: bookId },
+      })
       .then((response) => {
         console.log("Book deleted successfully");
         handleDeleteAlert();
@@ -140,12 +143,25 @@ function Dashboard() {
               />
             }
           ></Route>
+          {/* /****************************************** */}
+
+          <Route
+            path="/adminAllLibraries"
+            element={
+              <AdminAllAuthors
+                authors={authors}
+                handleDeleteAuthor={handleDeleteAuthor}
+              />
+            }
+          ></Route>
+          {/* /****************************************** */}
+
           <Route
             path="/adminAllCategories"
             element={
               <AdminAllCategories
                 categories={categories}
-                handleDeleteCategory={handleDeleteCategory}
+                // handleDeleteCategory={handleDeleteCategory}
               />
             }
           ></Route>
@@ -154,8 +170,19 @@ function Dashboard() {
             path="/adminAddAuthor/:type"
             element={<AddAuthorForm />}
           ></Route>
-          <Route path="/adminAddCategory" element={<AddCategoryForm />}></Route>
+          <Route
+            path="/adminAddCategory/:type"
+            element={<AddCategoryForm />}
+            handleAdd={handleClick}
+          ></Route>
+          {/* /****************************************** */}
+
+          <Route
+            path="/adminAddLibrary/:type"
+            element={<AddCategoryForm />}
+          ></Route>
           <Route path="/libraries" element={<LibraryManagement />}></Route>
+          {/* /****************************************** */}
         </Route>
 
         <Route path="/*" element={<NotFound />} />
@@ -164,5 +191,4 @@ function Dashboard() {
     </div>
   );
 }
-
 export default Dashboard;
