@@ -10,23 +10,38 @@ import NotFound from "../components/NotFound/WebsiteNotFound";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import SingleAuther from "../pages/SingleAuther/SingleAuther";
 import Login from "../pages/Login/Login";
+
 import { Libraries } from '../pages/Libraries/Libraries';
 import NotAuthorised from '../components/NotFound/notauthorised.js'
 import ProtectedRoutes from './protectedRoutes.js'
 import SideBar from "../components/SideBar/SideBar";
+
+import Users from "../pages/Admin/Users/Users";
+
 function AppRoutes() {
   return (
     <Routes>
-
       <Route exact path="/" element={<UserOutlet />}>
-        <Route exact path="/" element={<Landing />}> </Route>
+        <Route exact path="/" element={<Landing />}>
+          {" "}
+        </Route>
         <Route path="/AllBooks" element={<AllBooks />}></Route>
         <Route path="/AllAuthors" element={<AllAuthors />}></Route>
         <Route path="/SingleBook" element={<SingleBook />}></Route>
+
         <Route path='/AboutUs' element={<AboutUs />}></Route>
         <Route path='/SingleAuthor' element={<SingleAuther />}></Route>
         <Route path='/Libraries' element={<Libraries />}></Route>
+
         <Route path="/side" element={<SideBar />}></Route>
+
+        <Route path="/AllBooks" element={<AllBooks />}></Route>
+        <Route path="/AllAuthors" element={<AllAuthors />}></Route>
+        <Route path="/SingleBook" element={<SingleBook />}></Route>
+        <Route path="/AboutUs" element={<AboutUs />}></Route>
+        <Route path="/SingleAuthor" element={<SingleAuther />}></Route>
+        <Route path="/allUsers" element={<Users />}></Route>
+
       </Route>
       <Route path="/login" element={<Login />}></Route>
       <Route

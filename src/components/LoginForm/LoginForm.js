@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import style from "./LoginFrom.module.css";
 import axios from "axios";
 import { userContext } from "../../App";
+import { toast } from "react-toastify";
 
 function LoginForm() {
   const { user, setUser } = useContext(userContext);
@@ -19,8 +20,11 @@ function LoginForm() {
         credentials
       );
       if (response) {
-        setUser(response.data.user);
-        console.log(response.data);
+
+        setUser(response.data);
+        console.log(response);
+        toast.success(`Welcome Back ${response.data.firstName}`);
+
       }
     } catch (error) {
       // console.log(error);
