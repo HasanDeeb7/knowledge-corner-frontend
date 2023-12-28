@@ -3,22 +3,21 @@ import BookCover from "../../assets/images/bookcover.jpg";
 import style from "./SingleBook.module.css";
 import Stars from "../../components/Stars/Stars";
 import { useEffect, useState } from "react";
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import bookIcon from '../../assets/icons/open-book.png'
 
 function SingleBook() {
-
   const location = useLocation();
   const book = location.state && location.state.book;
   const [books, setBooks] = useState([]);
-  const [author, setAuthor] = useState({})
-  const [category, setCategory] = useState({})
+  const [author, setAuthor] = useState({});
+  const [category, setCategory] = useState({});
 
   function fetchAuthorData() {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors/${book.authorId}`)
+      .get(`${process.env.REACT_APP_PATH}api/authors/${book.AuthorId}`)
       .then((response) => {
         setAuthor(response.data);
       })
@@ -26,10 +25,32 @@ function SingleBook() {
         console.error("Error in fetching:", error);
       });
   }
+  async function getSimilarBooks() {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_PATH}api/books`
+      );
+      if (response) {
+        console.log(response.data);
+        setBooks(
+          response.data
+            .filter(
+              (item) =>
+                item.CategoryId === book.CategoryId && item.id !== book.id
+            )
+            .slice(0, 4)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function fetchCategoryData() {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories/${book.categoryId}`)
+      .get(`${process.env.REACT_APP_PATH}api/categories/one`, {
+        params: { id: book.CategoryId },
+      })
       .then((response) => {
         setCategory(response.data);
       })
@@ -39,19 +60,20 @@ function SingleBook() {
   }
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_PATH}/api/books/limitedBooks?limit=6`
-        );
-        setBooks(response.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-    fetchData()
-    fetchAuthorData()
-    fetchCategoryData()
+    // async function fetchData() {
+    //   try {
+    //     const response = await axios.get(
+    //       `${process.env.REACT_APP_PATH}/api/books/limitedBooks?limit=6`
+    //     );
+    //     setBooks(response.data);
+    //   } catch (error) {
+    //     console.error("Error:", error);
+    //   }
+    // }
+    // fetchData();
+    fetchAuthorData();
+    getSimilarBooks();
+    fetchCategoryData();
   }, [book]);
 
   function formatDate(inputDate) {
@@ -62,7 +84,6 @@ function SingleBook() {
   }
 
   return (
-    
     <section className={style.singleBookContainer}>
          <Helmet>
         <meta charSet="utf-8" />
@@ -72,8 +93,11 @@ function SingleBook() {
       </Helmet>
       <div className={style.mainInfoContainer}>
         <article className={style.imgContainer}>
-  
-          <img className={style.image} src={`${process.env.REACT_APP_PATH}/images/${book.image}`} alt="Book cover" />
+          <img
+            className={style.image}
+            src={`${process.env.REACT_APP_PATH}images/${book.image}`}
+            alt="Book cover"
+          />
           <div className={style.StarSingleContainer}>
             {[1, 2, 3, 4, 5].map((star) => (
               <Stars key={star} stars={star} rating={book.rating} />
@@ -81,19 +105,21 @@ function SingleBook() {
           </div>
         </article>
         <article className={style.infoContainer}>
-          <h3 className={`${style.info} ${style.bookTitle}`}>
-            {book.title}
-          </h3>
-          <h4 className={style.info}>{author.firstName} {author.lastName}</h4>
+          <h3 className={`${style.info} ${style.bookTitle}`}>{book.title}</h3>
+          <h4 className={style.info}>
+            {author.firstName} {author.lastName}
+          </h4>
           <p className={style.info}>
-            Genre:<span className={style.spantext}>{category.name}</span>
+            Genre:<span className={style.spantext}>{book.categoryName}</span>
           </p>
           <p className={style.info}>
             Language :<span className={style.spantext}>{book.language}</span>{" "}
           </p>
           <p className={style.info}>
             Published Date :
-            <span className={style.spantext}>{formatDate(book.publicationDate)}</span>
+            <span className={style.spantext}>
+              {formatDate(book.publicationDate)}
+            </span>
           </p>
           <p className={style.info}>
             Pages :<span className={style.spantext}>{book.nbPages}</span>
@@ -101,27 +127,21 @@ function SingleBook() {
           <p className={style.info}>
             ISBN :<span className={style.spantext}>{book.ISBN}</span>
           </p>
-          <p className={style.info}>
-            {book.description}
-          </p>
+          <p className={style.info}>{book.description}</p>
         </article>
       </div>
       <div className={style.suggestedBookHolder}>
- <h4 className={style.suggestedBookTitle}>Readers also enjoyed</h4>
-      <aside className={style.suggestedBook}>
-      {books.map((item, id) => (
-          <div key={id}>
-            <Link
-              to="/SingleBook"
-              state= {{ book: item }}
-            >
-              <BookCard isSmall={true} book={item}/>
-            </Link>
-          </div>
-        ))}
-      </aside>
+        <h4 className={style.suggestedBookTitle}>Readers also enjoyed</h4>
+        <aside className={style.suggestedBook}>
+          {books.map((item, id) => (
+            <div key={id}>
+              <Link to="/SingleBook" state={{ book: item }}>
+                <BookCard isSmall={true} book={item} />
+              </Link>
+            </div>
+          ))}
+        </aside>
       </div>
-     
     </section>
   );
 }

@@ -1,33 +1,24 @@
-
 import React, { useEffect, useState } from "react";
 // import AdminNavbar from './AdminNavbar/adminNavbar'
 import AdminAllBooks from "./AdminRead/adminAllBooks";
 import { Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-
-import AdminAllAuthors from './AdminRead/adminAllAuthors'
-import AdminAllCategories from './AdminRead/adminAllCategories';
-import AddBookForm from '../AddEditBookForm/AddEditBookForm'
-import AddAuthorForm from '../AddEditAutherForm/AddEditAutherForm'
-import AddCategoryForm from './addCategory'
-import AdminOutlet from '../../Outlet/AdminOutlet';
-import NotFound from '../../components/NotFound/AdminNotFound'
-import axios from 'axios';
-import ProtectedRoutes from '../../routes/protectedRoutes';
+import AdminAllAuthors from "./AdminRead/adminAllAuthors";
+import AdminAllCategories from "./AdminRead/adminAllCategories";
+import AddBookForm from "../AddEditBookForm/AddEditBookForm";
+import AddAuthorForm from "../AddEditAutherForm/AddEditAutherForm";
+import AddCategoryForm from "./addCategory";
+import AdminOutlet from "../../Outlet/AdminOutlet";
+import NotFound from "../../components/NotFound/AdminNotFound";
+import axios from "axios";
+import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
-
 
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
-
-
-  const [books, setBooks] = useState([])
-  const [authors, setAuthors] = useState([])
-  const [categories, setCategories] = useState([])
-
 
   const handleDeleteAlert = () => {
     const message = "The Book is deleted";
@@ -43,7 +34,9 @@ function Dashboard() {
 
   const handleDeleteBook = (bookId) => {
     axios
-      .delete(`${process.env.REACT_APP_PATH}/api/books/${bookId}`)
+      .delete(`${process.env.REACT_APP_PATH}api/books/delete`, {
+        params: { id: bookId },
+      })
       .then((response) => {
         console.log("Book deleted successfully");
         handleDeleteAlert();
@@ -72,22 +65,12 @@ function Dashboard() {
       });
   };
 
-
-      // const updatedCategories = categories.filter((category) => category._id !== categoryId);
-      // setCategories(updatedCategories)
-      handleClick()
-    })
-    .catch((error)=>{
-      console.error('Error deleting category:',error)
-    })
-
-  }
-
-
+  // const updatedCategories = categories.filter((category) => category._id !== categoryId);
+  // setCategories(updatedCategories)
+  // handleClick();
 
   const handleClick = async () => {
     try {
-
       const [booksResponse, authorsResponse, categoriesResponse] =
         await Promise.all([
           axios.get(`${process.env.REACT_APP_PATH}api/books`),
@@ -103,42 +86,94 @@ function Dashboard() {
     }
   };
 
-
   // const handleFetch=async()=>{
   //   handleClick()
   // }
   useEffect(() => {
-    handleClick()
-  }, [])
-
+    handleClick();
+  }, []);
 
   return (
     <div>
-
       <ToastContainer />
       <Routes>
+        <Route
+          exact
+          path="/"
+          element={<AdminOutlet handleClick={handleClick} />}
+        >
+          <Route
+            exact
+            path="/"
+            element={
+              <AdminAllBooks
+                books={books}
+                authors={authors}
+                categories={categories}
+                handleDeleteBook={handleDeleteBook}
+              />
+            }
+          ></Route>
+          <Route
+            path="/adminAllBooks"
+            element={
+              <AdminAllBooks
+                books={books}
+                authors={authors}
+                categories={categories}
+                handleDeleteBook={handleDeleteBook}
+              />
+            }
+          ></Route>
+          <Route
+            path="/adminAllAuthors"
+            element={
+              <AdminAllAuthors
+                authors={authors}
+                handleDeleteAuthor={handleDeleteAuthor}
+              />
+            }
+          ></Route>
+          {/* /****************************************** */}
 
+          <Route
+            path="/adminAllLibraries"
+            element={
+              <AdminAllAuthors
+                authors={authors}
+                handleDeleteAuthor={handleDeleteAuthor}
+              />
+            }
+          ></Route>
+          {/* /****************************************** */}
 
-        <Route exact path='/' element={<AdminOutlet handleClick={handleClick}/>}>
-          <Route exact path='/' element={<AdminAllBooks books={books} authors={authors} categories={categories} handleDeleteBook={handleDeleteBook}/> }></Route>
-          <Route path='/adminAllBooks' element={<AdminAllBooks books={books} authors={authors} categories={categories} handleDeleteBook={handleDeleteBook}/>}></Route>
-          <Route path='/adminAllAuthors' element={<AdminAllAuthors authors={authors} handleDeleteAuthor={handleDeleteAuthor}/>}></Route>
-        {/* /****************************************** */ }
+          <Route
+            path="/adminAllCategories"
+            element={
+              <AdminAllCategories
+                categories={categories}
+                // handleDeleteCategory={handleDeleteCategory}
+              />
+            }
+          ></Route>
+          <Route path="/adminAddBook/:type" element={<AddBookForm />}></Route>
+          <Route
+            path="/adminAddAuthor/:type"
+            element={<AddAuthorForm />}
+          ></Route>
+          <Route
+            path="/adminAddCategory/:type"
+            element={<AddCategoryForm />}
+            handleAdd={handleClick}
+          ></Route>
+          {/* /****************************************** */}
 
-          <Route path='/adminAllLibraries' element={<AdminAllAuthors authors={authors} handleDeleteAuthor={handleDeleteAuthor}/>}></Route>
-{/* /****************************************** */ }
-
-          <Route path='/adminAllCategories' element={<AdminAllCategories categories={categories} handleDeleteCategory={handleDeleteCategory}/>}></Route>
-          <Route path='/adminAddBook/:type' element={<AddBookForm/>} ></Route>
-          <Route path='/adminAddAuthor/:type' element={<AddAuthorForm/>}></Route>
-          <Route path='/adminAddCategory/:type' element={<AddCategoryForm/>} handleAdd={handleClick}></Route>
-         {/* /****************************************** */ }
-
-          <Route path='/adminAddLibrary/:type' element={<AddCategoryForm/>}></Route>
+          <Route
+            path="/adminAddLibrary/:type"
+            element={<AddCategoryForm />}
+          ></Route>
           <Route path="/libraries" element={<LibraryManagement />}></Route>
-{/* /****************************************** */ }
-
-
+          {/* /****************************************** */}
         </Route>
 
         <Route path="/*" element={<NotFound />} />
@@ -147,5 +182,4 @@ function Dashboard() {
     </div>
   );
 }
-
 export default Dashboard;

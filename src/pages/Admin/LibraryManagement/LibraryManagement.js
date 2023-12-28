@@ -36,14 +36,11 @@ function LibraryManagement() {
             setAllBooks(
               responseAllBooks.data.filter((item) => !bookIds.includes(item.id))
             );
-            console.log(
-              responseAllBooks.data.filter((item) => !bookIds.includes(item.id))
-            );
+            setIsLoading(false);
           }
         } catch (error) {
           console.log(error);
         }
-        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -64,11 +61,9 @@ function LibraryManagement() {
   }
   useEffect(() => {
     getLibraryBooks();
-    // getAllBooks();
   }, []);
-  return (
-    !isLoading &&
-    (action === "editLibrary" ? (
+  return !isLoading ? (
+    action === "editLibrary" ? (
       <div className={style.libraryManagementContainer}>
         <div className={style.optionsContainer}>
           <TextField
@@ -105,17 +100,21 @@ function LibraryManagement() {
           })}
           checkboxSelection
           disableRowSelectionOnClick
-          // onRowSelectionModelChange={(ids) => {
-          //   setBookList(ids);
-          // }}
         />
       </div>
     ) : (
       <Autocomplete
+        
+        className={style.autoCompleteText}
         options={allBooks}
-        renderInput={(params) => <TextField {...params} label="title" />}
+        getOptionLabel={(option) => option.title}
+        filterSelectedOptions
+        renderInput={(params) => <TextField {...params} label="Book" />}
+        multiple
       />
-    ))
+    )
+  ) : (
+    ""
   );
 }
 

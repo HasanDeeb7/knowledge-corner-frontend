@@ -152,7 +152,7 @@ const NavBar = () => {
             className={navBarStyle.loginBtn}
             onClick={() => setIsModalOpen(true)}
           >
-            Logout
+            Log Out
           </div>
         )}
       </nav>

@@ -69,7 +69,7 @@ function adminAllBooks({ books, authors, categories, handleDeleteBook }) {
                       <button
                         className={adminAllBooksStyle.updateDelete}
                         onClick={() => {
-                          handleDeleteBook(book._id);
+                          handleDeleteBook(book.id);
                         }}
                       >
                         <img src={x} alt="delete" />
