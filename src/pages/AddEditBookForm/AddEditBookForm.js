@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import bookIcon from '../../assets/icons/open-book.png'
+import bookIcon from "../../assets/icons/open-book.png";
 
 function AddEditBookForm() {
   const handleSuccessAlert = () => {
@@ -44,6 +44,18 @@ function AddEditBookForm() {
   const [authors, setAuthors] = useState(null);
   const location = useLocation();
   const book = location.state && location.state.book;
+  const [bookData, setBookData] = useState({
+    title: "",
+    nbPages: book.nbPages || 0,
+    publicationDate: "",
+    ISBN: book.ISBN || "",
+    description: "",
+    rating: book.rating || 0,
+    authorId: "",
+    categoryId: "",
+    language: "",
+    image: "",
+  });
 
   const { type } = useParams();
 
@@ -58,22 +70,21 @@ function AddEditBookForm() {
 
     return formattedDate;
   }
-
+  function handleChange(e) {
+    setBookData({
+      ...bookData,
+      [e.target.name]: e.target.value,
+    });
+  }
   const addBook = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const newFormData = new FormData();
     const imageInput = e.target.querySelector("#imageInput");
     if (imageInput.files.length <= 0) {
       // Remove the "image" field if no file is selected
       formData.delete("image");
     }
-    for (const pair of formData.entries()) {
-      const [key, value] = pair;
-      if (value !== "") {
-        newFormData.append(key, value);
-      }
-    }
+
     if (type === "Add") {
       showWaitingToast();
       axios
@@ -89,11 +100,18 @@ function AddEditBookForm() {
     } else if (type === "Edit") {
       showWaitingToast();
       axios
-        .patch(`${process.env.REACT_APP_PATH}api/books/${book._id}`, formData)
-        .then(() => {
+        .patch(`${process.env.REACT_APP_PATH}api/books/update`, {
+          ...bookData,
+          id: book.id,
+        })
+        .then((res) => {
+          console.log(formData);
+          console.log(bookData);
           handleSuccessAlert();
+          console.log(res);
         })
         .catch((error) => {
+          console.log(error);
           handleErrorAlert(error.response.data.error);
         });
     }
@@ -129,9 +147,9 @@ function AddEditBookForm() {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{type+" Book"}</title>
+        <title>{type + " Book"}</title>
         <meta name="description" content="Admin Manage Books" />
-        <link rel="icon"  href={bookIcon} sizes="16x16" />
+        <link rel="icon" href={bookIcon} sizes="16x16" />
       </Helmet>
 
       <ToastContainer />
@@ -149,6 +167,7 @@ function AddEditBookForm() {
               name="title"
               defaultValue={type === "Edit" ? book.title : ""}
               required
+              onChange={handleChange}
             />
           </div>
           <div className={style.inputContainer}>
@@ -159,6 +178,7 @@ function AddEditBookForm() {
               placeholder="Enter the pages"
               name="nbPages"
               defaultValue={type === "Edit" ? book.nbPages : ""}
+              onChange={handleChange}
               required
             />
           </div>
@@ -172,6 +192,7 @@ function AddEditBookForm() {
               defaultValue={
                 type === "Edit" ? formatDate(book.publicationDate) : ""
               }
+              onChange={handleChange}
               required
             />
           </div>
@@ -183,6 +204,7 @@ function AddEditBookForm() {
               placeholder="Enter the ISBN"
               name="ISBN"
               defaultValue={type === "Edit" ? book.ISBN : ""}
+              onChange={handleChange}
               required
             />
           </div>
@@ -194,6 +216,7 @@ function AddEditBookForm() {
               placeholder="Enter the description"
               name="description"
               defaultValue={type === "Edit" ? book.description : ""}
+              onChange={handleChange}
               required
             />
           </div>
@@ -207,6 +230,7 @@ function AddEditBookForm() {
               defaultValue={type === "Edit" ? book.rating : ""}
               max={5}
               min={1}
+              onChange={handleChange}
               required
             />
           </div>
@@ -230,6 +254,7 @@ function AddEditBookForm() {
             <select
               name="categoryId"
               defaultValue={type === "Edit" ? book.categoryId : ""}
+              onChange={handleChange}
               required
             >
               {optionCategory &&
@@ -245,6 +270,7 @@ function AddEditBookForm() {
             <select
               name="language"
               defaultValue={type === "Edit" ? book.language : ""}
+              onChange={handleChange}
               required
             >
               <option>English</option>
@@ -259,6 +285,7 @@ function AddEditBookForm() {
               type="file"
               name="image"
               id="imageInput"
+              onChange={handleChange}
               required={type === "Add"}
             />
           </div>
