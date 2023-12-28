@@ -25,7 +25,7 @@ function LogoutModal({ closeHandler }) {
   return (
     <motion.div className={style.logoutModalContainer}>
       <motion.div className={style.logoutModalWrapper}>
-        <h3>Leaving soon?</h3>
+        <h3>Leaving so soon?</h3>
         <p>
           You are logging out from {user.firstName} {user.lastName}
         </p>
