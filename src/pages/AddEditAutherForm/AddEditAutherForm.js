@@ -3,6 +3,9 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link,useParams,useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import authorIcon from '../../assets/icons/author.png'
+
 function AddEditAutherForm() {
   const { type } = useParams();
   const location = useLocation();
@@ -95,6 +98,12 @@ function AddEditAutherForm() {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{type+" Author"}</title>
+        <meta name="description" content="Admin dashboard manage authors" />
+        <link rel="icon"  href={authorIcon} sizes="16x16" />
+      </Helmet>
       <ToastContainer />
       <div className={style.fromContainer}>
         <form

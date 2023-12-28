@@ -3,13 +3,20 @@ import adminAllBooksStyle from "./adminAllBooks.module.css";
 import x from "../../../assets/icons/862px-Delete-button 1.svg";
 import update from "../../../assets/icons/Vector (4).svg";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import bookss from '../../../assets/icons/books-stack-of-three 2.svg'
 
 function adminAllBooks({ books, authors, categories, handleDeleteBook }) {
   
 
   return (
     <div>
-
+ <Helmet>
+        <meta charSet="utf-8" />
+        <title>Admin-Books</title>
+        <meta name="description" content="Admin dashboard all Books" />
+        <link rel="icon" href={bookss} />
+      </Helmet>
       <div className={adminAllBooksStyle.allBooks}>
         
         <div className={adminAllBooksStyle.overflow}>

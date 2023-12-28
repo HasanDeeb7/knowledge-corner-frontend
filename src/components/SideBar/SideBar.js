@@ -247,7 +247,7 @@ alignItems:"center"
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                     className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "active" : ""
+                    isPending ? "pending" : isActive ? "activee" : ""
                   }
 
                   component={NavLink}

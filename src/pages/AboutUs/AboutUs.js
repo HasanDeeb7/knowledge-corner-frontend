@@ -4,10 +4,18 @@ import firstImage from "../../assets/images/arnel-hasanovic-MNd-Rka1o0Q-unsplash
 import secondImage from "../../assets/images/nick-morrison-FHnnjk1Yj7Y-unsplash.jpg";
 import imgHeaderAbout from "../../assets/images/book-illustrations-removebg-preview.png";
 import thirdImage from "../../assets/images/priscilla-du-preez-XkKCui44iM0-unsplash.jpg";
+import { Helmet } from "react-helmet";
+import about from '../../assets/icons/information-button.png'
 
 function AboutUs() {
   return (
     <div className={aboutUsStyle.libraryContainer}>
+   <Helmet>
+        <meta charSet="utf-8" />
+        <title>About Us</title>
+        <meta name="description" content="About us page" />
+        <link rel="icon" href={about} />
+      </Helmet>
       <h1 className={aboutUsStyle.aboutustitle}>About Us</h1>
 
       <div className={aboutUsStyle.header}>

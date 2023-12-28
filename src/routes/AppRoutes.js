@@ -26,13 +26,7 @@ function AppRoutes() {
         <Route path='/AboutUs' element={<AboutUs />}></Route>
         <Route path='/SingleAuthor' element={<SingleAuther />}></Route>
         <Route path='/Libraries' element={<Libraries />}></Route>
-        <Route path="/AllBooks" element={<AllBooks />}></Route>
-        <Route path="/AllAuthors" element={<AllAuthors />}></Route>
-        <Route path="/SingleBook" element={<SingleBook />}></Route>
-        <Route path="/AboutUs" element={<AboutUs />}></Route>
-        <Route path="/SingleAuthor" element={<SingleAuther />}></Route>
         <Route path="/side" element={<SideBar />}></Route>
-
       </Route>
       <Route path="/login" element={<Login />}></Route>
       <Route
@@ -41,7 +35,6 @@ function AppRoutes() {
             <Dashboard />
         }
       ></Route>
-
       <Route path="/*" element={<NotFound />}></Route>
       <Route path='/notAuth' element={<NotAuthorised />}></Route>
     </Routes>

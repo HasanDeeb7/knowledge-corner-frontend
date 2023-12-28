@@ -5,6 +5,8 @@ import axios from "axios";
 import magnifire from "../../assets/icons/magnifire.jpeg";
 import TempBookCard from "../BookCard/tempBookCard";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import bookss from '../../assets/icons/books-stack-of-three 2.svg'
 
 const AllBooks = () => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -141,6 +143,13 @@ const AllBooks = () => {
 
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>All Books</title>
+        <meta name="description" content="all Books" />
+        <link rel="icon" href={bookss} />
+      </Helmet>
+
       <h1 className={AllBooksStyle.titleh1}>Books Collection</h1>
       <form className={AllBooksStyle.bookSearch}>
         <input
@@ -170,9 +179,8 @@ const AllBooks = () => {
 
       <div className={AllBooksStyle.booksContainer}>
         <div
-          className={`${AllBooksStyle.booksCategory} ${
-            menuOpen ? AllBooksStyle.open : ""
-          }`}
+          className={`${AllBooksStyle.booksCategory} ${menuOpen ? AllBooksStyle.open : ""
+            }`}
         >
           <h2>Categories</h2>
           {isLoading ? (
