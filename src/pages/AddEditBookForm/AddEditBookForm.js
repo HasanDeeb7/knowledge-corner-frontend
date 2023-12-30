@@ -46,13 +46,13 @@ function AddEditBookForm() {
   const book = location.state && location.state.book;
   const [bookData, setBookData] = useState({
     title: "",
-    nbPages: book.nbPages || 0,
+    nbPages: 0,
     publicationDate: "",
-    ISBN: book.ISBN || "",
+    ISBN: "",
     description: "",
-    rating: book.rating || 0,
+    rating: 0,
     authorId: "",
-    categoryId: "",
+    categoryName: "",
     language: "",
     image: "",
   });
@@ -243,7 +243,7 @@ function AddEditBookForm() {
             >
               {authors &&
                 authors.map((option) => (
-                  <option key={option._id} value={option._id}>
+                  <option key={option.id} value={option.id}>
                     {option.firstName} {option.lastName}
                   </option>
                 ))}
@@ -252,15 +252,15 @@ function AddEditBookForm() {
           <div className={style.inputContainer}>
             <label className={style.label}>Select a Category:</label>
             <select
-              name="categoryId"
-              defaultValue={type === "Edit" ? book.categoryId : ""}
+              name="categoryName"
+              defaultValue={type === "Edit" ? book.CategoryId : ""}
               onChange={handleChange}
               required
             >
               {optionCategory &&
                 optionCategory.map((option) => (
-                  <option key={option._id} value={option._id}>
-                    {option.name}
+                  <option key={option.id} value={option.Name}>
+                    {option.Name}
                   </option>
                 ))}
             </select>

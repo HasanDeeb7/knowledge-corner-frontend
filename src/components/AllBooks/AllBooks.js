@@ -6,7 +6,7 @@ import magnifire from "../../assets/icons/magnifire.jpeg";
 import TempBookCard from "../BookCard/tempBookCard";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import bookss from '../../assets/icons/books-stack-of-three 2.svg'
+import bookss from "../../assets/icons/books-stack-of-three 2.svg";
 
 const AllBooks = () => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -27,13 +27,14 @@ const AllBooks = () => {
   // Fetch categories and books on component load.
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories`)
+      .get(`${process.env.REACT_APP_PATH}api/categories`)
       .then((response) => {
         setCategories(response.data);
+        console.log(response.data);
         setIsLoading(false);
         const initialCheckboxes = {};
         response.data.forEach((category) => {
-          initialCheckboxes[category._id] = false;
+          initialCheckboxes[category.id] = false;
         });
         setCheckboxes(initialCheckboxes);
       })
@@ -42,14 +43,15 @@ const AllBooks = () => {
       });
 
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/books`)
+      .get(`${process.env.REACT_APP_PATH}api/books`)
       .then((res) => {
         setBooks(res.data);
         setIsLoading(false);
-        const authorIds = res.data.map((book) => book.authorId);
+        const authorIds = res.data.map((book) => book.AuthorId);
         fetchAuthors(authorIds);
+        console.log(res.data);
 
-        const categIds = res.data.map((book) => book.categoryId);
+        const categIds = res.data.map((book) => book.CategoryId);
         fetchCategories(categIds);
       })
       .catch((err) => console.log(err));
@@ -58,14 +60,14 @@ const AllBooks = () => {
   // Fetch the name of the authors based on authorID in books.
   const fetchAuthors = (authorIds) => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors`, {
+      .get(`${process.env.REACT_APP_PATH}api/authors`, {
         params: { authorIds: authorIds },
       })
       .then((res) => {
         const authorMap = {};
 
         res.data.forEach((author) => {
-          authorMap[author._id] = `${author.firstName} ${author.lastName}`;
+          authorMap[author.id] = `${author.firstName} ${author.lastName}`;
         });
         setAuthors(authorMap);
         setIsLoading(false);
@@ -76,14 +78,14 @@ const AllBooks = () => {
   // Fetch the category name based on categoryID in books.
   const fetchCategories = (categIds) => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories`, {
+      .get(`${process.env.REACT_APP_PATH}api/categories`, {
         params: { categIds: categIds },
       })
       .then((res) => {
         const categMap = {};
 
         res.data.forEach((category) => {
-          categMap[category._id] = category.name;
+          categMap[category.id] = category.name;
         });
         setCategoriesMap(categMap);
       })
@@ -92,9 +94,9 @@ const AllBooks = () => {
 
   // Handles changes in the category filter checkboxes.
   const handleOnChange = (e) => {
-    const categoryId = e.target.value;
+    const categoryId = Number(e.target.value);
     const isChecked = e.target.checked;
-
+    console.log(selectedCategories);
     setCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
       [categoryId]: isChecked,
@@ -115,7 +117,7 @@ const AllBooks = () => {
       return booksToFilter;
     }
     return booksToFilter.filter((book) =>
-      selectedCategories.includes(book.categoryId)
+      selectedCategories.includes(book.CategoryId)
     );
   };
 
@@ -179,8 +181,9 @@ const AllBooks = () => {
 
       <div className={AllBooksStyle.booksContainer}>
         <div
-          className={`${AllBooksStyle.booksCategory} ${menuOpen ? AllBooksStyle.open : ""
-            }`}
+          className={`${AllBooksStyle.booksCategory} ${
+            menuOpen ? AllBooksStyle.open : ""
+          }`}
         >
           <h2>Categories</h2>
           {isLoading ? (
@@ -191,13 +194,13 @@ const AllBooks = () => {
                 <div className={AllBooksStyle.bookCheckbox} key={index}>
                   <input
                     type="checkbox"
-                    id={category._id}
-                    name={category.name}
-                    value={category._id}
-                    checked={checkboxes[category._id] || false}
+                    id={category.id}
+                    name={category.Name}
+                    value={category.id}
+                    checked={checkboxes[category.id] || false}
                     onChange={handleOnChange}
                   />
-                  <label htmlFor={category._id}>{category.name}</label>
+                  <label htmlFor={category.id}>{category.Name}</label>
                   <br />
                 </div>
               ))}

@@ -4,7 +4,7 @@ import React, { useContext } from 'react'
 import { userContext } from "../App";
 
  const ProtectedRoutes = ({children,roles}) => {
-    const {user} =useContext(userContext)
+    const {user} = useContext(userContext)
     console.log(user.role+"   ldkdoekwe;k;eke;e")
  
    return  (
