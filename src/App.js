@@ -6,27 +6,27 @@ import { HelmetProvider } from "react-helmet-async";
 export const userContext = createContext();
 
 function App() {
-  const [user, setUser] = useState({role:"admin"});
+  const [user, setUser] = useState();
   axios.defaults.withCredentials = true;
-  async function getUser(){
-    if(!user){
 
+  async function getUser() {
+    if (!user) {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/getUser`)
-        if(response){
-          setUser(response.data)
-          console.log(response.data)
+        const response = await axios.get(
+          `http://localhost:5000/api/user/getUser`
+        );
+        if (response) {
+          setUser(response.data);
         }
       } catch (error) {
-      console.log(error)   
+        console.log(error);
       }
-      
     }
-    
-  } 
-  useEffect(()=>{
-    getUser()
-  }, [])
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <HelmetProvider>
       <userContext.Provider value={{ user, setUser }}>

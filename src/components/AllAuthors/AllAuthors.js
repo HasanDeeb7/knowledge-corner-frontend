@@ -5,8 +5,8 @@ import axios from "axios";
 import magnifire from "../../assets/icons/magnifire.jpeg";
 import TemAuthorCard from "./TemAuthorCard";
 import {Helmet} from 'react-helmet'
-
 import { Link } from "react-router-dom";
+
 const AllAuthors = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +15,7 @@ const AllAuthors = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors`)
+      .get(`${process.env.REACT_APP_PATH}api/authors`)
       .then((res) => {
         setAuthors(res.data);
         setIsLoading(false);
