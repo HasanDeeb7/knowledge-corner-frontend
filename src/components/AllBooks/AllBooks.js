@@ -33,7 +33,7 @@ const AllBooks = () => {
         setIsLoading(false);
         const initialCheckboxes = {};
         response.data.forEach((category) => {
-          initialCheckboxes[category._id] = false;
+          initialCheckboxes[category.id] = false;
         });
         setCheckboxes(initialCheckboxes);
       })
@@ -65,7 +65,7 @@ const AllBooks = () => {
         const authorMap = {};
 
         res.data.forEach((author) => {
-          authorMap[author._id] = `${author.firstName} ${author.lastName}`;
+          authorMap[author.id] = `${author.firstName} ${author.lastName}`;
         });
         setAuthors(authorMap);
         setIsLoading(false);
@@ -83,7 +83,7 @@ const AllBooks = () => {
         const categMap = {};
 
         res.data.forEach((category) => {
-          categMap[category._id] = category.name;
+          categMap[category.id] = category.name;
         });
         setCategoriesMap(categMap);
       })
@@ -191,13 +191,13 @@ const AllBooks = () => {
                 <div className={AllBooksStyle.bookCheckbox} key={index}>
                   <input
                     type="checkbox"
-                    id={category._id}
+                    id={category.id}
                     name={category.name}
-                    value={category._id}
-                    checked={checkboxes[category._id] || false}
+                    value={category.id}
+                    checked={checkboxes[category.id] || false}
                     onChange={handleOnChange}
                   />
-                  <label htmlFor={category._id}>{category.name}</label>
+                  <label htmlFor={category.id}>{category.name}</label>
                   <br />
                 </div>
               ))}
@@ -211,7 +211,7 @@ const AllBooks = () => {
           <>
             <div className={AllBooksStyle.booksList} key={books.id}>
               {filteredBooks.map((book) => (
-                <Link to="/SingleBook" state={{ book: book }}>
+                <Link to={`/SingleBook/${book.slug}`} state={{ book: book }}>
                   <TempBookCard
                     image={book.image}
                     author={authors[book.authorId]}

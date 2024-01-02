@@ -13,7 +13,9 @@ import AdminOutlet from '../../Outlet/AdminOutlet';
 import NotFound from '../../components/NotFound/AdminNotFound'
 import axios from 'axios';
 import ProtectedRoutes from '../../routes/protectedRoutes';
-
+import SideBar from '../../components/SideBar/SideBar';
+import AdminBarchart from '../../components/Charts/AdminBarchart';
+import BookCurve from '../../components/Charts/BookCurve'
 function Dashboard() {
 
   const [books, setBooks] = useState([])
@@ -41,7 +43,7 @@ function Dashboard() {
         console.log('Book deleted successfully')
         handleDeleteAlert();
 
-        const updatedBooks = books.filter((book) => book._id !== bookId);
+        const updatedBooks = books.filter((book) => book.id !== bookId);
         setBooks(updatedBooks);
       })
       .catch((error) => {
@@ -54,7 +56,7 @@ function Dashboard() {
       .then((response) => {
         console.log('Author deleted successfully')
 
-        const updatedAuthors = authors.filter((author) => author._id !== authorId);
+        const updatedAuthors = authors.filter((author) => author.id !== authorId);
         setAuthors(updatedAuthors);
       })
       .catch((error) => {
@@ -67,7 +69,7 @@ function Dashboard() {
       .then((response) => {
         console.log("Category deleted successfully")
 
-        // const updatedCategories = categories.filter((category) => category._id !== categoryId);
+        // const updatedCategories = categories.filter((category) => category.id !== categoryId);
         // setCategories(updatedCategories)
         handleClick()
       })
@@ -120,6 +122,8 @@ function Dashboard() {
           <Route path='/adminAddCategory/:type' element={<AddCategoryForm />} handleAdd={handleClick}></Route>
           {/* /****************************************** */}
           <Route path='/adminAddLibrary/:type' element={<AddCategoryForm />}></Route>
+          <Route path="/side" element={<AdminBarchart />}></Route>
+
           {/* /****************************************** */}
         </Route>
 

@@ -1,0 +1,20 @@
+
+.buttonContainer {
+  display: flex;
+  /* border: 1px solid red; */
+height: 85%;
+margin: 0 auto;
+}
+
+.updateDelete {
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 100%;
+  margin: 0 5px;
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

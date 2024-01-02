@@ -14,6 +14,8 @@ import { Libraries } from '../pages/Libraries/Libraries';
 import NotAuthorised from '../components/NotFound/notauthorised.js'
 import ProtectedRoutes from './protectedRoutes.js'
 import SideBar from "../components/SideBar/SideBar";
+import AdminBarchart from '../components/Charts/AdminBarchart.js'
+import BasicColor from "../components/Charts/BookCurve";
 function AppRoutes() {
   return (
     <Routes>
@@ -22,11 +24,12 @@ function AppRoutes() {
         <Route exact path="/" element={<Landing />}> </Route>
         <Route path="/AllBooks" element={<AllBooks />}></Route>
         <Route path="/AllAuthors" element={<AllAuthors />}></Route>
-        <Route path="/SingleBook" element={<SingleBook />}></Route>
+        <Route path="/SingleBook/:slug" element={<SingleBook />}></Route>
         <Route path='/AboutUs' element={<AboutUs />}></Route>
-        <Route path='/SingleAuthor' element={<SingleAuther />}></Route>
+        <Route path='/SingleAuthor/:slug' element={<SingleAuther />}></Route>
         <Route path='/Libraries' element={<Libraries />}></Route>
-        <Route path="/side" element={<SideBar />}></Route>
+        <Route path='/chart' element={<BasicColor />}></Route>
+        
       </Route>
       <Route path="/login" element={<Login />}></Route>
       <Route

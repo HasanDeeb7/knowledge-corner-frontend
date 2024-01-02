@@ -29,7 +29,24 @@ import { usePopover } from '../TopSide/usePopover';
 import { Outlet, NavLink } from 'react-router-dom';
 import './Sidebar.css'
 import Books from '../../assets/icons/books-stack-of-three 2.svg'
+import PersonIcon from '@mui/icons-material/Person';
+import booksIcon from '../../assets/icons/open-book.png'
+import authorIcon from '../../assets/icons/author.png'
+import libraryIcon from '../../assets/icons/library1.png'
+import categoryIcon  from '../../assets/icons/category.png'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import DrawIcon from '@mui/icons-material/Draw';
+import CategoryIcon from '@mui/icons-material/Category';
 
+
+const menuItems=[
+  { text:'Users',url:'/adminAllUsers',icon:<PersonIcon/>},
+  { text:'Authors',url:'/adminAllAuthors',icon:<DrawIcon/>},
+  { text:'Books',url:'/adminAllBooks',icon:<AutoStoriesIcon/>},
+  { text:'Libraries',url:'/adminAllLibraries',icon:<CollectionsBookmarkIcon/>},
+  { text:'Catgories',url:'/adminAllCategories',icon:<CategoryIcon/>},
+]
 
 const drawerWidth = 240;
 const icons = [<Person />, <SwapVert />, <MoveDown />, <PublishedWithChanges />, <Sell />, <Settings />];
@@ -114,6 +131,12 @@ export default function SideBar() {
     setOpen(false);
   };
 
+
+
+
+  /********* */
+
+  
   return (
     <>
       <Box>
@@ -167,7 +190,7 @@ alignItems:"center"
               </Typography>
             </Box>
             <Box component='nav' sx={{ display: 'flex' }}>
-              <Notifications />
+              {/* <Notifications /> */}
               <Avatar
                 onClick={accountPopover.handleOpen}
                 ref={accountPopover.anchorRef}
@@ -193,7 +216,7 @@ alignItems:"center"
         }}>
           <DrawerHeader sx={{display:"flex",justifyContent:"space-between"}}>
             <Typography variant="h6" noWrap component={NavLink}  to={'/'} className='logo' sx={{
-              color: 'white',
+              color: 'Black',
             //   background: '#4CD080',
               mr: 2,
               display: { md: 'flex' },
@@ -240,40 +263,42 @@ alignItems:"center"
 
           </DrawerHeader>
 
-          <Divider />
-          <List sx={{ border:'1px solid red'}}>
+          {/* <Divider /> */}
+          <List>
 
-            {['Users', 'Books', 'Libraries', 'Authors', 'Admins'].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            {menuItems.map((menuItem, index) => (
+              <ListItem key={index} disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                     className={({ isActive, isPending }) =>
                     isPending ? "pending" : isActive ? "activee" : ""
                   }
-
                   component={NavLink}
-                //   to={/${text}}
+                  to={`/dashboard${menuItem.url}`}
+                  exact
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
                     p: 2.5,
                     borderLeft:'4px solid transparent',
+                    
                   }}
 
                 >
 
                   {/* add icons  */}
-
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
-                      color: '#00000'
+                      // color: '#00000',
+                      // opacity:1
                     }}
                   >
-                    {icons[index]}
+                    {/* {icons[index]} */}
+                    {menuItem.icon}
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText primary={menuItem.text} sx={{opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
             ))}
