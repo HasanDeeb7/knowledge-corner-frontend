@@ -23,6 +23,7 @@ function LoginForm() {
         setUser(response.data);
         console.log(response);
         toast.success(`Welcome Back ${response.data.firstName}`);
+
       }
     } catch (error) {
       // console.log(error);

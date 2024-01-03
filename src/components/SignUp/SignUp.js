@@ -1,8 +1,11 @@
 import { useState } from "react";
 import style from "./SignUp.module.css";
 import OAuth from "../../OAuth";
+
 import axios from "axios";
 function SignUp({ setLogin }) {
+
+
   const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",

@@ -2,10 +2,12 @@ import { useState } from "react";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import style from "./Login.module.css";
 import SignUp from "../../components/SignUp/SignUp";
+
 import log from '../../assets/icons/log-in (2).png'
 import sign from '../../assets/icons/add-user.png'
 import { Helmet } from "react-helmet-async";
 import OAuth from "../../OAuth";
+
 function Login() {
   const [login, setLogin] = useState(true);
   return (
@@ -14,6 +16,12 @@ function Login() {
         <title>Login</title>
         <link rel="shortcut icon"></link>
       </Helmet>
+
+      <Helmet>
+        <title>Login</title>
+        <link rel="shortcut icon"></link>
+      </Helmet>
+
 
       {login ? (
         <div className={style.loginFormContainer}>

@@ -33,6 +33,7 @@ export default function OAuth() {
     } catch (error) {
       console.log("could not sign in with google", error);
       toast.error("Could not sign in with Google")
+
     }
   };
   return (

@@ -7,7 +7,9 @@ import TempBookCard from "../BookCard/tempBookCard";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import bookss from "../../assets/icons/books-stack-of-three 2.svg";
+
 import Pagination from "../Pagination/Pagination";
+
 
 const AllBooks = () => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -76,7 +78,9 @@ const AllBooks = () => {
       .catch((error) => {
         console.error("Error fetching categories:", error);
       });
+
     getTotalBooks();
+
   }, []);
   useEffect(() => {
     getLimitedBooks();
@@ -121,6 +125,7 @@ const AllBooks = () => {
   const handleOnChange = (e) => {
     const categoryId = Number(e.target.value);
     const isChecked = e.target.checked;
+
     setCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
       [categoryId]: isChecked,
@@ -140,7 +145,9 @@ const AllBooks = () => {
     if (selectedCategories.length === 0) {
       return booksToFilter;
     }
+
     return totalBooks.filter((book) =>
+
       selectedCategories.includes(book.CategoryId)
     );
   };

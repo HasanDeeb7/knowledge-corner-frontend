@@ -14,8 +14,10 @@ import NotFound from "../../components/NotFound/AdminNotFound";
 import axios from "axios";
 import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
+
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
+
 
 function Dashboard() {
   const [books, setBooks] = useState([]);
@@ -82,6 +84,7 @@ function Dashboard() {
         console.error("Error deleting category:", error);
       });
   };
+
 
   const handleClick = async () => {
     try {
