@@ -1,7 +1,8 @@
 import { useState } from "react";
 import style from "./SignUp.module.css";
 import OAuth from "../../OAuth";
-function SignUp() {
+import axios from "axios";
+function SignUp({ setLogin }) {
   const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
@@ -15,46 +16,41 @@ function SignUp() {
     return emailRegex.test(email);
   };
 
-  const [message, setMessage] = useState()
-  const [emailMessage, setEmailMessage] = useState()
+  const [message, setMessage] = useState();
+  const [emailMessage, setEmailMessage] = useState();
 
   function handleChange(e) {
     // e.preventDefault()
- setEmailMessage()
- setMessage()
+    setEmailMessage();
+    setMessage();
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
-
   }
 
-  
   const signUp = async () => {
-    setEmailMessage()
-    if(Object.values(newUser).some(item => item === '')){
-      return setMessage('All Fields are required')
-      
+    setEmailMessage();
+    if (Object.values(newUser).some((item) => item === "")) {
+      return setMessage("All Fields are required");
+    } else if (!isValidEmail(newUser.email)) {
+      return setEmailMessage("Invalid email address");
+    } else if (newUser.password !== confirmPassword) {
+      return setMessage("Password confirmed incorrectly");
     }
-    else if(!isValidEmail(newUser.email)){
-      return setEmailMessage('Invalid email address')
-    }
-    else if(newUser.password!==confirmPassword){
-      return setMessage("Password confirmed incorrectly")
-    }
-    try{
-    
-      const res = await axios.post(`${process.env.REACT_APP_PATH}/api/user/signup`, newUser)
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_PATH}/api/user/signup`,
+        newUser
+      );
       if (res) {
-        setLogin(true)
+        setLogin(true);
+      } else {
+        console.log(res);
+        setMessage(res.data.message);
       }
-      else {
-        console.log(res)
-        setMessage(res.data.message)
-      }
-    }catch(error){console.log(error)
-      setMessage(error.response.data.message)
+    } catch (error) {
+      console.log(error);
+      setMessage(error.response.data.message);
     }
-
-
-  }
+  };
 
   return (
     <>
@@ -90,7 +86,8 @@ function SignUp() {
           />
         </div>
         <div style={{ color: "red", display: emailMessage ? "block" : "none" }}>
-          {emailMessage ? emailMessage : ""}</div>
+          {emailMessage ? emailMessage : ""}
+        </div>
 
         <div className={style.inputLabelWrapper}>
           <label>Password</label>
@@ -113,13 +110,13 @@ function SignUp() {
           />
         </div>
       </div>
-      <div style={{color: 'red'}}>{message ? message : ""}</div>
+      <div style={{ color: "red" }}>{message ? message : ""}</div>
       <div className={style.signUpBtnWrapper}>
         <button
           className={style.signUpSubmit}
           onClick={(e) => {
             // e.preventDefault();
-            signUp()
+            signUp();
             console.log("Button");
           }}
         >

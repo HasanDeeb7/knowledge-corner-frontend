@@ -1,0 +1,14 @@
+.paginationContainer{
+    display: flex;
+    justify-content: space-between;
+    width: 10%;
+    align-self: center;
+    margin: 2rem 0;
+}
+.paginationElement{
+    list-style: none;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}

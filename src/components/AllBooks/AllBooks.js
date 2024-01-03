@@ -7,6 +7,7 @@ import TempBookCard from "../BookCard/tempBookCard";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import bookss from "../../assets/icons/books-stack-of-three 2.svg";
+import Pagination from "../Pagination/Pagination";
 
 const AllBooks = () => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -18,6 +19,8 @@ const AllBooks = () => {
   const [categoriesMap, setCategoriesMap] = useState({});
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [totalBooks, setTotalBooks] = useState([]);
+  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 2 });
 
   // This function handles the click event for showing/hiding the category filter.
   const handleClick = () => {
@@ -25,6 +28,38 @@ const AllBooks = () => {
   };
 
   // Fetch categories and books on component load.
+  async function getTotalBooks() {
+    const res = await axios.get(`${process.env.REACT_APP_PATH}api/books`);
+    if (res) {
+      console.log(res.data);
+      setTotalBooks(res.data);
+    }
+  }
+  async function getLimitedBooks() {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_PATH}api/books/limitedBooks`,
+        {
+          params: {
+            pageNumber: pagination.pageNumber,
+            pageSize: pagination.pageSize,
+          },
+        }
+      );
+      if (res) {
+        setBooks(res.data);
+        setIsLoading(false);
+        const authorIds = res.data.map((book) => book.AuthorId);
+        fetchAuthors(authorIds);
+        console.log(res.data);
+
+        const categIds = res.data.map((book) => book.CategoryId);
+        fetchCategories(categIds);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_PATH}api/categories`)
@@ -41,21 +76,11 @@ const AllBooks = () => {
       .catch((error) => {
         console.error("Error fetching categories:", error);
       });
-
-    axios
-      .get(`${process.env.REACT_APP_PATH}api/books`)
-      .then((res) => {
-        setBooks(res.data);
-        setIsLoading(false);
-        const authorIds = res.data.map((book) => book.AuthorId);
-        fetchAuthors(authorIds);
-        console.log(res.data);
-
-        const categIds = res.data.map((book) => book.CategoryId);
-        fetchCategories(categIds);
-      })
-      .catch((err) => console.log(err));
+    getTotalBooks();
   }, []);
+  useEffect(() => {
+    getLimitedBooks();
+  }, [pagination]);
 
   // Fetch the name of the authors based on authorID in books.
   const fetchAuthors = (authorIds) => {
@@ -96,7 +121,6 @@ const AllBooks = () => {
   const handleOnChange = (e) => {
     const categoryId = Number(e.target.value);
     const isChecked = e.target.checked;
-    console.log(selectedCategories);
     setCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
       [categoryId]: isChecked,
@@ -116,7 +140,7 @@ const AllBooks = () => {
     if (selectedCategories.length === 0) {
       return booksToFilter;
     }
-    return booksToFilter.filter((book) =>
+    return totalBooks.filter((book) =>
       selectedCategories.includes(book.CategoryId)
     );
   };
@@ -134,7 +158,7 @@ const AllBooks = () => {
   // Filters books by name based on the search input.
   const filterBooksByName = (booksToFilter, searchInput) => {
     if (searchInput) {
-      return booksToFilter.filter((book) =>
+      return totalBooks.filter((book) =>
         book.title.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
@@ -144,7 +168,7 @@ const AllBooks = () => {
   const filteredBooks = filterBooksByName(filteredByCategories, searchInput);
 
   return (
-    <div>
+    <div className={AllBooksStyle.allBooksContainer}>
       <Helmet>
         <meta charSet="utf-8" />
         <title>All Books</title>
@@ -228,6 +252,15 @@ const AllBooks = () => {
           </>
         )}
       </div>
+      {isLoading ? (
+        "Preparing pages"
+      ) : (
+        <Pagination
+          books={totalBooks}
+          setPagination={setPagination}
+          pagination={pagination}
+        />
+      )}
     </div>
   );
 };

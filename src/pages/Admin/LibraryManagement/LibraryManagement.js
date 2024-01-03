@@ -5,6 +5,7 @@ import axios from "axios";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { DataGrid } from "@mui/x-data-grid";
+import { toast } from "react-toastify";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -13,10 +14,47 @@ function LibraryManagement() {
   const [isLoading, setIsLoading] = useState(true);
   const [libraryBooks, setLibraryBooks] = useState();
   const [allBooks, setAllBooks] = useState();
+  const [selectedBooks, setSelectedBooks] = useState([]);
   const [search, setSearch] = useState();
   const [action, setAction] = useState("editLibrary");
 
   const id = 1;
+
+  async function handleSubmit(e) {
+    try {
+      e.preventDefault();
+      const res = await axios.post(
+        `${process.env.REACT_APP_PATH}api/books/addtolibrary`,
+        { libraryId: id, bookList: selectedBooks }
+      );
+      if (res) {
+        console.log(res.data);
+        toast.success("Books has Been Added to the Library");
+        setAction('e')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function removeFromLibrary(bookId) {
+    try {
+      const res = await axios.patch(
+        `${process.env.REACT_APP_PATH}api/books/removefromlibrary`,
+        { bookId: bookId, libraryId: id }
+      );
+      if (res) {
+        toast.success(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleAutocompleteChange = (event, values) => {
+    const selectedIds = values.map((option) => option.id);
+    setSelectedBooks(selectedIds);
+    console.log(selectedIds);
+  };
 
   async function getLibraryBooks() {
     try {
@@ -88,7 +126,14 @@ function LibraryManagement() {
               field: "actions",
               width: 300,
               renderCell: (params) => {
-                return <div className={style.changeStatusBtn}>Remove</div>;
+                return (
+                  <button
+                    onClick={() => removeFromLibrary(params.id)}
+                    className={style.submitBtn}
+                  >
+                    Remove
+                  </button>
+                );
               },
             },
           ]}
@@ -103,15 +148,22 @@ function LibraryManagement() {
         />
       </div>
     ) : (
-      <Autocomplete
-        
-        className={style.autoCompleteText}
-        options={allBooks}
-        getOptionLabel={(option) => option.title}
-        filterSelectedOptions
-        renderInput={(params) => <TextField {...params} label="Book" />}
-        multiple
-      />
+      <div style={{ marginTop: 30 }}>
+        <Autocomplete
+          className={style.autoCompleteText}
+          limitTags={1}
+          options={allBooks}
+          disableClearable
+          getOptionLabel={(option) => option.title}
+          filterSelectedOptions
+          renderInput={(params) => <TextField {...params} label="Book" />}
+          multiple
+          onChange={handleAutocompleteChange}
+        />
+        <button className={style.submitBtn} onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
     )
   ) : (
     ""

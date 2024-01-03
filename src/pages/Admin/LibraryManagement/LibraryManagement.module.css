@@ -28,3 +28,17 @@
   position: absolute;
   right: 30px;
 }
+.submitBtn{
+  background-color: #03151e;
+    color: white;
+    border: 1px solid white;
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+}
+.submitBtn:hover{
+  background-color: transparent;
+  color: #03151e;
+  border-color: #03151e;
+}

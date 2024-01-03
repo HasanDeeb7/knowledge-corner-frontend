@@ -14,6 +14,8 @@ import NotFound from "../../components/NotFound/AdminNotFound";
 import axios from "axios";
 import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
+import SideBar from "../../components/SideBar/SideBar";
+import Users from "./Users/Users";
 
 function Dashboard() {
   const [books, setBooks] = useState([]);
@@ -105,6 +107,7 @@ function Dashboard() {
   return (
     <div>
       <ToastContainer />
+      <SideBar />
       <Routes>
         <Route
           exact
@@ -165,6 +168,8 @@ function Dashboard() {
               />
             }
           ></Route>
+          <Route path="/adminAllUsers" element={<Users />}></Route>
+
           <Route path="/adminAddBook/:type" element={<AddBookForm />}></Route>
           <Route
             path="/adminAddAuthor/:type"
