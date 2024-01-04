@@ -7,7 +7,6 @@ function AdminOutlet({handleClick}) {
     
     return (
         <div>
-            <AdminNavbar handleClick={handleClick}/>
             <Outlet />
         </div>
     )

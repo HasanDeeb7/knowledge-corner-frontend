@@ -3,6 +3,7 @@ import adminAllBooksStyle from "./adminAllBooks.module.css";
 import x from "../../../assets/icons/862px-Delete-button 1.svg";
 import update from "../../../assets/icons/Vector (4).svg";
 import { Helmet } from "react-helmet";
+import DataGridPremiumDemo from '../../../components/AllbooksTable/Allbooks.js'
 
 import categoryI from '../../../assets/icons/category.png'
 function adminAllCategories({ categories ,handleDeleteCategory}) {
@@ -16,7 +17,20 @@ function adminAllCategories({ categories ,handleDeleteCategory}) {
       </Helmet>
 
       <div className={adminAllBooksStyle.overflow}>
-      <table>
+    
+
+      <DataGridPremiumDemo categories={categories} handleDeleteCategory={handleDeleteCategory} type={"category"}/>
+
+      </div>
+    </div>
+  );
+}
+
+export default adminAllCategories;
+/**
+ * 
+ * 
+ *   <table>
         <thead>
           <tr>
             <th>S.N</th>
@@ -44,9 +58,4 @@ function adminAllCategories({ categories ,handleDeleteCategory}) {
           ))}
         </tbody>
       </table>
-      </div>
-    </div>
-  );
-}
-
-export default adminAllCategories;
+ */

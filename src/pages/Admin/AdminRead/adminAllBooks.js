@@ -5,8 +5,10 @@ import update from "../../../assets/icons/Vector (4).svg";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import bookss from '../../../assets/icons/books-stack-of-three 2.svg'
+import { DataGridPremium } from '@mui/x-data-grid-premium';
+import DataGridPremiumDemo from '../../../components/AllbooksTable/Allbooks.js'
 
-function adminAllBooks({ books, authors, categories, handleDeleteBook }) {
+function adminAllBooks({ books, authors, categories, handleDeleteBook,handleDeleteAuthor }) {
   
 
   return (
@@ -19,8 +21,22 @@ function adminAllBooks({ books, authors, categories, handleDeleteBook }) {
       </Helmet>
       <div className={adminAllBooksStyle.allBooks}>
         
+
+
         <div className={adminAllBooksStyle.overflow}>
-          <table>
+         <DataGridPremiumDemo books={books} handleDeleteBook={handleDeleteBook} type={"book"}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default adminAllBooks;
+
+/********************
+ * 
+ * 
+ *  <table>
             <thead>
               <tr>
                 <th>S.N</th>
@@ -79,10 +95,4 @@ function adminAllBooks({ books, authors, categories, handleDeleteBook }) {
                 ))}
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default adminAllBooks;
+ */

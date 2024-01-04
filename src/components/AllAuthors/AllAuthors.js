@@ -68,7 +68,7 @@ const AllAuthors = () => {
             <div className={AllBooksStyle.booksList}>
               {authorsFiltred.map((author) => {
                 return (
-                  <Link to="/SingleAuthor" state={{ author: author }}>
+                  <Link to={`/SingleAuthor/${author.slug}`} state={{ author: author }}>
                     <TemAuthorCard
                       authorName={`${author.firstName} ${author.lastName} `}
                       image={author.image}

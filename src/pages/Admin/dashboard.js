@@ -15,6 +15,10 @@ import axios from "axios";
 import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
 
+import SideBar from "../../components/SideBar/SideBar";
+import Users from "./Users/Users";
+
+
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -65,9 +69,22 @@ function Dashboard() {
       });
   };
 
-  // const updatedCategories = categories.filter((category) => category._id !== categoryId);
-  // setCategories(updatedCategories)
-  // handleClick();
+  const handleDeleteCategory = (categoryId) => {
+    axios
+      .delete(`${process.env.REACT_APP_PATH}api/categories/${categoryId}`)
+      .then((response) => {
+        console.log("Category deleted successfully");
+
+        const updatedCategories = categories.filter(
+          (category) => category._id !== categoryId
+        );
+        setCategories(updatedCategories);
+      })
+      .catch((error) => {
+        console.error("Error deleting category:", error);
+      });
+  };
+
 
   const handleClick = async () => {
     try {
@@ -86,9 +103,6 @@ function Dashboard() {
     }
   };
 
-  // const handleFetch=async()=>{
-  //   handleClick()
-  // }
   useEffect(() => {
     handleClick();
   }, []);
@@ -96,6 +110,7 @@ function Dashboard() {
   return (
     <div>
       <ToastContainer />
+      <SideBar />
       <Routes>
         <Route
           exact
@@ -156,6 +171,8 @@ function Dashboard() {
               />
             }
           ></Route>
+          <Route path="/adminAllUsers" element={<Users />}></Route>
+
           <Route path="/adminAddBook/:type" element={<AddBookForm />}></Route>
           <Route
             path="/adminAddAuthor/:type"

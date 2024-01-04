@@ -1,13 +1,17 @@
 .allBooks {
   margin-top: 50px;
+  /* border: 1px solid pink; */
+  height: 600px;
+
 }
 
 
 
 .overflow{
-  height: 500px;
+  /* height: 500px; */
+  height: 100%;
   width: fit-content;
-  overflow-y: scroll;
+  /* overflow-x: scroll; */
   margin: 0 auto;
 }
 

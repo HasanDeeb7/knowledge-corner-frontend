@@ -20,7 +20,6 @@ function LoginForm() {
         credentials
       );
       if (response) {
-
         setUser(response.data);
         console.log(response);
         toast.success(`Welcome Back ${response.data.firstName}`);
