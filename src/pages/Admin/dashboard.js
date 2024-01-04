@@ -16,6 +16,8 @@ import ProtectedRoutes from '../../routes/protectedRoutes';
 import SideBar from '../../components/SideBar/SideBar';
 import AdminBarchart from '../../components/Charts/AdminBarchart';
 import BookCurve from '../../components/Charts/BookCurve'
+import {Profile} from '../../pages/Profile/Profile'
+import Recents from '../../components/Charts/Recents'
 function Dashboard() {
 
   const [books, setBooks] = useState([])
@@ -122,7 +124,7 @@ function Dashboard() {
           <Route path='/adminAddCategory/:type' element={<AddCategoryForm />} handleAdd={handleClick}></Route>
           {/* /****************************************** */}
           <Route path='/adminAddLibrary/:type' element={<AddCategoryForm />}></Route>
-          <Route path="/side" element={<AdminBarchart />}></Route>
+          <Route path="/side" element={<Profile />}></Route>
 
           {/* /****************************************** */}
         </Route>
