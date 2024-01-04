@@ -22,7 +22,7 @@ const AllBooks = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [totalBooks, setTotalBooks] = useState([]);
-  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 2 });
+  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 1 });
 
   // This function handles the click event for showing/hiding the category filter.
   const handleClick = () => {
@@ -244,17 +244,21 @@ const AllBooks = () => {
         ) : (
           <>
             <div className={AllBooksStyle.booksList} key={books.id}>
-              {filteredBooks.map((book) => (
-                <Link to={`/SingleBook/${book.slug}`} state={{ book: book }}>
-                  <TempBookCard
-                    image={book.image}
-                    author={authors[book.authorId]}
-                    bookTitle={book.title}
-                    rating={book.rating}
-                    category={categoriesMap[book.categoryId]}
-                  />
-                </Link>
-              ))}
+              {filteredBooks.length ? (
+                filteredBooks.map((book) => (
+                  <Link to={`/SingleBook/${book.slug}`} state={{ book: book }}>
+                    <TempBookCard
+                      image={book.image}
+                      author={authors[book.authorId]}
+                      bookTitle={book.title}
+                      rating={book.rating}
+                      category={categoriesMap[book.categoryId]}
+                    />
+                  </Link>
+                ))
+              ) : (
+                <div>No Books Found</div>
+              )}
             </div>
           </>
         )}
