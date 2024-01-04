@@ -38,16 +38,17 @@ export const AccountPopover = (props) => {
       }}
       onClose={onClose}
       open={open}
-      PaperProps={{ sx: { width: 200 } }}
+      PaperProps={{ sx: { width: 150 } }}
     >
       <Box
         sx={{
           py: 1.5,
-          px: 2
-        }}
+          px: 2,
+// border:'1px solid red'  
+      }}
       >
         <Typography variant="overline">
-          Account
+          Profile
         </Typography>
         <Typography
           color="text.secondary"
@@ -56,7 +57,7 @@ export const AccountPopover = (props) => {
           {user?.userName}
         </Typography>
       </Box>
-      <Divider />
+      <Divider sx={{width:'100%'}} />
       <MenuList
         disablePadding
         dense

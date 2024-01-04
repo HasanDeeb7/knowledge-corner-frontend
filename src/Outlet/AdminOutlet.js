@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 function AdminOutlet({handleClick}) {
     
     return (
-        <div>
+        <div style={{border:'1px solid red',marginTop:'80px',marginLeft:'66px'}}>
             <Outlet />
         </div>
     )
