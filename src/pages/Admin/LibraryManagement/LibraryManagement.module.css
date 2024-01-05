@@ -62,3 +62,19 @@
   display: flex;
   gap: 1rem;
 }
+.libraryName{
+  outline: none;
+  border: none;
+  font-size: 30px;
+  text-align: center;
+  pointer-events: none;
+}
+.editingName{
+font-size: 30px;
+}
+.editLibraryNameBtn{
+  cursor: pointer;
+}
+.editLibraryNameBtn:hover{
+  opacity: .5;
+}
