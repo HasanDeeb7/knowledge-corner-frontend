@@ -18,3 +18,10 @@ margin: 0 auto;
   align-items: center;
 
 }
+.radionButtn{
+  /* border: 5px solid black; */
+color:red;
+width: 20px;
+height: 20px;
+align-self: center;
+}

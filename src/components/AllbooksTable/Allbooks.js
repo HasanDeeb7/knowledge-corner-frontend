@@ -12,10 +12,25 @@ import x from "../../assets/icons/862px-Delete-button 1.svg";
 import update from "../../assets/icons/Vector (4).svg";
 import adminAllBooksStyle from "./adminAllBook.module.css";
 import { Link } from "react-router-dom";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input'
+import Modal from '@mui/material/Modal';
+import style from '../../pages/Profile/profile.module.css'
+
 
 export default function ToolbarGrid({ books ,libraries, authors, categories, handleDeleteBook,handleDeleteAuthor,handleDeleteCategory ,type}) {
 // const [books,setBooks]=useState(null)
 const [loading,setLoading]=useState(false)
+const [open, setOpen] = React.useState(false);
+const [library, setLibrary] = React.useState([]);
+
 //   const fetchBooks= async()=>{
 //     try {
 //       const allResults =await axios.get(`${process.env.REACT_APP_PATH}/api/books`)
@@ -148,13 +163,23 @@ const [loading,setLoading]=useState(false)
   
     }},
   ]
+  const handleOpen = (data) => {
+    setOpen(true);
+  setLibrary(data)}
 
+  const handleClose = () => setOpen(false);
   const libraryColumn=[
     { field: 'id', headerName: 'ID',width:150},
     { field: 'name', headerName: 'Name' , width:250 },
-    { field: 'status', headerName: 'Status',width:200,renderCell:(params)=>{
+    { field: 'status', headerName: 'Status' , width:250 },
+
+    { field: 'action', headerName: 'Actions',width:200,renderCell:(params)=>{
+      const isActive=params.row.status==='active'
       return(
         <span className={adminAllBooksStyle.buttonContainer}>
+           <button className={adminAllBooksStyle.updateDelete}>
+            <img src={update} alt="update" onClick={()=>handleOpen(params.row)} />
+          </button>
         {/* <Link
           to={"/dashboard/adminAddCategory/Edit"}
           state={{book:params.row}}
@@ -171,7 +196,6 @@ const [loading,setLoading]=useState(false)
         >
           <img src={x} alt="delete" />
         </button> */}
-
       </span>
       )
   
@@ -188,7 +212,17 @@ const [loading,setLoading]=useState(false)
 
   ];
   
-
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
   const emptyRow = { id: 'Loading...'};
 
   // const rowsWithEmptyRow = loading ? emptyRow : books;
@@ -262,6 +296,75 @@ const [loading,setLoading]=useState(false)
         },
       }}
     />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+Edit Article
+          </Typography>
+          <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '100%' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+{/* <TextField id="title" label="Title" variant="outlined"  type="text" defaultValue={"vv"}                 readOnly={false}/>
+<TextField id="category" label="Category" variant="outlined"  type="text"                 readOnly={false}/>
+<TextField id="author" label="Author" variant="outlined"  type="text"                 readOnly={false}/>
+<TextField id="body" label="Body" multiline variant="outlined" fullWidth row={40} maxRows={7} type="text"         readOnly={false}/> */}
+
+<div className={style.inputContainer}>
+  <label className={style.label}>Name</label>
+  <input
+    className={style.input}
+    type="text"
+    placeholder="Library's Name"
+    name="name"
+    id="name"
+    defaultValue={ library.name?library.name : ""}
+    required
+  />
+</div>
+<div className={style.inputContainer}>
+  <label>Status</label>
+  {/* <input
+    className={style.input}
+    type="email"
+    placeholder="Enter Your Email"
+    name="email"
+    id="email"
+    defaultValue={ library.email? library.email : ""}
+    required
+  /> */}
+  <select
+   className={style.input}
+   type="status"
+   placeholder="Library Status"
+   name="status"
+   id="status"
+   >
+    <option value={library.status==="active"?'Active':'inActive'}></option>
+    <option value={library.status==="active"?'inActive':'Active'}></option>
+
+  </select>
+</div>
+
+<div className={style.buttonContainer}>
+  {/* <button className={style.add}  style={{opacity:editLoading?0.8:1,pointer:"none"}}> */}
+  <button className={style.add}  style={{opacity:1}}>
+
+    Update Library
+  </button>
+</div>
+      </Box>
+        </Box>
+      </Modal>
   </div>
   
   
@@ -282,70 +385,3 @@ const CustomToolbar = () => {
 
 
 
-
-
-
-
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import {
-//   DataGridPremium,
-//   GridToolbar,
-//   useGridApiRef,
-//   useKeepGroupedColumnsHidden,
-// } from '@mui/x-data-grid-premium';
-// import { useDemoData } from '@mui/x-data-grid-generator';
-
-// export default function DataGridPremiumDemo() {
-//   const { data, loading } = useDemoData({
-//     dataSet: 'Commodity',
-//     rowLength: 100,
-//     editable: true,
-//     visibleFields: [
-//       'commodity',
-//       'quantity',
-//       'filledQuantity',
-//       'status',
-//       'isFilled',
-//       'unitPrice',
-//       'unitPriceCurrency',
-//       'subTotal',
-//       'feeRate',
-//       'feeAmount',
-//       'incoTerm',
-//     ],
-//   });
-//   const apiRef = useGridApiRef();
-
-//   const initialState = useKeepGroupedColumnsHidden({
-//     apiRef,
-//     initialState: {
-//       ...data.initialState,
-//       rowGrouping: {
-//         ...data.initialState?.rowGrouping,
-//         model: ['commodity'],
-//       },
-//       sorting: {
-//         sortModel: [{ field: '__row_group_by_columns_group__', sort: 'asc' }],
-//       },
-//       aggregation: {
-//         model: {
-//           quantity: 'sum',
-//         },
-//       },
-//     },
-//   });
-
-//   return (
-//     <Box sx={{ height: 520, width: '100%' }}>
-//       <DataGridPremium
-//         {...data}
-//         apiRef={apiRef}
-//         loading={loading}
-//         disableRowSelectionOnClick
-//         initialState={initialState}
-//         slots={{ toolbar: GridToolbar }}
-//       />
-//     </Box>
-//   );
-// }

@@ -9,7 +9,7 @@ import authorIcon from '../../../assets/icons/author.png'
 import library from '../../../assets/icons/library.png'
 import { Helmet } from "react-helmet";
 
-function adminAllLibraries({ libraries}) {
+function AdminAllLibraries({ libraries}) {
   function formatDate(inputDate) {
     const date = new Date(inputDate);
     const formattedDate = date.toISOString().split("T")[0];
@@ -33,4 +33,4 @@ function adminAllLibraries({ libraries}) {
   );
 }
 
-export default adminAllLibraries;
+export default AdminAllLibraries;

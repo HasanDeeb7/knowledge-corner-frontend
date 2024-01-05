@@ -19,7 +19,7 @@ import Users from "./Users/Users";
 import { Overview } from "../Overview/Overview";
 import {Profile} from '../../pages/Profile/Profile'
 import HiddenLegend from '../../components/Charts/ToChart'
-import adminAllLibraries from './AdminRead/adminAllLibraries'
+import AdminAllLibraries from './AdminRead/adminAllLibraries'
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -47,7 +47,7 @@ function Dashboard() {
         console.log("Book deleted successfully");
         handleDeleteAlert();
 
-        const updatedBooks = books.filter((book) => book._id !== bookId);
+        const updatedBooks = books.filter((book) => book.id !== bookId);
         setBooks(updatedBooks);
       })
       .catch((error) => {
@@ -92,10 +92,10 @@ function Dashboard() {
     try {
       const [booksResponse, authorsResponse, categoriesResponse,librariesResponse] =
         await Promise.all([
-          axios.get(`${process.env.REACT_APP_PATH}api/books`),
-          axios.get(`${process.env.REACT_APP_PATH}api/authors`),
-          axios.get(`${process.env.REACT_APP_PATH}api/categories`),
-          axios.get(`${process.env.REACT_APP_PATH}api/library`)
+          axios.get(`${process.env.REACT_APP_PATH}/api/books`),
+          axios.get(`${process.env.REACT_APP_PATH}/api/authors`),
+          axios.get(`${process.env.REACT_APP_PATH}/api/categories`),
+          axios.get(`${process.env.REACT_APP_PATH}/api/library`)
         ]);
 
       setBooks(booksResponse.data);
@@ -166,7 +166,7 @@ function Dashboard() {
           <Route
             path="/adminAllLibraries"
             element={
-              <adminAllLibraries
+              <AdminAllLibraries
                 libraries={libraries}
                 // handleDeleteAuthor={handleDeleteAuthor}
               />
