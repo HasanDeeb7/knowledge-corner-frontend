@@ -1,0 +1,14 @@
+.overviewContainer{
+    width:'100%';
+    border :'3px solid black';
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+    justify-content: space-around;
+    padding-top: 40px;
+}
+section{
+    width: 40%;
+    height: 50%;
+    /* border: 1px solid red; */
+}

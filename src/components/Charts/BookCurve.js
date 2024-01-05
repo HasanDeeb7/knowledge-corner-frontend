@@ -59,9 +59,10 @@ export default function BasicColor() {
   return (
     
       !loading?(
-        <Stack direction="column" spacing={2} alignItems="center" sx={{ width: '50%', background: "#fff", borderRadius: "15px", padding: "25px",
+        <Stack direction="column" spacing={2} alignItems="center" sx={{ width: '100%', background: "#fff", borderRadius: "15px", padding: "25px",
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add a box shadow
         borderRadius: '8px',
+        height:'100%'
         }}>
         {/* <LineChart
           {...chartsParams}

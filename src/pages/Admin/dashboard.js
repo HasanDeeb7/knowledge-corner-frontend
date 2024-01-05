@@ -16,7 +16,7 @@ import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
-
+import { Overview } from "../Overview/Overview";
 
 function Dashboard() {
   const [books, setBooks] = useState([]);
@@ -116,7 +116,7 @@ function Dashboard() {
           path="/"
           element={<AdminOutlet handleClick={handleClick} />}
         >
-          <Route
+          {/* <Route
             exact
             path="/"
             element={
@@ -125,6 +125,14 @@ function Dashboard() {
                 authors={authors}
                 categories={categories}
                 handleDeleteBook={handleDeleteBook}
+              />
+            }
+          ></Route> */}
+           <Route
+            exact
+            path="/"
+            element={
+              <Overview
               />
             }
           ></Route>
