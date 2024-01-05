@@ -63,7 +63,7 @@ function SingleBook() {
     // async function fetchData() {
     //   try {
     //     const response = await axios.get(
-    //       `${process.env.REACT_APP_PATH}/api/books/limitedBooks?limit=6`
+    //       `${process.env.REACT_APP_PATH}api/books/limitedBooks?limit=6`
     //     );
     //     setBooks(response.data);
     //   } catch (error) {

@@ -63,7 +63,7 @@ export default function CustomizedTables() {
 
     try{
 
-      const res=await axios.get(`${process.env.REACT_APP_PATH}/api/books/recents`)
+      const res=await axios.get(`${process.env.REACT_APP_PATH}api/books/recents`)
       if(res){
         setBooks(res.data)
         console.log(res.data)

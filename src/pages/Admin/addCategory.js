@@ -16,7 +16,7 @@ const {type}=useParams()
   const addCategory = (e) => {
     e.preventDefault();
     axios
-      .post(`${process.env.REACT_APP_PATH}/api/categories`, { name: categoryName })
+      .post(`${process.env.REACT_APP_PATH}api/categories`, { name: categoryName })
       .then((response) => {
         console.log("Category created");
         setCategoryName("");

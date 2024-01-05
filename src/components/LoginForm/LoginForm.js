@@ -16,7 +16,7 @@ function LoginForm() {
   async function handleLogin() {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user/signin",
+        "http://localhost:5000api/user/signin",
         credentials
       );
       if (response) {
