@@ -5,7 +5,13 @@ import { useParams, useLocation,Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
 
+import { useContext } from 'react';
+import { userContext } from "../../App";
+
 export const Profile = () => {
+  // const { user, setUser } = useContext(userContext);
+
+// 
     const [user,setUser]=useState(null)
     const [loading,setLoading]=useState(true)
     const [editLoading, setEditLoading] = useState(false)
@@ -19,8 +25,12 @@ export const Profile = () => {
             console.log(res.data)
             setLoading(false)
           }
-          console.log('Errorr no response')
-          setLoading(false)
+          else{
+                      console.log('Errorr no response')
+
+            setLoading(false)
+
+          }
     
         }
         catch(err){
@@ -34,18 +44,17 @@ export const Profile = () => {
       const updateProfile = async () => {
         console.log("updatingg...")
         setEditLoading(true)
-        // const username = document.querySelector('#username').value.trim()
-        // const email = document.querySelector('#email').value.trim()
+        const email = document.querySelector('#email').value.trim()
         const password = document.querySelector('#password').value.trim()
-        const name = document.querySelector('#name').value.trim()
-    
-        // console.log(username)
-        // console.log(email)
-    
+        console.log(document.querySelector('#password').value)
+        const firstName = document.querySelector('#firstName').value.trim()
+        const lastName = document.querySelector('#lastName').value.trim()
+
         const requestedData = {
-          // username: username,
-          // email: email,
-          name: name
+          email: email,
+          firstName:firstName,
+          lastName:lastName,
+          id:5
         }
     
         if (password !== '') {
@@ -55,16 +64,16 @@ export const Profile = () => {
         console.log(requestedData)
         
         try {
-        //   const res = await axios.put(`${process.env.REACT_APP_PATH}/user/update/${user.id}`, requestedData)
-        //   if (res) {
-        //     console.log('profile updated!!')
-        //     // await fetchusers()
-        //     setEditLoading(false)
+          const res = await axios.put(`${process.env.REACT_APP_PATH}/api/user/update`, requestedData)
+          if (res) {
+            console.log('profile updated!!')
+            //  fetchUser()
+            setEditLoading(false)
     
-        //   }
+          }
     
         } catch (error) {
-          console.error("Error updating Profile:", error);
+          console.log("Error updating Profile:", error);
           setEditLoading(false)
     
         }
@@ -79,63 +88,66 @@ export const Profile = () => {
   return (
     <div className={style.fromContainer}>
       {/* <form className={style.bookform} id="bookForm" onSubmit={addBook}> */}
-      <form className={style.bookform} id="bookForm" >
+      {!loading&&(
+        <form className={style.bookform} id="bookForm" >
 
-        <h1 className={style.title}>
-          {/* {type === "Add" ? "Launch Book" : "Edit Book"} */}
-        </h1>
-        <div className={style.inputContainer}>
-          <label className={style.label}>First Name</label>
-          <input
-            className={style.input}
-            type="text"
-            placeholder="Enter Your First Name"
-            name="title"
-            defaultValue={user.firstName? user.firstName:""}
-            required
-          />
-        </div>
-        <div className={style.inputContainer}>
-          <label className={style.label}>Last Name</label>
-          <input
-            className={style.input}
-            type="text"
-            placeholder="Enter  Your Last Name"
-            name="title"
-            defaultValue={ user.lastName?user.lastName : ""}
-            required
-          />
-        </div>
-        <div className={style.inputContainer}>
-          <label>Email</label>
-          <input
-            className={style.input}
-            type="email"
-            placeholder="Enter Your Email"
-            name="email"
-            defaultValue={ user.email? user.email : ""}
-            required
-          />
-        </div>
-        <div className={style.inputContainer}>
-          <label className={style.label}>Password</label>
-          <input
-            className={style.input}
-            type="password"
-            placeholder="Enter Your Password"
-            name="password"
-            
-            required
-          />
-        </div>
-        <div className={style.buttonContainer}>
-          {/* <Link to={'/dashboard'}><button className={style.cancel}>Cancel</button></Link> */}
-          <button className={style.add}>
-            Update My Profile
-            {/* {type === "Add" ? "Add" : "Edit"} */}
-          </button>
-        </div>
-      </form>
+<h1 className={style.title}>
+  {/* {type === "Add" ? "Launch Book" : "Edit Book"} */}
+</h1>
+<div className={style.inputContainer}>
+  <label className={style.label}>First Name</label>
+  <input
+    className={style.input}
+    type="text"
+    placeholder="Enter Your First Name"
+    name="title"
+    id="firstName"
+    defaultValue={user.firstName? user.firstName:""}
+    required
+  />
+</div>
+<div className={style.inputContainer}>
+  <label className={style.label}>Last Name</label>
+  <input
+    className={style.input}
+    type="text"
+    placeholder="Enter  Your Last Name"
+    name="lastName"
+    id="lastName"
+    defaultValue={ user.lastName?user.lastName : ""}
+    required
+  />
+</div>
+<div className={style.inputContainer}>
+  <label>Email</label>
+  <input
+    className={style.input}
+    type="email"
+    placeholder="Enter Your Email"
+    name="email"
+    id="email"
+    defaultValue={ user.email? user.email : ""}
+    required
+  />
+</div>
+<div className={style.inputContainer}>
+  <label className={style.label}>Password</label>
+  <input
+    className={style.input}
+    type="password"
+    placeholder="Enter Your Password"
+    name="password"
+    id="password"
+  />
+</div>
+<div className={style.buttonContainer}>
+  <button className={style.add} onClick={updateProfile} style={{opacity:editLoading?0.8:1,pointer:"none"}}>
+    Update My Profile
+  </button>
+</div>
+</form>
+      )}
+      
     </div>
   )
 }
