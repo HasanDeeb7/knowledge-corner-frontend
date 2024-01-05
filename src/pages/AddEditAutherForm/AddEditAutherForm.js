@@ -75,7 +75,7 @@ function AddEditAutherForm() {
     if (type === "Add") {
       showWaitingToast();
       axios
-        .post(`${process.env.REACT_APP_PATH}/api/authors`, newFormData)
+        .post(`${process.env.REACT_APP_PATH}api/authors`, newFormData)
         .then(() => {
           handleSuccessAlert();
           resetForm();
@@ -86,7 +86,7 @@ function AddEditAutherForm() {
     } else if (type === "Edit") {
       showWaitingToast();
       axios
-        .patch(`${process.env.REACT_APP_PATH}/api/authors/${author._id}`, newFormData)
+        .patch(`${process.env.REACT_APP_PATH}api/authors/${author._id}`, newFormData)
         .then(() => {
           handleSuccessAlert();
         })

@@ -17,9 +17,9 @@ import LibraryManagement from "./LibraryManagement/LibraryManagement";
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
 import { Overview } from "../Overview/Overview";
-import {Profile} from '../../pages/Profile/Profile'
-import HiddenLegend from '../../components/Charts/ToChart'
-import adminAllLibraries from './AdminRead/adminAllLibraries'
+import { Profile } from "../../pages/Profile/Profile";
+import HiddenLegend from "../../components/Charts/ToChart";
+import AdminLibraries from "./AdminLibraries/AdminLibraries";
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -87,21 +87,24 @@ function Dashboard() {
       });
   };
 
-
   const handleClick = async () => {
     try {
-      const [booksResponse, authorsResponse, categoriesResponse,librariesResponse] =
-        await Promise.all([
-          axios.get(`${process.env.REACT_APP_PATH}api/books`),
-          axios.get(`${process.env.REACT_APP_PATH}api/authors`),
-          axios.get(`${process.env.REACT_APP_PATH}api/categories`),
-          axios.get(`${process.env.REACT_APP_PATH}api/library`)
-        ]);
+      const [
+        booksResponse,
+        authorsResponse,
+        categoriesResponse,
+        librariesResponse,
+      ] = await Promise.all([
+        axios.get(`${process.env.REACT_APP_PATH}api/books`),
+        axios.get(`${process.env.REACT_APP_PATH}api/authors`),
+        axios.get(`${process.env.REACT_APP_PATH}api/categories`),
+        axios.get(`${process.env.REACT_APP_PATH}api/library`),
+      ]);
 
       setBooks(booksResponse.data);
       setAuthors(authorsResponse.data);
       setCategories(categoriesResponse.data);
-      setLibraries(librariesResponse.data)
+      setLibraries(librariesResponse.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -113,7 +116,6 @@ function Dashboard() {
 
   return (
     <div>
-      <ToastContainer />
       <SideBar />
       <Routes>
         <Route
@@ -133,14 +135,7 @@ function Dashboard() {
               />
             }
           ></Route> */}
-           <Route
-            exact
-            path="/"
-            element={
-              <Overview
-              />
-            }
-          ></Route>
+          <Route exact path="/" element={<Overview />}></Route>
           <Route
             path="/adminAllBooks"
             element={
@@ -163,16 +158,6 @@ function Dashboard() {
           ></Route>
           {/* /****************************************** */}
 
-          <Route
-            path="/adminAllLibraries"
-            element={
-              <adminAllLibraries
-                libraries={libraries}
-                // handleDeleteAuthor={handleDeleteAuthor}
-              />
-            }
-          ></Route>
-          {/* /****************************************** */}
 
           <Route
             path="/adminAllCategories"
@@ -184,6 +169,7 @@ function Dashboard() {
             }
           ></Route>
           <Route path="/adminAllUsers" element={<Users />}></Route>
+          <Route path="/adminAllLibraries" element={<AdminLibraries />}></Route>
 
           <Route path="/adminAddBook/:type" element={<AddBookForm />}></Route>
           <Route
@@ -208,7 +194,7 @@ function Dashboard() {
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/chart" element={<HiddenLegend />}></Route>
 
-          {/* /****************************************** */}
+        {/* /****************************************** */}
         <Route path="/*" element={<NotFound />} />
         {/* </ProtectedRoutes> */}
       </Routes>

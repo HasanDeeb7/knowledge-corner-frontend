@@ -13,7 +13,7 @@ function App() {
     if (!user) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user/getUser`
+          `${process.env.REACT_APP_PATH}api/user/getUser`
         );
         if (response) {
           setUser(response.data);

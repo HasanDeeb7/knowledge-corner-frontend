@@ -45,7 +45,7 @@ const colors=[
   const fetchTopAuhtors=async()=>{
     try {
     
-const res=await  axios.get(`${process.env.REACT_APP_PATH}/api/books/top`)
+const res = await  axios.get(`${process.env.REACT_APP_PATH}api/books/top`)
 if(res){
     setAuthors(res.data)
     console.log(res.data)

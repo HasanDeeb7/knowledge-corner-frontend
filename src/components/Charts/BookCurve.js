@@ -40,7 +40,7 @@ export default function BasicColor() {
 
   function fetchData() {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/books/byMonth`)
+      .get(`${process.env.REACT_APP_PATH}api/books/byMonth`)
       .then((response) => {
         setData(response.data);
         setLoading(false)

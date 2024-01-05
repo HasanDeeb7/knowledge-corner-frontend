@@ -58,7 +58,7 @@ const [loading,setLoading]=useState(true)
       }
       function fetchCategoryData() {
         axios
-          .get(`${process.env.REACT_APP_PATH}/api/books/getNbByCategory`)
+          .get(`${process.env.REACT_APP_PATH}api/books/getNbByCategory`)
           .then((response) => {
             setCategories(response.data);
             setLoading(false)

@@ -40,7 +40,7 @@ function SignUp({ setLogin }) {
     }
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_PATH}/api/user/signup`,
+        `${process.env.REACT_APP_PATH}api/user/signup`,
         newUser
       );
       if (res) {
