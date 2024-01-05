@@ -32,12 +32,16 @@ const fix = [
             '#A1E3CB',
  */
 const colors=[
-  '#BAEDBD',
-  '#B1E3FF',
-'#1C1C1C',
-
-'#A1E3CB',
-'#95A4FC',]
+  '#95A4FC',
+            '#1C1C1C',
+            '#B1E3FF',
+            '#BAEDBD',  
+            '#A1E3CB',
+             
+            '#B1E3FF',
+            '#BAEDBD',  
+            '#A1E3CB',
+]
   const fetchTopAuhtors=async()=>{
     try {
     

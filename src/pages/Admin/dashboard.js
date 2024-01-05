@@ -19,10 +19,12 @@ import Users from "./Users/Users";
 import { Overview } from "../Overview/Overview";
 import {Profile} from '../../pages/Profile/Profile'
 import HiddenLegend from '../../components/Charts/ToChart'
+import adminAllLibraries from './AdminRead/adminAllLibraries'
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [libraries, setLibraries] = useState([]);
 
   const handleDeleteAlert = () => {
     const message = "The Book is deleted";
@@ -88,16 +90,18 @@ function Dashboard() {
 
   const handleClick = async () => {
     try {
-      const [booksResponse, authorsResponse, categoriesResponse] =
+      const [booksResponse, authorsResponse, categoriesResponse,librariesResponse] =
         await Promise.all([
           axios.get(`${process.env.REACT_APP_PATH}api/books`),
           axios.get(`${process.env.REACT_APP_PATH}api/authors`),
           axios.get(`${process.env.REACT_APP_PATH}api/categories`),
+          axios.get(`${process.env.REACT_APP_PATH}api/library`)
         ]);
 
       setBooks(booksResponse.data);
       setAuthors(authorsResponse.data);
       setCategories(categoriesResponse.data);
+      setLibraries(librariesResponse.data)
     } catch (error) {
       console.error("Error:", error);
     }
@@ -162,9 +166,9 @@ function Dashboard() {
           <Route
             path="/adminAllLibraries"
             element={
-              <AdminAllAuthors
-                authors={authors}
-                handleDeleteAuthor={handleDeleteAuthor}
+              <adminAllLibraries
+                libraries={libraries}
+                // handleDeleteAuthor={handleDeleteAuthor}
               />
             }
           ></Route>

@@ -29,15 +29,23 @@ const [loading,setLoading]=useState(true)
           label: 'Books Data',
           data: categories?.map(item=>item.bookCount),
           backgroundColor: [
-              '#95A4FC',
-              '#1C1C1C',
+            '#95A4FC',
+            '#1C1C1C',
+            '#B1E3FF',
+            '#BAEDBD',  
+            '#A1E3CB',
+             
             '#B1E3FF',
             '#BAEDBD',  
             '#A1E3CB',
           ],
           borderColor: [
-              '#95A4FC',
-              '#1C1C1C',
+            '#95A4FC',
+            '#1C1C1C',
+            '#B1E3FF',
+            '#BAEDBD',  
+            '#A1E3CB',
+           
             '#B1E3FF',
             '#BAEDBD',  
             '#A1E3CB',

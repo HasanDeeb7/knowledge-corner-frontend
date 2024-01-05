@@ -13,7 +13,7 @@ import update from "../../assets/icons/Vector (4).svg";
 import adminAllBooksStyle from "./adminAllBook.module.css";
 import { Link } from "react-router-dom";
 
-export default function ToolbarGrid({ books , authors, categories, handleDeleteBook,handleDeleteAuthor,handleDeleteCategory ,type}) {
+export default function ToolbarGrid({ books ,libraries, authors, categories, handleDeleteBook,handleDeleteAuthor,handleDeleteCategory ,type}) {
 // const [books,setBooks]=useState(null)
 const [loading,setLoading]=useState(false)
 //   const fetchBooks= async()=>{
@@ -80,6 +80,7 @@ const [loading,setLoading]=useState(false)
     }},
 
   ];
+
 
   const authorsColumns=[
     { field: 'image', headerName: 'Image',width:100, renderCell: (params) => {
@@ -148,6 +149,34 @@ const [loading,setLoading]=useState(false)
     }},
   ]
 
+  const libraryColumn=[
+    { field: 'id', headerName: 'ID',width:150},
+    { field: 'name', headerName: 'Name' , width:250 },
+    { field: 'status', headerName: 'Status',width:200,renderCell:(params)=>{
+      return(
+        <span className={adminAllBooksStyle.buttonContainer}>
+        {/* <Link
+          to={"/dashboard/adminAddCategory/Edit"}
+          state={{book:params.row}}
+        >
+          <button className={adminAllBooksStyle.updateDelete}>
+            <img src={update} alt="update" />
+          </button>
+        </Link>
+        <button
+          className={adminAllBooksStyle.updateDelete}
+          onClick={() => {
+            handleDeleteCategory(params.row.id);
+          }}
+        >
+          <img src={x} alt="delete" />
+        </button> */}
+
+      </span>
+      )
+  
+    }},
+  ]
   const myCustomData = [
     {
       id: 0, // Use 0 as a special ID for the loading row
@@ -171,8 +200,8 @@ const [loading,setLoading]=useState(false)
   return (
     <div style={{  width: '100%', margin: 'auto', height: "100%", marginTop: "3rem" }}>
     <DataGrid
-      rows={type==="book"?books:type==="author"?authors:type==="category"?categories:null}
-      columns={type==="book"?booksColumns:type==="author"?authorsColumns:categoryColumns}
+      rows={type==="book"?books:type==="author"?authors:type==="category"?categories:libraries}
+      columns={type==="book"?booksColumns:type==="author"?authorsColumns:type==="category"?categoryColumns:libraryColumn}
       pagination
       pageSize={5}
       fontSize={20}
