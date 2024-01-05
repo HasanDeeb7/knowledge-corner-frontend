@@ -29,15 +29,23 @@ const [loading,setLoading]=useState(true)
           label: 'Books Data',
           data: categories?.map(item=>item.bookCount),
           backgroundColor: [
-              '#95A4FC',
-              '#1C1C1C',
+            '#95A4FC',
+            '#1C1C1C',
+            '#B1E3FF',
+            '#BAEDBD',  
+            '#A1E3CB',
+             
             '#B1E3FF',
             '#BAEDBD',  
             '#A1E3CB',
           ],
           borderColor: [
-              '#95A4FC',
-              '#1C1C1C',
+            '#95A4FC',
+            '#1C1C1C',
+            '#B1E3FF',
+            '#BAEDBD',  
+            '#A1E3CB',
+           
             '#B1E3FF',
             '#BAEDBD',  
             '#A1E3CB',
@@ -67,7 +75,7 @@ const [loading,setLoading]=useState(true)
 
 
   return (
-    <div style={{width:'50%',overflow:'auto',
+    <div style={{width:'100%',height:'100%',overflow:'auto',
     padding:'10px', 
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
     borderRadius: '8px',        

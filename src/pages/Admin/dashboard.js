@@ -14,15 +14,17 @@ import NotFound from "../../components/NotFound/AdminNotFound";
 import axios from "axios";
 import ProtectedRoutes from "../../routes/protectedRoutes";
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
-
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
-
-
+import { Overview } from "../Overview/Overview";
+import {Profile} from '../../pages/Profile/Profile'
+import HiddenLegend from '../../components/Charts/ToChart'
+import adminAllLibraries from './AdminRead/adminAllLibraries'
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [libraries, setLibraries] = useState([]);
 
   const handleDeleteAlert = () => {
     const message = "The Book is deleted";
@@ -88,16 +90,18 @@ function Dashboard() {
 
   const handleClick = async () => {
     try {
-      const [booksResponse, authorsResponse, categoriesResponse] =
+      const [booksResponse, authorsResponse, categoriesResponse,librariesResponse] =
         await Promise.all([
           axios.get(`${process.env.REACT_APP_PATH}api/books`),
           axios.get(`${process.env.REACT_APP_PATH}api/authors`),
           axios.get(`${process.env.REACT_APP_PATH}api/categories`),
+          axios.get(`${process.env.REACT_APP_PATH}api/library`)
         ]);
 
       setBooks(booksResponse.data);
       setAuthors(authorsResponse.data);
       setCategories(categoriesResponse.data);
+      setLibraries(librariesResponse.data)
     } catch (error) {
       console.error("Error:", error);
     }
@@ -117,7 +121,7 @@ function Dashboard() {
           path="/"
           element={<AdminOutlet handleClick={handleClick} />}
         >
-          <Route
+          {/* <Route
             exact
             path="/"
             element={
@@ -126,6 +130,14 @@ function Dashboard() {
                 authors={authors}
                 categories={categories}
                 handleDeleteBook={handleDeleteBook}
+              />
+            }
+          ></Route> */}
+           <Route
+            exact
+            path="/"
+            element={
+              <Overview
               />
             }
           ></Route>
@@ -154,9 +166,9 @@ function Dashboard() {
           <Route
             path="/adminAllLibraries"
             element={
-              <AdminAllAuthors
-                authors={authors}
-                handleDeleteAuthor={handleDeleteAuthor}
+              <adminAllLibraries
+                libraries={libraries}
+                // handleDeleteAuthor={handleDeleteAuthor}
               />
             }
           ></Route>
@@ -193,6 +205,10 @@ function Dashboard() {
           {/* /****************************************** */}
         </Route>
 
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/chart" element={<HiddenLegend />}></Route>
+
+          {/* /****************************************** */}
         <Route path="/*" element={<NotFound />} />
         {/* </ProtectedRoutes> */}
       </Routes>

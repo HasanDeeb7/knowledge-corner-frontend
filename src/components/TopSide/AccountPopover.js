@@ -3,10 +3,11 @@
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 // import useApi from "../../hooks/useApi";
 import { userContext } from '../../App.js';
-
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useContext } from 'react';
+import axios from 'axios';
 export const AccountPopover = (props) => {
   const {user, setUser} = useContext(userContext)
   const { anchorEl, onClose, open } = props;
@@ -14,10 +15,7 @@ export const AccountPopover = (props) => {
   const navigate = useNavigate();
 // const handlelogOut = async () =>{
 //   try {
-//      await apiCall({
-//      url: "/api/users/logout",
-//      method: "post",
-//    });
+//      await axios.post("/api/users/signup");
 //    setUser(null)
 //    toast.success("Logged out Successfully!")
 //    navigate('/')
@@ -38,16 +36,19 @@ export const AccountPopover = (props) => {
       }}
       onClose={onClose}
       open={open}
-      PaperProps={{ sx: { width: 200 } }}
+      PaperProps={{ sx: { width: 150 } }}
     >
       <Box
         sx={{
           py: 1.5,
-          px: 2
-        }}
+          px: 2,
+// border:'1px solid red'  
+      }}
       >
         <Typography variant="overline">
-          Account
+          <Link to='/dashboard/profile'>
+          Profile
+          </Link >
         </Typography>
         <Typography
           color="text.secondary"
@@ -56,7 +57,7 @@ export const AccountPopover = (props) => {
           {user?.userName}
         </Typography>
       </Box>
-      <Divider />
+      <Divider sx={{width:'100%'}} />
       <MenuList
         disablePadding
         dense
