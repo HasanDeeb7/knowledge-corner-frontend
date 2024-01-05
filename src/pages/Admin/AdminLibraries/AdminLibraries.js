@@ -3,9 +3,13 @@ import style from "./AdminLibraries.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 function AdminLibraries() {
   const [libraries, setLibraries] = useState([]);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newLibrary, setNewLibrary] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
   async function changeStatus(data) {
@@ -23,6 +27,38 @@ function AdminLibraries() {
     } catch (error) {
       console.log(error);
     }
+  }
+  async function handleDelete(data) {
+    console.log(data);
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_PATH}api/library/delete`,
+        { params: { id: data.id } }
+      );
+      if (response) {
+        toast.success("Library Has Been Deleted");
+        getLibraries();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function addLibrary() {
+    setIsDisabled(true);
+    try {
+      const res = axios.post(
+        `${process.env.REACT_APP_PATH}api/library/create`,
+        { name: newLibrary }
+      );
+      if (res) {
+        toast.success("New Library Created");
+        setIsDisabled(false);
+      }
+    } catch (error) {
+      setIsDisabled(false);
+      console.log(error);
+    }
+    getLibraries();
   }
 
   const getLibraries = async () => {
@@ -43,6 +79,12 @@ function AdminLibraries() {
 
   return (
     <div className={style.AdminLibrariesContainer}>
+      <button
+        className={style.addLibraryBtn}
+        onClick={() => setIsAdding(!isAdding)}
+      >
+        Add Library
+      </button>
       <DataGrid
         columns={[
           { field: "id", headerName: "ID", width: 100 },
@@ -51,7 +93,7 @@ function AdminLibraries() {
           { field: "status", headerName: "Status", width: 300 },
           {
             field: "actions",
-            width: 300,
+            width: 400,
             renderCell: (params) => {
               return (
                 <div className={style.buttonsContainer}>
@@ -71,6 +113,12 @@ function AdminLibraries() {
                   >
                     Edit
                   </div>
+                  <div
+                    className={`${style.deleteBtn}`}
+                    onClick={() => handleDelete(params.row)}
+                  >
+                    Delete
+                  </div>
                 </div>
               );
             },
@@ -85,6 +133,26 @@ function AdminLibraries() {
           };
         })}
       ></DataGrid>
+      {isAdding && (
+        <div className={style.addLibraryContainer}>
+          <label htmlFor="libraryName">Library Name</label>
+          <input
+            type="text"
+            id="libraryName"
+            className={style.libraryInput}
+            value={newLibrary}
+            onChange={(e) => setNewLibrary(e.target.value)}
+          />
+          <button
+            className={style.addLibraryBtn}
+            onClick={() => addLibrary()}
+            disabled={isDisabled}
+          >
+            {" "}
+            Submit{" "}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

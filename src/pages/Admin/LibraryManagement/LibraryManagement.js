@@ -6,22 +6,42 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function LibraryManagement() {
+  const libraryData = useLocation().state;
   const [isLoading, setIsLoading] = useState(true);
   const [libraryBooks, setLibraryBooks] = useState();
   const [allBooks, setAllBooks] = useState();
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [search, setSearch] = useState();
+  const [editing, setEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const libraryData = useLocation().state;
+  const [newLibraryName, setNewLibraryName] = useState(libraryData.name);
+  const navigate = useNavigate();
 
   const id = libraryData.id;
   console.log(id);
+  async function handleConfirmLibraryName() {
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_PATH}api/library/update`,
+        { id: libraryData.id, name: newLibraryName }
+      );
+      if (res) {
+        console.log(res.data);
+        toast.success("New Name is Set");
+        navigate("/dashboard/adminAllLibraries");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleSubmit(e) {
     try {
@@ -117,7 +137,26 @@ function LibraryManagement() {
           sx={{ width: 300 }}
           label="Search..."
         />
-        <p style={{ fontSize: 30 }}>{libraryData.name}</p>
+        <div>
+          <input
+            type="text"
+            value={newLibraryName}
+            className={editing ? style.editingName : style.libraryName}
+            onChange={(e) => setNewLibraryName(e.target.value)}
+            disabled={!editing}
+          />
+          {editing ? (
+            <CheckIcon
+              className={style.editLibraryNameBtn}
+              onClick={() => handleConfirmLibraryName()}
+            />
+          ) : (
+            <EditIcon
+              className={style.editLibraryNameBtn}
+              onClick={() => setEditing(true)}
+            />
+          )}
+        </div>
         <button className={style.addBookBtn} onClick={() => setModalOpen(true)}>
           Add Book
         </button>
