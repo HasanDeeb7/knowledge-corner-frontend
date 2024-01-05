@@ -17,7 +17,8 @@ import LibraryManagement from "./LibraryManagement/LibraryManagement";
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
 import { Overview } from "../Overview/Overview";
-
+import {Profile} from '../../pages/Profile/Profile'
+import HiddenLegend from '../../components/Charts/ToChart'
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -200,6 +201,10 @@ function Dashboard() {
           {/* /****************************************** */}
         </Route>
 
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/chart" element={<HiddenLegend />}></Route>
+
+          {/* /****************************************** */}
         <Route path="/*" element={<NotFound />} />
         {/* </ProtectedRoutes> */}
       </Routes>
