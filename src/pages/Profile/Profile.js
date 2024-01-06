@@ -19,7 +19,7 @@ export const Profile = () => {
     const fetchUser=async()=>{
 
         try{
-          const res=await axios.get(`${process.env.REACT_APP_PATH}/api/user/getUser/5`)
+          const res=await axios.get(`${process.env.REACT_APP_PATH}api/user/getUser/5`)
           if(res){
             setUser(res.data)
             console.log(res.data)
@@ -64,7 +64,7 @@ export const Profile = () => {
         console.log(requestedData)
         
         try {
-          const res = await axios.put(`${process.env.REACT_APP_PATH}/api/user/update`, requestedData)
+          const res = await axios.put(`${process.env.REACT_APP_PATH}api/user/update`, requestedData)
           if (res) {
             console.log('profile updated!!')
             //  fetchUser()

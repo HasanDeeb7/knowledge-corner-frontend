@@ -15,7 +15,7 @@ export const AccountPopover = (props) => {
   const navigate = useNavigate();
 // const handlelogOut = async () =>{
 //   try {
-//      await axios.post("/api/users/signup");
+//      await axios.post("api/users/signup");
 //    setUser(null)
 //    toast.success("Logged out Successfully!")
 //    navigate('/')

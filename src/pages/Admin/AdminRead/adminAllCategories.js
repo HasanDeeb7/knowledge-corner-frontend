@@ -4,8 +4,11 @@ import x from "../../../assets/icons/862px-Delete-button 1.svg";
 import update from "../../../assets/icons/Vector (4).svg";
 import { Helmet } from "react-helmet";
 import DataGridPremiumDemo from '../../../components/AllbooksTable/Allbooks.js'
+import { Link } from "react-router-dom";
+import adminNavbarStyle from '../AdminNavbar/adminNavbar.module.css'
 
 import categoryI from '../../../assets/icons/category.png'
+
 function adminAllCategories({ categories ,handleDeleteCategory}) {
   return (
     <div className={adminAllBooksStyle.allBooks}>
@@ -15,6 +18,14 @@ function adminAllCategories({ categories ,handleDeleteCategory}) {
         <meta name="description" content="Admin Dashboard Categories" />
         <link rel="icon"  href={categoryI} sizes="16x16" />
       </Helmet>
+      <div className={adminAllBooksStyle.addButton}>
+        <Link
+          to={"/dashboard/adminAddCategory/Add"}
+          className={`${adminNavbarStyle.addMVC}`}
+        >
+          <button className={adminNavbarStyle.addButton}>Add Category</button>
+        </Link>
+        </div>
 
       <div className={adminAllBooksStyle.overflow}>
     

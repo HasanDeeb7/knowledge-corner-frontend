@@ -23,38 +23,21 @@ import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input'
 import Modal from '@mui/material/Modal';
 import style from '../../pages/Profile/profile.module.css'
-
+import { color } from 'framer-motion';
+import AddCategory from '../../pages/Admin/addCategory';
 
 export default function ToolbarGrid({ books ,libraries, authors, categories, handleDeleteBook,handleDeleteAuthor,handleDeleteCategory ,type}) {
-// const [books,setBooks]=useState(null)
 const [loading,setLoading]=useState(false)
 const [open, setOpen] = React.useState(false);
 const [library, setLibrary] = React.useState([]);
 
-//   const fetchBooks= async()=>{
-//     try {
-//       const allResults =await axios.get(`${process.env.REACT_APP_PATH}/api/books`)
-      
-//       if(allResults){
-//         setBooks(allResults.data)
-//         console.log("Books fetched successfully:", allResults.data);
-//         setLoading(false)
-//       }
-//       console.log('no data')
-//       setLoading(false)
-
-
-//     } catch (error) {
-//       console.log('error fetching'+error.message)
-//       setLoading(false)
-
-//     }
-//   }
 
   const booksColumns = [
     { field: 'image', headerName: 'Image',width:100, renderCell: (params) => {
       return(
-        <img src={`${process.env.REACT_APP_PATH}/images/${params.row.image}`}/>
+        <img src={`${process.env.REACT_APP_PATH}/images/${params.row.image}`}
+        style={{width:'45px',height:'45px',borderRadius:'50%'}}
+        />
 
       )
     }},
@@ -65,29 +48,34 @@ const [library, setLibrary] = React.useState([]);
     { field: 'publicationDate', headerName: 'Publication Date',width:140 },
     { field: 'nbPages', headerName: 'Nb Of Pages' ,width:140},
     { field: 'description', headerName: 'Description' ,width:180 },
-    { field: 'rating', headerName: 'Rating',width:180 },
+    { field: 'rating', headerName: 'Rating',width:100 },
     { field: 'language', headerName: 'Language',width:150},
 
-    { field: 'categoryName', headerName: 'Category',width:150},
+    { field: 'categoryName', headerName: 'Category',width:130},
     
-    { field: 'Actions', headerName: 'Actions',width:150,renderCell:(params)=>{
+    { field: 'Actions', headerName: 'Actions',width:220,renderCell:(params)=>{
       return(
         <span className={adminAllBooksStyle.buttonContainer}>
         <Link
           to={"/dashboard/adminAddBook/Edit"}
           state={{book:params.row}}
         >
-          <button className={adminAllBooksStyle.updateDelete}>
-            <img src={update} alt="update" />
+          <button
+className={adminAllBooksStyle.changeStatusBtn}
+>
+            {/* <img src={update} alt="update" /> */}
+            update
           </button>
         </Link>
         <button
-          className={adminAllBooksStyle.updateDelete}
-          onClick={() => {
+className={adminAllBooksStyle.changeStatusBtn}
+style={{background:'darkred'}}        
+  onClick={() => {
             handleDeleteBook(params.row.id);
           }}
         >
-          <img src={x} alt="delete" />
+          delete
+          {/* <img src={x} alt="delete" /> */}
         </button>
       </span>
       )
@@ -105,58 +93,67 @@ const [library, setLibrary] = React.useState([]);
       )
     }},
     { field: 'id', headerName: 'ID' ,width:140},
-    { field: 'description', headerName: 'Description' ,width:180 },
-    { field: 'dob', headerName: 'Date of Birth',width:180 },
+    { field: 'firstName', headerName: 'first Name' ,width:130 },
+    { field: 'lastName', headerName: 'last Name' ,width:130 },
+    { field: 'dob', headerName: 'Date of Birth',width:180 ,valueFormatter: (params) => {
+      const date = new Date(params.value);
+      return date.toISOString().split('T')[0];
+    },},
     { field: 'nationality', headerName: 'Nationality',width:150},
-      { field: 'rating', headerName: 'Rating',width:150},
+      { field: 'rating', headerName: 'Rating',width:120},
 
-    { field: 'Actions', headerName: 'Actions',width:150,renderCell:(params)=>{
+    { field: 'Actions', headerName: 'Actions',width:230,renderCell:(params)=>{
       return(
-        <span className={adminAllBooksStyle.buttonContainer}>
+        <span className={adminAllBooksStyle.buttonContainer} style={{display:'flex',flexDirection:'row',gap:'7px'}} >
         <Link
           to={"/dashboard/adminAddAuthor/Edit"}
-          state={{book:params.row}}
+          state={{author:params.row}}
         >
-          <button className={adminAllBooksStyle.updateDelete}>
-            <img src={update} alt="update" />
+          <button className={adminAllBooksStyle.changeStatusBtn}>
+            {/* <img src={update} alt="update" /> */}
+            update
           </button>
         </Link>
         <button
-          className={adminAllBooksStyle.updateDelete}
+          className={adminAllBooksStyle.changeStatusBtn}
+          style={{background:'darkred'}}
           onClick={() => {
             handleDeleteAuthor(params.row.id);
           }}
         >
-          <img src={x} alt="delete" />
+          delete
         </button>
       </span>
+    
       )
   
     }},
   ]
-  // let columns = role === 'merchant' ? commonColumns.filter(column => column.field !== 'SellerId') : commonColumns;
 
   const categoryColumns=[
     { field: 'id', headerName: 'ID',width:150},
     { field: 'Name', headerName: 'Name' , width:250 },
-    { field: 'Actions', headerName: 'Actions',width:200,renderCell:(params)=>{
+    { field: 'Actions', headerName: 'Actions',width:270,renderCell:(params)=>{
       return(
-        <span className={adminAllBooksStyle.buttonContainer}>
+        <span className={adminAllBooksStyle.buttonContainer} >
         <Link
           to={"/dashboard/adminAddCategory/Edit"}
-          state={{book:params.row}}
+          state={{category:params.row}}
         >
-          <button className={adminAllBooksStyle.updateDelete}>
-            <img src={update} alt="update" />
+          <button
+           className={adminAllBooksStyle.changeStatusBtn}
+           >
+            update
           </button>
         </Link>
         <button
-          className={adminAllBooksStyle.updateDelete}
-          onClick={() => {
+className={adminAllBooksStyle.changeStatusBtn}
+style={{background:'darkred'}}        
+   onClick={() => {
             handleDeleteCategory(params.row.id);
           }}
         >
-          <img src={x} alt="delete" />
+          delete
         </button>
       </span>
       )
@@ -165,9 +162,11 @@ const [library, setLibrary] = React.useState([]);
   ]
   const handleOpen = (data) => {
     setOpen(true);
-  setLibrary(data)}
+  setLibrary(data)
+}
 
   const handleClose = () => setOpen(false);
+
   const libraryColumn=[
     { field: 'id', headerName: 'ID',width:150},
     { field: 'name', headerName: 'Name' , width:250 },
@@ -180,22 +179,6 @@ const [library, setLibrary] = React.useState([]);
            <button className={adminAllBooksStyle.updateDelete}>
             <img src={update} alt="update" onClick={()=>handleOpen(params.row)} />
           </button>
-        {/* <Link
-          to={"/dashboard/adminAddCategory/Edit"}
-          state={{book:params.row}}
-        >
-          <button className={adminAllBooksStyle.updateDelete}>
-            <img src={update} alt="update" />
-          </button>
-        </Link>
-        <button
-          className={adminAllBooksStyle.updateDelete}
-          onClick={() => {
-            handleDeleteCategory(params.row.id);
-          }}
-        >
-          <img src={x} alt="delete" />
-        </button> */}
       </span>
       )
   
@@ -225,11 +208,6 @@ const [library, setLibrary] = React.useState([]);
   };
   const emptyRow = { id: 'Loading...'};
 
-  // const rowsWithEmptyRow = loading ? emptyRow : books;
-
-// React.useEffect(()=>{
-//   fetchBooks()
-// },[])
 
   return (
     <div style={{  width: '100%', margin: 'auto', height: "100%", marginTop: "3rem" }}>
@@ -247,8 +225,7 @@ const [library, setLibrary] = React.useState([]);
       sx={{
         fontSize: "17px",
         border:"none !important",
-        // gap:"rem",
-        // border:'1px solid black',
+        
         height:'100%',
         color: 'black',
         '& .MuiDataGrid-root': {
@@ -314,10 +291,6 @@ Edit Article
       noValidate
       autoComplete="off"
     >
-{/* <TextField id="title" label="Title" variant="outlined"  type="text" defaultValue={"vv"}                 readOnly={false}/>
-<TextField id="category" label="Category" variant="outlined"  type="text"                 readOnly={false}/>
-<TextField id="author" label="Author" variant="outlined"  type="text"                 readOnly={false}/>
-<TextField id="body" label="Body" multiline variant="outlined" fullWidth row={40} maxRows={7} type="text"         readOnly={false}/> */}
 
 <div className={style.inputContainer}>
   <label className={style.label}>Name</label>
@@ -333,15 +306,6 @@ Edit Article
 </div>
 <div className={style.inputContainer}>
   <label>Status</label>
-  {/* <input
-    className={style.input}
-    type="email"
-    placeholder="Enter Your Email"
-    name="email"
-    id="email"
-    defaultValue={ library.email? library.email : ""}
-    required
-  /> */}
   <select
    className={style.input}
    type="status"
@@ -356,7 +320,6 @@ Edit Article
 </div>
 
 <div className={style.buttonContainer}>
-  {/* <button className={style.add}  style={{opacity:editLoading?0.8:1,pointer:"none"}}> */}
   <button className={style.add}  style={{opacity:1}}>
 
     Update Library
@@ -365,6 +328,7 @@ Edit Article
       </Box>
         </Box>
       </Modal>
+      {/* <AddCategory open={open} handleAdd={handleAdd} handleClose={handleClose} data={}/> */}
   </div>
   
   
