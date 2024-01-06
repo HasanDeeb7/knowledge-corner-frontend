@@ -4,18 +4,17 @@ import style from './Librairies.module.css'
 import filter from "axios";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Footer from '../../components/Footer/Footer';
 import magnifire from '../../assets/icons/magnifire.jpeg'
 
 const Libraries = () => {
   const [libraries, setLibraries] = useState([]);
-  // const [serchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () =>{
       try{
-        const response = await axios.get(`${process.env.REACT_APP_PATH}/api/libraries`)
+        const response = await axios.get(`${process.env.REACT_APP_PATH}/api/library`)
         // console.log('library Data: ',response.data);
         setLibraries(response.data);
         setIsLoading(false);
@@ -25,6 +24,10 @@ const Libraries = () => {
     };
     fetchData();
   }, [])
+
+  const handleSearchInputChange = (event) =>{
+    setSearchInput(event.target.value);
+  }
 
   return (
     <>
@@ -36,8 +39,8 @@ const Libraries = () => {
           className={style.inputSearch}
           type="text"
           placeholder="Search For Library"
-          // value={searchInput}
-          // onChange={handleSearchInputChange}
+          value={searchInput}
+          onChange={handleSearchInputChange}
         />
         <button type="button" className={style.searchButton}>
           <img src={magnifire} alt="search img" width="25" height="20" />
@@ -52,8 +55,6 @@ const Libraries = () => {
           <LibraryCard key={Library.id} library={Library} />
         ))
       )}
-     
-      <footer/>
       </div>
     </>
   )

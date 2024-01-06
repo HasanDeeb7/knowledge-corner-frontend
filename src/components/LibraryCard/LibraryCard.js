@@ -17,7 +17,7 @@ return(
           <img src={""} alt="Book cover" className={style.image} style={size}/>
             <figcaption className={style.figcaption}>
               <p>
-                <span>library.name</span>
+                <span>{library.name}</span>
               </p>
             </figcaption>
           </figure>
