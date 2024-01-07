@@ -1,6 +1,6 @@
 import style from "./AddEditAuthor.module.css";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link,useParams,useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -111,7 +111,6 @@ function AddEditAutherForm({handleClick}) {
         <meta name="description" content="Admin dashboard manage authors" />
         <link rel="icon"  href={authorIcon} sizes="16x16" />
       </Helmet>
-      <ToastContainer />
       <div className={style.fromContainer}>
         <form
           className={style.authorForm}

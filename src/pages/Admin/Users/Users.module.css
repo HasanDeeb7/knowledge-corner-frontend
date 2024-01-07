@@ -62,3 +62,7 @@
   margin: 0 auto;
   cursor: pointer;
 }
+.disabledBtn{
+  opacity: .5;
+  pointer-events: none;
+}

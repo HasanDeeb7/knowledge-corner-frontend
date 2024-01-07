@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
-function AdminLibraries() {
+function AdminLibraries({ loggedUser }) {
   const [libraries, setLibraries] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const [newLibrary, setNewLibrary] = useState("");
@@ -52,8 +52,8 @@ function AdminLibraries() {
       );
       if (res) {
         toast.success("New Library Created");
-        getLibraries()
-        setNewLibrary('')
+        getLibraries();
+        setNewLibrary("");
         setIsDisabled(false);
       }
     } catch (error) {
@@ -82,7 +82,10 @@ function AdminLibraries() {
   return (
     <div className={style.AdminLibrariesContainer}>
       <button
-        className={style.addLibraryBtn}
+        className={`${style.addLibraryBtn} ${
+          loggedUser.status === "inactive" && style.disabledBtn
+        }`}
+        disabled={loggedUser.status === "inactive"}
         onClick={() => setIsAdding(!isAdding)}
       >
         Add Library
@@ -99,24 +102,30 @@ function AdminLibraries() {
             renderCell: (params) => {
               return (
                 <div className={style.buttonsContainer}>
-                  <div
-                    className={style.changeStatusBtn}
+                  <button
+                    className={`${style.changeStatusBtn} ${
+                      loggedUser.status === "inactive" && style.disabledBtn
+                    }`}
+                    disabled={loggedUser.status === "inactive"}
                     onClick={() => changeStatus(params.row)}
                   >
                     {params.row.status === "active" ? "Deactivate" : "Activate"}
-                  </div>
-                  <div
+                  </button>
+                  <button
                     className={`${style.changeStatusBtn} ${
-                      params.row.status === "inactive" && style.disabledBtn
+                      loggedUser.status === "inactive" && style.disabledBtn
                     }`}
+                    disabled={loggedUser.status === "inactive"}
                     onClick={() => {
                       navigate("/dashboard/libraries", { state: params.row });
                     }}
                   >
                     Edit
-                  </div>
+                  </button>
                   <div
-                    className={`${style.deleteBtn}`}
+                    className={`${style.deleteBtn} ${
+                      loggedUser.status === "inactive" && style.disabledBtn
+                    }`}
                     onClick={() => handleDelete(params.row)}
                   >
                     Delete

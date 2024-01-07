@@ -3,38 +3,48 @@ import adminAllBooksStyle from "./adminAllBooks.module.css";
 import x from "../../../assets/icons/862px-Delete-button 1.svg";
 import update from "../../../assets/icons/Vector (4).svg";
 import { Link } from "react-router-dom";
-import DataGridPremiumDemo from '../../../components/AllbooksTable/Allbooks.js'
-import adminNavbarStyle from '../AdminNavbar/adminNavbar.module.css'
+import DataGridPremiumDemo from "../../../components/AllbooksTable/Allbooks.js";
+import adminNavbarStyle from "../AdminNavbar/adminNavbar.module.css";
 
-import authorIcon from '../../../assets/icons/author.png'
+import authorIcon from "../../../assets/icons/author.png";
 import { Helmet } from "react-helmet";
-function adminAllAuthors({ authors, handleDeleteAuthor ,handleClick}) {
+function adminAllAuthors({
+  authors,
+  handleDeleteAuthor,
+  handleClick,
+  loggedUser,
+}) {
   function formatDate(inputDate) {
     const date = new Date(inputDate);
     const formattedDate = date.toISOString().split("T")[0];
 
     return formattedDate;
   }
-  
+
   return (
     <div className={adminAllBooksStyle.allBooks}>
-        <Helmet>
+      <Helmet>
         <meta charSet="utf-8" />
         <title>Admin-Authors</title>
         <meta name="description" content="Admin Dashboard Authors" />
-        <link rel="icon"  href={authorIcon} sizes="16x16" />
+        <link rel="icon" href={authorIcon} sizes="16x16" />
       </Helmet>
       <div className={adminAllBooksStyle.addButton}>
         <Link
           to={"/dashboard/adminAddAuthor/Add"}
           className={`${adminNavbarStyle.addMVC}`}
         >
-          <button className={adminNavbarStyle.addButton}>Add Author</button>
+          <button className={`${adminNavbarStyle.addButton} ${loggedUser.status === 'inactive' && adminNavbarStyle.disabledBtn}`} disabled={loggedUser.status === 'inactive'}>Add Author</button>
         </Link>
-        </div>
+      </div>
       <div className={adminAllBooksStyle.overflow}>
-    <DataGridPremiumDemo authors={authors} handleClick={handleClick}handleDeleteAuthor={handleDeleteAuthor} type={"author"}/>
-
+        <DataGridPremiumDemo
+          authors={authors}
+          handleClick={handleClick}
+          handleDeleteAuthor={handleDeleteAuthor}
+          type={"author"}
+          loggedUser={loggedUser}
+        />
       </div>
     </div>
   );

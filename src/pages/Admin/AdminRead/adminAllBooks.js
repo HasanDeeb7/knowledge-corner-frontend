@@ -8,7 +8,7 @@ import bookss from '../../../assets/icons/books-stack-of-three 2.svg'
 import { DataGridPremium } from '@mui/x-data-grid-premium';
 import DataGridPremiumDemo from '../../../components/AllbooksTable/Allbooks.js'
 import adminNavbarStyle from '../AdminNavbar/adminNavbar.module.css'
-function adminAllBooks({ books, authors, categories, handleDeleteBook,handleDeleteAuthor }) {
+function adminAllBooks({ books, authors, categories, handleDeleteBook,handleDeleteAuthor, loggedUser }) {
   
 
   return (
@@ -31,7 +31,7 @@ function adminAllBooks({ books, authors, categories, handleDeleteBook,handleDele
     
 
         <div className={adminAllBooksStyle.overflow}>
-         <DataGridPremiumDemo books={books} handleDeleteBook={handleDeleteBook} type={"book"}/>
+         <DataGridPremiumDemo books={books} handleDeleteBook={handleDeleteBook} type={"book"} loggedUser={loggedUser}/>
         </div>
       </div>
     </div>

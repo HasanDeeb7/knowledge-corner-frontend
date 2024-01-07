@@ -1,21 +1,25 @@
-.navbarComponent{
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
+.navbarComponent {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.disabledBtn {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-.dashboardtitle{
-    margin: 30px auto;
+.dashboardtitle {
+  margin: 30px auto;
 }
 
-.test{
-    border: none;
+.test {
+  border: none;
 }
 
-.outerDiv{
-    display: flex;
-    column-gap: 30px;
-    margin: 0 auto;
+.outerDiv {
+  display: flex;
+  column-gap: 30px;
+  margin: 0 auto;
 }
 
 /* .innerDiv{
@@ -39,128 +43,125 @@
     opacity: 0.5;
 } */
 
-.innerDiv{
-    display: flex;
-    flex-direction: row;
+.innerDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+  width: 200px;
+  padding: 10px;
+  border: 3px solid black;
+  border-radius: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  opacity: 0.6;
+}
+
+.innerDiv:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+.innerDivActive {
+  opacity: 1;
+}
+
+.threeButton {
+  border: none;
+  font-size: 20px;
+  background-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+.innerDiv > img {
+  width: 50px;
+}
+
+.addContainer {
+  display: flex;
+  column-gap: 30px;
+  justify-content: center;
+}
+.addMVC {
+  text-decoration: none;
+  color: white;
+}
+.addButton {
+  color: white;
+  background-color: var(--primary-color);
+  padding: 20px;
+  font-size: 20px;
+  border-radius: 20px;
+  width: fit-content;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.addButton:hover {
+  transform: scale(1.05);
+  opacity: 0.5;
+}
+
+@media only screen and (max-width: 700px) {
+  .navbarComponent {
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    column-gap: 2px;
+    margin: 20px 5px;
+  }
+
+  .addContainer {
+    row-gap: 20px;
+  }
+
+  .outerDiv {
     justify-content: center;
-    column-gap: 20px;
-    width: 200px;
-    padding: 10px;
-    border: 3px solid black;
-    border-radius: 15px;
-    cursor: pointer;
-    text-decoration: none;
-    background-color: white;
-    transition: background-color 0.3s, color 0.3s, transform 0.3s;
-    opacity: 0.6;
+    align-items: center;
+    row-gap: 20px;
+  }
 
+  .innerDiv {
+    width: 100%;
+    padding: 2px;
+    column-gap: 10px;
+  }
+
+  .threeButton {
+    font-size: 100%;
+  }
+
+  .addButton {
+    font-size: 80%;
+    width: 100px;
+    padding: 8px;
+  }
 }
 
-.innerDiv:hover{
-    transform: scale(1.05);
-    opacity: 1;
-}
-.innerDivActive{
-    opacity: 1;
-}
-
-
-.threeButton{
-    border: none;
-    font-size: 20px;
-    background-color: transparent;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
+@media only screen and (max-width: 500px) {
+  .innerDiv > img {
+    width: 25px;
+  }
+  .threeButton {
+    font-size: 100%;
+  }
 }
 
-.innerDiv > img{
-    width: 50px;
-}
+@media only screen and (max-width: 400px) {
+  .navbarComponent {
+    flex-direction: column;
+  }
 
-.addContainer{
-    display: flex;
-    column-gap: 30px;
-    justify-content: center;
-}
-.addMVC{
-    text-decoration: none;
-    color: white;
-}
-.addButton{
-    color: white;
-    background-color: var(--primary-color);
-    padding: 20px;
-    font-size: 20px;
-    border-radius: 20px;
-    width: fit-content;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, transform 0.3s;
-}
+  .outerDiv {
+    flex-direction: column;
+  }
 
-.addButton:hover{
-    transform: scale(1.05);
-    opacity: 0.5;
-}
-
-@media only screen and (max-width: 700px){
-
-    .navbarComponent{
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        column-gap: 2px;
-        margin: 20px 5px;
-    }
-
-    .addContainer{
-        row-gap: 20px;
-    }
-
-    .outerDiv{
-        justify-content: center;
-        align-items: center;
-        row-gap: 20px;
-    }
-
-    .innerDiv{
-        width: 100%;
-        padding: 2px;
-        column-gap: 10px;
-    }
-
-    .threeButton{
-        font-size: 100%;
-    }
-
-    .addButton{
-        font-size: 80%;
-        width: 100px;
-        padding: 8px;
-    }
-}
-
-@media only screen and (max-width: 500px){
-    .innerDiv > img{
-        width: 25px;
-    }
-    .threeButton{
-        font-size: 100%;
-    }
-}
-
-@media only screen and (max-width: 400px){
-    .navbarComponent{
-        flex-direction: column;
-    }
-
-    .outerDiv{
-        flex-direction: column;
-    }
-
-    .addContainer{
-        flex-direction: column;
-    }
+  .addContainer {
+    flex-direction: column;
+  }
 }

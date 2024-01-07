@@ -9,7 +9,7 @@ import adminNavbarStyle from '../AdminNavbar/adminNavbar.module.css'
 
 import categoryI from '../../../assets/icons/category.png'
 
-function adminAllCategories({ categories ,handleDeleteCategory}) {
+function adminAllCategories({ categories ,handleDeleteCategory, loggedUser}) {
   return (
     <div className={adminAllBooksStyle.allBooks}>
        <Helmet>
@@ -30,7 +30,7 @@ function adminAllCategories({ categories ,handleDeleteCategory}) {
       <div className={adminAllBooksStyle.overflow}>
     
 
-      <DataGridPremiumDemo categories={categories} handleDeleteCategory={handleDeleteCategory} type={"category"}/>
+      <DataGridPremiumDemo categories={categories} handleDeleteCategory={handleDeleteCategory} type={"category"} loggedUser={loggedUser}/>
 
       </div>
     </div>

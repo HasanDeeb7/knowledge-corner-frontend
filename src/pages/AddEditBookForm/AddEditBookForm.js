@@ -1,14 +1,14 @@
 import style from "./AddEditBookForm.module.css";
 import { useState, useEffect } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import bookIcon from "../../assets/icons/open-book.png";
 import { useNavigate } from "react-router-dom";
 
-function AddEditBookForm({handleClick}) {
+function AddEditBookForm({ handleClick }) {
   const handleSuccessAlert = () => {
     const message = type === "Add" ? "The book is added" : "The book is edited";
     toast.success(message, {
@@ -59,7 +59,7 @@ function AddEditBookForm({handleClick}) {
     image: "",
   });
 
-  const[editedBook,setEditedBook]=useState({
+  const [editedBook, setEditedBook] = useState({
     title: book?.title,
     nbPages: book?.nbPages,
     publicationDate: book?.publicationDate,
@@ -70,9 +70,8 @@ function AddEditBookForm({handleClick}) {
     categoryName: book?.categoryName,
     language: book?.language,
     image: book?.image,
-  })
- 
-  
+  });
+
   const resetForm = () => {
     const form = document.getElementById("bookForm");
     form.reset();
@@ -85,21 +84,19 @@ function AddEditBookForm({handleClick}) {
     return formattedDate;
   }
   function handleChange(e) {
-    if(type==="Add"){
+    if (type === "Add") {
       setBookData({
         ...bookData,
         [e.target.name]: e.target.value,
       });
     }
-    if(type==="Edit"){
+    if (type === "Edit") {
       setEditedBook({
         ...editedBook,
         [e.target.name]: e.target.value,
       });
     }
-   
   }
-
 
   const addBook = (e) => {
     e.preventDefault();
@@ -116,7 +113,7 @@ function AddEditBookForm({handleClick}) {
         .post(`${process.env.REACT_APP_PATH}api/books/add`, formData)
         .then(() => {
           handleSuccessAlert();
-          handleClick()
+          handleClick();
           resetForm();
         })
         .catch((error) => {
@@ -134,7 +131,7 @@ function AddEditBookForm({handleClick}) {
           console.log(formData);
           console.log(bookData);
           handleSuccessAlert();
-          navigate(-1)
+          navigate(-1);
           console.log(res);
         })
         .catch((error) => {
@@ -157,7 +154,7 @@ function AddEditBookForm({handleClick}) {
   }
 
   async function fetchCategoryData() {
-   await axios
+    await axios
       .get(`${process.env.REACT_APP_PATH}api/categories`)
       .then((response) => {
         setOptionCategory(response.data);
@@ -171,11 +168,11 @@ function AddEditBookForm({handleClick}) {
     fetchCategoryData();
   }, []);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  const Back=()=>{
-    navigate(-1)
-  }
+  const Back = () => {
+    navigate(-1);
+  };
 
   return (
     <>
@@ -186,7 +183,6 @@ function AddEditBookForm({handleClick}) {
         <link rel="icon" href={bookIcon} sizes="16x16" />
       </Helmet>
 
-      <ToastContainer />
       <div className={style.fromContainer}>
         <form className={style.bookform} id="bookForm" onSubmit={addBook}>
           <h1 className={style.title}>
@@ -272,10 +268,9 @@ function AddEditBookForm({handleClick}) {
             <label className={style.label}>Select an Author:</label>
             <select
               name="authorId"
-              defaultValue={type === "Edit" ? book.authorId: ""}
+              defaultValue={type === "Edit" ? book.authorId : ""}
               required
               onChange={handleChange}
-
             >
               {authors &&
                 authors.map((option) => (
@@ -327,7 +322,9 @@ function AddEditBookForm({handleClick}) {
           </div>
           <div className={style.buttonContainer}>
             <Link to={"/dashboard"}>
-              <button className={style.cancel} onClick={Back}>Cancel</button>
+              <button className={style.cancel} onClick={Back}>
+                Cancel
+              </button>
             </Link>
             <button className={style.add}>
               {type === "Add" ? "Add" : "Edit"}

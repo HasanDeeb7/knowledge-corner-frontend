@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 // import AdminNavbar from './AdminNavbar/adminNavbar'
 import AdminAllBooks from "./AdminRead/adminAllBooks";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import AddLibrary from "./addLibrary";
 import AdminAllAuthors from "./AdminRead/adminAllAuthors";
 import AdminAllCategories from "./AdminRead/adminAllCategories";
@@ -147,6 +147,7 @@ function Dashboard({ user }) {
                   authors={authors}
                   categories={categories}
                   handleDeleteBook={handleDeleteBook}
+                  loggedUser={user}
                 />
               }
             ></Route>
@@ -156,6 +157,7 @@ function Dashboard({ user }) {
                 <AdminAllAuthors
                   authors={authors}
                   handleDeleteAuthor={handleDeleteAuthor}
+                  loggedUser={user}
                 />
               }
             ></Route>
@@ -167,6 +169,7 @@ function Dashboard({ user }) {
                 <AdminAllCategories
                   categories={categories}
                   handleDeleteCategory={handleDeleteCategory}
+                  loggedUser={user}
                 />
               }
             ></Route>
@@ -180,7 +183,7 @@ function Dashboard({ user }) {
                 redirectPath="/notauth"
               >
                 {" "}
-                <Users />{" "}
+                <Users loggedUser={user} />{" "}
               </ProtectedRoute>
             }
           ></Route>
@@ -195,7 +198,7 @@ function Dashboard({ user }) {
                 }
                 redirectPath="/notauth"
               >
-                <AdminLibraries />{" "}
+                <AdminLibraries loggedUser={user} />{" "}
               </ProtectedRoute>
             }
           ></Route>
