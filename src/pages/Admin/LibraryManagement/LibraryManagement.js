@@ -28,6 +28,9 @@ function LibraryManagement() {
   const id = libraryData.id;
   console.log(id);
   async function handleConfirmLibraryName() {
+    if (newLibraryName === libraryData.name) {
+      return setEditing(false);
+    }
     try {
       const res = await axios.put(
         `${process.env.REACT_APP_PATH}api/library/update`,

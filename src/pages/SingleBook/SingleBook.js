@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import bookIcon from '../../assets/icons/open-book.png'
+import bookIcon from "../../assets/icons/open-book.png";
 
 function SingleBook() {
   const location = useLocation();
@@ -85,9 +85,9 @@ function SingleBook() {
 
   return (
     <section className={style.singleBookContainer}>
-         <Helmet>
+      <Helmet>
         <meta charSet="utf-8" />
-        <title>{book.title?book.title:"Single Book"}</title>
+        <title>{book.title ? book.title : "Single Book"}</title>
         <meta name="description" content="Single Book" />
         <link rel="icon" href={bookIcon} />
       </Helmet>
@@ -135,7 +135,7 @@ function SingleBook() {
         <aside className={style.suggestedBook}>
           {books.map((item, id) => (
             <div key={id}>
-              <Link to="/SingleBook" state={{ book: item }}>
+              <Link to={`/SingleBook/${item.slug}`} state={{ book: item }}>
                 <BookCard isSmall={true} book={item} />
               </Link>
             </div>

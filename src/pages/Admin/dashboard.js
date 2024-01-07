@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import AdminNavbar from './AdminNavbar/adminNavbar'
 import AdminAllBooks from "./AdminRead/adminAllBooks";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import AddLibrary from "./addLibrary";
 import AdminAllAuthors from "./AdminRead/adminAllAuthors";
@@ -12,21 +12,23 @@ import AddCategoryForm from "./addCategory";
 import AdminOutlet from "../../Outlet/AdminOutlet";
 import NotFound from "../../components/NotFound/AdminNotFound";
 import axios from "axios";
-import ProtectedRoutes from "../../routes/protectedRoutes";
+
 import LibraryManagement from "./LibraryManagement/LibraryManagement";
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
 import { Overview } from "../Overview/Overview";
-
-import {Profile} from '../../pages/Profile/Profile'
-import HiddenLegend from '../../components/Charts/ToChart'
-import AdminAllLibraries from './AdminRead/adminAllLibraries'
-
-function Dashboard() {
+import { Profile } from "../Profile/Profile";
+import HiddenLegend from "../../components/Charts/ToChart";
+import AdminLibraries from "./AdminLibraries/AdminLibraries";
+import ProtectedRoute from "../../routes/ProtectedRoute";
+import { userContext } from "../../App";
+function Dashboard({ user }) {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
   const [libraries, setLibraries] = useState([]);
+  const navigate = useNavigate();
+  console.log(user);
 
   const handleDeleteAlert = () => {
     const message = "The Book is deleted";
@@ -114,6 +116,9 @@ function Dashboard() {
 
   useEffect(() => {
     handleClick();
+    if (user && user.role === "manager") {
+      navigate("/dashboard/adminAllLibraries");
+    }
   }, []);
 
   return (
@@ -125,65 +130,68 @@ function Dashboard() {
           path="/"
           element={<AdminOutlet handleClick={handleClick} />}
         >
-          {/* <Route
-            exact
-            path="/"
-            element={
-              <AdminAllBooks
-                books={books}
-                authors={authors}
-                categories={categories}
-                handleDeleteBook={handleDeleteBook}
-              />
-            }
-          ></Route> */}
           <Route exact path="/" element={<Overview />}></Route>
           <Route
-            path="/adminAllBooks"
             element={
-              <AdminAllBooks
-                books={books}
-                authors={authors}
-                categories={categories}
-                handleDeleteBook={handleDeleteBook}
-              />
+              <ProtectedRoute isAllowed={user && user.role === "superAdmin"} />
             }
-          ></Route>
-          <Route
-            path="/adminAllAuthors"
-            element={
-              <AdminAllAuthors
-                authors={authors}
-                handleDeleteAuthor={handleDeleteAuthor}
-                handleClick={handleClick}
-              />
-            }
-          ></Route>
-          {/* /****************************************** */}
+          >
+            <Route
+              path="/adminAllBooks"
+              element={
+                <AdminAllBooks
+                  books={books}
+                  authors={authors}
+                  categories={categories}
+                  handleDeleteBook={handleDeleteBook}
+                />
+              }
+            ></Route>
+            <Route
+              path="/adminAllAuthors"
+              element={
+                <AdminAllAuthors
+                  authors={authors}
+                  handleDeleteAuthor={handleDeleteAuthor}
+                />
+              }
+            ></Route>
+            {/* /****************************************** */}
 
+            <Route
+              path="/adminAllCategories"
+              element={
+                <AdminAllCategories
+                  categories={categories}
+                  // handleDeleteCategory={handleDeleteCategory}
+                />
+              }
+            ></Route>
+          </Route>
+
+          <Route
+            path="/adminAllUsers"
+            element={
+              <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
+                {" "}
+                <Users />{" "}
+              </ProtectedRoute>
+            }
+          ></Route>
 
           <Route
             path="/adminAllLibraries"
             element={
-              <AdminAllLibraries
-                libraries={libraries}
-                // handleDeleteAuthor={handleDeleteAuthor}
-              />
+              <ProtectedRoute
+                isAllowed={
+                  user &&
+                  (user.role === "manager" || user.role === "superAdmin")
+                }
+              >
+                <AdminLibraries />{" "}
+              </ProtectedRoute>
             }
           ></Route>
-
-
-          <Route
-            path="/adminAllCategories"
-            element={
-              <AdminAllCategories
-                categories={categories}
-                handleDeleteCategory={handleDeleteCategory}
-              />
-            }
-          ></Route>
-          <Route path="/adminAllUsers" element={<Users />}></Route>
-          <Route path="/adminAllLibraries" element={<AdminLibraries />}></Route>
 
           <Route path="/adminAddBook/:type" element={<AddBookForm handleClick={handleClick} />}></Route>
           <Route

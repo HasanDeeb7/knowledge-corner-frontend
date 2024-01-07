@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AllBooksStyle from "./AllBooks.module.css";
 import filter from "../../assets/icons/filter.png";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 import bookss from "../../assets/icons/books-stack-of-three 2.svg";
 
 import Pagination from "../Pagination/Pagination";
-
+import { userContext } from "../../App";
 
 const AllBooks = () => {
   const [menuOpen, setMenuOpen] = useState(true);
@@ -22,7 +22,8 @@ const AllBooks = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [totalBooks, setTotalBooks] = useState([]);
-  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 1 });
+  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 20 });
+  
 
   // This function handles the click event for showing/hiding the category filter.
   const handleClick = () => {
@@ -80,7 +81,6 @@ const AllBooks = () => {
       });
 
     getTotalBooks();
-
   }, []);
   useEffect(() => {
     getLimitedBooks();
@@ -147,7 +147,6 @@ const AllBooks = () => {
     }
 
     return totalBooks.filter((book) =>
-
       selectedCategories.includes(book.CategoryId)
     );
   };
