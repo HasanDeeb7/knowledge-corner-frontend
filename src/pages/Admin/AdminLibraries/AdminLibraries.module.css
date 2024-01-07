@@ -6,7 +6,6 @@
   align-items: start;
   justify-content: center;
   gap: 1rem;
-  border:1px solid red
 }
 .changeStatusBtn {
   padding: 10px;
