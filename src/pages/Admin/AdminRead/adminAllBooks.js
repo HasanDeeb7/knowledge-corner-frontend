@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import bookss from '../../../assets/icons/books-stack-of-three 2.svg'
 import { DataGridPremium } from '@mui/x-data-grid-premium';
 import DataGridPremiumDemo from '../../../components/AllbooksTable/Allbooks.js'
-
+import adminNavbarStyle from '../AdminNavbar/adminNavbar.module.css'
 function adminAllBooks({ books, authors, categories, handleDeleteBook,handleDeleteAuthor }) {
   
 
@@ -20,8 +20,15 @@ function adminAllBooks({ books, authors, categories, handleDeleteBook,handleDele
         <link rel="icon" href={bookss} />
       </Helmet>
       <div className={adminAllBooksStyle.allBooks}>
-        
-
+        <div className={adminAllBooksStyle.addButton}>
+        <Link
+          to={"/dashboard/adminAddBook/Add"}
+          className={`${adminNavbarStyle.addMVC}`}
+        >
+          <button className={adminNavbarStyle.addButton}>Add Book</button>
+        </Link>
+        </div>
+    
 
         <div className={adminAllBooksStyle.overflow}>
          <DataGridPremiumDemo books={books} handleDeleteBook={handleDeleteBook} type={"book"}/>

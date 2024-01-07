@@ -84,11 +84,11 @@ export default function CustomizedTables() {
   }, []);
 
   return (
-    <TableContainer component={Paper} style={{width:'800px',padding:'7px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add a box shadow
+    <TableContainer component={Paper} style={{width:'100%',height:'100%',padding:'7px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.4)', // Add a box shadow
     borderRadius: '8px',}}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{height:'60px'}}>
             <StyledTableCell>ISBN</StyledTableCell>
             <StyledTableCell align="right">Title</StyledTableCell>
             <StyledTableCell align="right">Author Name</StyledTableCell>
@@ -99,7 +99,7 @@ export default function CustomizedTables() {
         </TableHead>
         <TableBody>
           {books?.map((row,index) => (
-            <StyledTableRow key={row.id} index={index} >
+            <StyledTableRow key={row.id} index={index} sx={{height:'57px'}} >
               <StyledTableCell  scope="row">
                 {row.ISBN}
               </StyledTableCell>

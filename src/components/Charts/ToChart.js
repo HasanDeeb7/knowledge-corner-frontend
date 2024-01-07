@@ -45,7 +45,9 @@ const colors=[
   const fetchTopAuhtors=async()=>{
     try {
     
-const res = await  axios.get(`${process.env.REACT_APP_PATH}api/books/top`)
+
+const res=await  axios.get(`${process.env.REACT_APP_PATH}api/books/top`)
+
 if(res){
     setAuthors(res.data)
     console.log(res.data)
@@ -78,9 +80,13 @@ React.useEffect(()=>{
   
   return (
     <Stack sx={{background:"white" ,borderRadius:"15px",  padding:'10px', 
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
-    borderRadius: '8px',        width:"30rem"}}>
-      <FormControlLabel sx={{color:"black" ,width:"10 rem", alignSelf:"start"}}
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.4)', 
+    borderRadius: '8px',    
+        width:"100%",
+        height:'100%',
+        paddingLeft:'10%'
+        }}>
+      <FormControlLabel sx={{color:"black" ,width:"10rem", alignSelf:"start"}}
         checked={isHidden}
         control={
           <Checkbox sx={{color:'black'}} onChange={(event) => setIsHidden(event.target.checked)} />
@@ -89,15 +95,14 @@ React.useEffect(()=>{
         labelPlacement="end"
       />
        <div style={{ textAlign: 'center', marginBottom: '10px',color:'#03151e' }}>
-        <h4>Top Authors Pie Chart</h4>
+        <h3>Top Authors Pie Chart</h3>
       </div>
       <PieChart sx={{}}
         series={!loading?series:fix}
         slotProps={{ legend: { hidden: isHidden } }}
-        width={400}
-        height={200}
+        width={500}
+        height={300}
         title="Top Authors"
-   
       />
     </Stack>
   );

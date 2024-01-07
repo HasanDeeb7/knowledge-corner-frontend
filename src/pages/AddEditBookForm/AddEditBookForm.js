@@ -6,8 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import bookIcon from "../../assets/icons/open-book.png";
+import { useNavigate } from "react-router-dom";
 
-function AddEditBookForm() {
+function AddEditBookForm({handleClick}) {
   const handleSuccessAlert = () => {
     const message = type === "Add" ? "The book is added" : "The book is edited";
     toast.success(message, {
@@ -41,8 +42,9 @@ function AddEditBookForm() {
     });
   };
   const [optionCategory, setOptionCategory] = useState(null);
-  const [authors, setAuthors] = useState(null);
+  const [authors, setAuthors] = useState([]);
   const location = useLocation();
+  const { type } = useParams();
   const book = location.state && location.state.book;
   const [bookData, setBookData] = useState({
     title: "",
@@ -57,8 +59,20 @@ function AddEditBookForm() {
     image: "",
   });
 
-  const { type } = useParams();
-
+  const[editedBook,setEditedBook]=useState({
+    title: book?.title,
+    nbPages: book?.nbPages,
+    publicationDate: book?.publicationDate,
+    ISBN: book?.ISBN,
+    description: book?.description,
+    rating: book?.rating,
+    authorId: book?.authorId,
+    categoryName: book?.categoryName,
+    language: book?.language,
+    image: book?.image,
+  })
+ 
+  
   const resetForm = () => {
     const form = document.getElementById("bookForm");
     form.reset();
@@ -71,11 +85,22 @@ function AddEditBookForm() {
     return formattedDate;
   }
   function handleChange(e) {
-    setBookData({
-      ...bookData,
-      [e.target.name]: e.target.value,
-    });
+    if(type==="Add"){
+      setBookData({
+        ...bookData,
+        [e.target.name]: e.target.value,
+      });
+    }
+    if(type==="Edit"){
+      setEditedBook({
+        ...editedBook,
+        [e.target.name]: e.target.value,
+      });
+    }
+   
   }
+
+
   const addBook = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -91,6 +116,7 @@ function AddEditBookForm() {
         .post(`${process.env.REACT_APP_PATH}api/books/add`, formData)
         .then(() => {
           handleSuccessAlert();
+          handleClick()
           resetForm();
         })
         .catch((error) => {
@@ -101,13 +127,14 @@ function AddEditBookForm() {
       showWaitingToast();
       axios
         .patch(`${process.env.REACT_APP_PATH}api/books/update`, {
-          ...bookData,
+          ...editedBook,
           id: book.id,
         })
         .then((res) => {
           console.log(formData);
           console.log(bookData);
           handleSuccessAlert();
+          navigate(-1)
           console.log(res);
         })
         .catch((error) => {
@@ -117,9 +144,9 @@ function AddEditBookForm() {
     }
   };
 
-  function fetchAuthorData() {
-    axios
-      .get(`${process.env.REACT_APP_PATH}api/authors/`)
+  async function fetchAuthorData() {
+    await axios
+      .get(`${process.env.REACT_APP_PATH}api/authors`)
       .then((response) => {
         setAuthors(response.data);
         console.log(response.data);
@@ -129,8 +156,8 @@ function AddEditBookForm() {
       });
   }
 
-  function fetchCategoryData() {
-    axios
+  async function fetchCategoryData() {
+   await axios
       .get(`${process.env.REACT_APP_PATH}api/categories`)
       .then((response) => {
         setOptionCategory(response.data);
@@ -143,6 +170,13 @@ function AddEditBookForm() {
     fetchAuthorData();
     fetchCategoryData();
   }, []);
+
+  const navigate=useNavigate()
+
+  const Back=()=>{
+    navigate(-1)
+  }
+
   return (
     <>
       <Helmet>
@@ -238,8 +272,10 @@ function AddEditBookForm() {
             <label className={style.label}>Select an Author:</label>
             <select
               name="authorId"
-              defaultValue={type === "Edit" ? book._id : ""}
+              defaultValue={type === "Edit" ? book.authorId: ""}
               required
+              onChange={handleChange}
+
             >
               {authors &&
                 authors.map((option) => (
@@ -291,7 +327,7 @@ function AddEditBookForm() {
           </div>
           <div className={style.buttonContainer}>
             <Link to={"/dashboard"}>
-              <button className={style.cancel}>Cancel</button>
+              <button className={style.cancel} onClick={Back}>Cancel</button>
             </Link>
             <button className={style.add}>
               {type === "Add" ? "Add" : "Edit"}

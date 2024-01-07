@@ -77,7 +77,7 @@ const [loading,setLoading]=useState(true)
   return (
     <div style={{width:'100%',height:'100%',overflow:'auto',
     padding:'10px', 
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.4)', 
     borderRadius: '8px',        
         
   }}>

@@ -1,9 +1,8 @@
-
 .buttonContainer {
   display: flex;
-  /* border: 1px solid red; */
-height: 85%;
-margin: 0 auto;
+  height: 90%;
+  margin: 0 auto;
+  gap: 5px
 }
 
 .updateDelete {
@@ -12,9 +11,34 @@ margin: 0 auto;
   width: 50px;
   height: 100%;
   margin: 0 5px;
-  /* border: 1px solid red; */
   display: flex;
   justify-content: center;
   align-items: center;
 
+}
+
+.radionButtn {
+  color: red;
+  width: 20px;
+  height: 20px;
+  align-self: center;
+}
+
+.changeStatusBtn {
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  width: 100px;
+  text-align: center;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  height: 95%;
+}
+
+.changeStatusBtn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
 }

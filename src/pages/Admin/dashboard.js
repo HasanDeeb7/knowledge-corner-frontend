@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import AdminAllBooks from "./AdminRead/adminAllBooks";
 import { Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-
+import AddLibrary from "./addLibrary";
 import AdminAllAuthors from "./AdminRead/adminAllAuthors";
 import AdminAllCategories from "./AdminRead/adminAllCategories";
 import AddBookForm from "../AddEditBookForm/AddEditBookForm";
@@ -17,9 +17,11 @@ import LibraryManagement from "./LibraryManagement/LibraryManagement";
 import SideBar from "../../components/SideBar/SideBar";
 import Users from "./Users/Users";
 import { Overview } from "../Overview/Overview";
-import { Profile } from "../../pages/Profile/Profile";
-import HiddenLegend from "../../components/Charts/ToChart";
-import AdminLibraries from "./AdminLibraries/AdminLibraries";
+
+import {Profile} from '../../pages/Profile/Profile'
+import HiddenLegend from '../../components/Charts/ToChart'
+import AdminAllLibraries from './AdminRead/adminAllLibraries'
+
 function Dashboard() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -47,7 +49,7 @@ function Dashboard() {
         console.log("Book deleted successfully");
         handleDeleteAlert();
 
-        const updatedBooks = books.filter((book) => book._id !== bookId);
+        const updatedBooks = books.filter((book) => book.id !== bookId);
         setBooks(updatedBooks);
       })
       .catch((error) => {
@@ -62,7 +64,7 @@ function Dashboard() {
         console.log("Author deleted successfully");
 
         const updatedAuthors = authors.filter(
-          (author) => author._id !== authorId
+          (author) => author.id !== authorId
         );
         setAuthors(updatedAuthors);
       })
@@ -78,7 +80,7 @@ function Dashboard() {
         console.log("Category deleted successfully");
 
         const updatedCategories = categories.filter(
-          (category) => category._id !== categoryId
+          (category) => category.id !== categoryId
         );
         setCategories(updatedCategories);
       })
@@ -153,10 +155,22 @@ function Dashboard() {
               <AdminAllAuthors
                 authors={authors}
                 handleDeleteAuthor={handleDeleteAuthor}
+                handleClick={handleClick}
               />
             }
           ></Route>
           {/* /****************************************** */}
+
+
+          <Route
+            path="/adminAllLibraries"
+            element={
+              <AdminAllLibraries
+                libraries={libraries}
+                // handleDeleteAuthor={handleDeleteAuthor}
+              />
+            }
+          ></Route>
 
 
           <Route
@@ -164,28 +178,29 @@ function Dashboard() {
             element={
               <AdminAllCategories
                 categories={categories}
-                // handleDeleteCategory={handleDeleteCategory}
+                handleDeleteCategory={handleDeleteCategory}
               />
             }
           ></Route>
           <Route path="/adminAllUsers" element={<Users />}></Route>
           <Route path="/adminAllLibraries" element={<AdminLibraries />}></Route>
 
-          <Route path="/adminAddBook/:type" element={<AddBookForm />}></Route>
+          <Route path="/adminAddBook/:type" element={<AddBookForm handleClick={handleClick} />}></Route>
           <Route
             path="/adminAddAuthor/:type"
-            element={<AddAuthorForm />}
+            element={<AddAuthorForm  handleClick={handleClick}/>
+          }
           ></Route>
           <Route
             path="/adminAddCategory/:type"
-            element={<AddCategoryForm />}
-            handleAdd={handleClick}
+            element={<AddCategoryForm handleClick={handleClick} />}
+           
           ></Route>
           {/* /****************************************** */}
 
           <Route
             path="/adminAddLibrary/:type"
-            element={<AddCategoryForm />}
+            element={<AddLibrary />}
           ></Route>
           <Route path="/libraries" element={<LibraryManagement />}></Route>
           {/* /****************************************** */}
