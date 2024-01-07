@@ -1,10 +1,14 @@
 import style from "./AddEditBookForm.module.css";
 import { useState, useEffect } from "react";
-import { useParams, useLocation,Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-function AddEditBookForm() {
+import { Helmet } from "react-helmet";
+import bookIcon from "../../assets/icons/open-book.png";
+import { useNavigate } from "react-router-dom";
+
+function AddEditBookForm({handleClick}) {
   const handleSuccessAlert = () => {
     const message = type === "Add" ? "The book is added" : "The book is edited";
     toast.success(message, {
@@ -38,12 +42,37 @@ function AddEditBookForm() {
     });
   };
   const [optionCategory, setOptionCategory] = useState(null);
-  const [authors, setAuthors] = useState(null);
+  const [authors, setAuthors] = useState([]);
   const location = useLocation();
-  const book = location.state && location.state.book;
-
   const { type } = useParams();
+  const book = location.state && location.state.book;
+  const [bookData, setBookData] = useState({
+    title: "",
+    nbPages: 0,
+    publicationDate: "",
+    ISBN: "",
+    description: "",
+    rating: 0,
+    authorId: "",
+    categoryName: "",
+    language: "",
+    image: "",
+  });
 
+  const[editedBook,setEditedBook]=useState({
+    title: book?.title,
+    nbPages: book?.nbPages,
+    publicationDate: book?.publicationDate,
+    ISBN: book?.ISBN,
+    description: book?.description,
+    rating: book?.rating,
+    authorId: book?.authorId,
+    categoryName: book?.categoryName,
+    language: book?.language,
+    image: book?.image,
+  })
+ 
+  
   const resetForm = () => {
     const form = document.getElementById("bookForm");
     form.reset();
@@ -55,28 +84,39 @@ function AddEditBookForm() {
 
     return formattedDate;
   }
+  function handleChange(e) {
+    if(type==="Add"){
+      setBookData({
+        ...bookData,
+        [e.target.name]: e.target.value,
+      });
+    }
+    if(type==="Edit"){
+      setEditedBook({
+        ...editedBook,
+        [e.target.name]: e.target.value,
+      });
+    }
+   
+  }
+
 
   const addBook = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const newFormData = new FormData();
     const imageInput = e.target.querySelector("#imageInput");
     if (imageInput.files.length <= 0) {
       // Remove the "image" field if no file is selected
       formData.delete("image");
     }
-    for (const pair of formData.entries()) {
-      const [key, value] = pair;
-      if (value !== "") {
-        newFormData.append(key, value);
-      }
-    }
+
     if (type === "Add") {
       showWaitingToast();
       axios
-        .post(`${process.env.REACT_APP_PATH}/api/books`, formData)
+        .post(`${process.env.REACT_APP_PATH}api/books/add`, formData)
         .then(() => {
           handleSuccessAlert();
+          handleClick()
           resetForm();
         })
         .catch((error) => {
@@ -86,30 +126,39 @@ function AddEditBookForm() {
     } else if (type === "Edit") {
       showWaitingToast();
       axios
-        .patch(`${process.env.REACT_APP_PATH}/api/books/${book._id}`, formData)
-        .then(() => {
+        .patch(`${process.env.REACT_APP_PATH}api/books/update`, {
+          ...editedBook,
+          id: book.id,
+        })
+        .then((res) => {
+          console.log(formData);
+          console.log(bookData);
           handleSuccessAlert();
+          navigate(-1)
+          console.log(res);
         })
         .catch((error) => {
+          console.log(error);
           handleErrorAlert(error.response.data.error);
         });
     }
   };
 
-  function fetchAuthorData() {
-    axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors`)
+  async function fetchAuthorData() {
+    await axios
+      .get(`${process.env.REACT_APP_PATH}api/authors`)
       .then((response) => {
         setAuthors(response.data);
+        console.log(response.data);
       })
       .catch(() => {
         handleErrorAlert("Error while getting authors data");
       });
   }
 
-  function fetchCategoryData() {
-    axios
-      .get(`${process.env.REACT_APP_PATH}/api/categories`)
+  async function fetchCategoryData() {
+   await axios
+      .get(`${process.env.REACT_APP_PATH}api/categories`)
       .then((response) => {
         setOptionCategory(response.data);
       })
@@ -121,8 +170,22 @@ function AddEditBookForm() {
     fetchAuthorData();
     fetchCategoryData();
   }, []);
+
+  const navigate=useNavigate()
+
+  const Back=()=>{
+    navigate(-1)
+  }
+
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{type + " Book"}</title>
+        <meta name="description" content="Admin Manage Books" />
+        <link rel="icon" href={bookIcon} sizes="16x16" />
+      </Helmet>
+
       <ToastContainer />
       <div className={style.fromContainer}>
         <form className={style.bookform} id="bookForm" onSubmit={addBook}>
@@ -138,6 +201,7 @@ function AddEditBookForm() {
               name="title"
               defaultValue={type === "Edit" ? book.title : ""}
               required
+              onChange={handleChange}
             />
           </div>
           <div className={style.inputContainer}>
@@ -148,6 +212,7 @@ function AddEditBookForm() {
               placeholder="Enter the pages"
               name="nbPages"
               defaultValue={type === "Edit" ? book.nbPages : ""}
+              onChange={handleChange}
               required
             />
           </div>
@@ -161,6 +226,7 @@ function AddEditBookForm() {
               defaultValue={
                 type === "Edit" ? formatDate(book.publicationDate) : ""
               }
+              onChange={handleChange}
               required
             />
           </div>
@@ -172,6 +238,7 @@ function AddEditBookForm() {
               placeholder="Enter the ISBN"
               name="ISBN"
               defaultValue={type === "Edit" ? book.ISBN : ""}
+              onChange={handleChange}
               required
             />
           </div>
@@ -183,6 +250,7 @@ function AddEditBookForm() {
               placeholder="Enter the description"
               name="description"
               defaultValue={type === "Edit" ? book.description : ""}
+              onChange={handleChange}
               required
             />
           </div>
@@ -196,6 +264,7 @@ function AddEditBookForm() {
               defaultValue={type === "Edit" ? book.rating : ""}
               max={5}
               min={1}
+              onChange={handleChange}
               required
             />
           </div>
@@ -203,12 +272,14 @@ function AddEditBookForm() {
             <label className={style.label}>Select an Author:</label>
             <select
               name="authorId"
-              defaultValue={type === "Edit" ? book._id : ""}
+              defaultValue={type === "Edit" ? book.authorId: ""}
               required
+              onChange={handleChange}
+
             >
               {authors &&
                 authors.map((option) => (
-                  <option key={option._id} value={option._id}>
+                  <option key={option.id} value={option.id}>
                     {option.firstName} {option.lastName}
                   </option>
                 ))}
@@ -217,14 +288,15 @@ function AddEditBookForm() {
           <div className={style.inputContainer}>
             <label className={style.label}>Select a Category:</label>
             <select
-              name="categoryId"
-              defaultValue={type === "Edit" ? book.categoryId : ""}
+              name="categoryName"
+              defaultValue={type === "Edit" ? book.CategoryId : ""}
+              onChange={handleChange}
               required
             >
               {optionCategory &&
                 optionCategory.map((option) => (
-                  <option key={option._id} value={option._id}>
-                    {option.name}
+                  <option key={option.id} value={option.Name}>
+                    {option.Name}
                   </option>
                 ))}
             </select>
@@ -234,6 +306,7 @@ function AddEditBookForm() {
             <select
               name="language"
               defaultValue={type === "Edit" ? book.language : ""}
+              onChange={handleChange}
               required
             >
               <option>English</option>
@@ -248,11 +321,14 @@ function AddEditBookForm() {
               type="file"
               name="image"
               id="imageInput"
+              onChange={handleChange}
               required={type === "Add"}
             />
           </div>
           <div className={style.buttonContainer}>
-            <Link to={'/dashboard'}><button className={style.cancel}>Cancel</button></Link>
+            <Link to={"/dashboard"}>
+              <button className={style.cancel} onClick={Back}>Cancel</button>
+            </Link>
             <button className={style.add}>
               {type === "Add" ? "Add" : "Edit"}
             </button>

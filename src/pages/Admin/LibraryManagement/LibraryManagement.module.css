@@ -1,0 +1,80 @@
+.libraryManagementContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 2rem 10rem;
+}
+.optionsContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+.addBookBtn {
+  background-color: #03151e;
+  color: white;
+  border: 1px solid white;
+  padding: 10px 30px;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+.addBookBtn:hover {
+  color: #03151e;
+  border-color: #03151e;
+  background-color: #fff;
+}
+.autoCompleteText {
+  width: 400px;
+  position: absolute;
+  right: 30px;
+}
+.submitBtn {
+  background-color: #03151e;
+  color: white;
+  border: 1px solid white;
+  padding: 10px 30px;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+.submitBtn:hover {
+  background-color: transparent;
+  color: #03151e;
+  border-color: #03151e;
+}
+.cancelBtn{
+  padding: 10px;
+  background-color: transparent;
+  color: var(--primary-color);
+  width: 100px;
+  text-align: center;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
+}
+.cancelBtn:hover{
+  background-color: rgba(0, 0, 0, .2);
+}
+.btnContainer{
+  display: flex;
+  gap: 1rem;
+}
+.libraryName{
+  outline: none;
+  border: none;
+  font-size: 30px;
+  text-align: center;
+  pointer-events: none;
+}
+.editingName{
+font-size: 30px;
+}
+.editLibraryNameBtn{
+  cursor: pointer;
+}
+.editLibraryNameBtn:hover{
+  opacity: .5;
+}

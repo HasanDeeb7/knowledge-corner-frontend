@@ -2,8 +2,11 @@ import style from "./AddEditAuthor.module.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link,useParams,useLocation } from "react-router-dom";
-function AddEditAutherForm() {
+import { Link,useParams,useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import authorIcon from '../../assets/icons/author.png'
+
+function AddEditAutherForm({handleClick}) {
   const { type } = useParams();
   const location = useLocation();
   const author = location.state && location.state.author;
@@ -72,7 +75,7 @@ function AddEditAutherForm() {
     if (type === "Add") {
       showWaitingToast();
       axios
-        .post(`${process.env.REACT_APP_PATH}/api/authors`, newFormData)
+        .post(`${process.env.REACT_APP_PATH}api/authors`, newFormData)
         .then(() => {
           handleSuccessAlert();
           resetForm();
@@ -83,9 +86,13 @@ function AddEditAutherForm() {
     } else if (type === "Edit") {
       showWaitingToast();
       axios
-        .patch(`${process.env.REACT_APP_PATH}/api/authors/${author._id}`, newFormData)
+
+        .patch(`${process.env.REACT_APP_PATH}api/authors/${author.id}`, newFormData)
+
         .then(() => {
           handleSuccessAlert();
+          handleClick()
+          navigate(`/dashboard/adminAllAuthors`)
         })
         .catch((error) => {
           handleErrorAlert(error.response.data.error);
@@ -93,8 +100,17 @@ function AddEditAutherForm() {
     }
   };
 
+
+  const navigate=useNavigate()
+
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{type+" Author"}</title>
+        <meta name="description" content="Admin dashboard manage authors" />
+        <link rel="icon"  href={authorIcon} sizes="16x16" />
+      </Helmet>
       <ToastContainer />
       <div className={style.fromContainer}>
         <form
@@ -212,7 +228,7 @@ function AddEditAutherForm() {
             />
           </div>
           <div className={style.buttonContainer}>
-          <Link to={'/dashboard'}><button className={style.cancel}>Cancel</button></Link>
+          <Link to={'/dashboard/adminAllAuthors'}><button className={style.cancel}  >Cancel</button></Link>
             <button className={style.add}>
               {type === "Add" ? "Add" : "Edit"}
             </button>

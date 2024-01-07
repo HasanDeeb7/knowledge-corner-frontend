@@ -1,0 +1,160 @@
+import { DataGrid } from "@mui/x-data-grid";
+import style from "./AdminLibraries.module.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+
+function AdminLibraries() {
+  const [libraries, setLibraries] = useState([]);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newLibrary, setNewLibrary] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const navigate = useNavigate();
+
+  async function changeStatus(data) {
+    try {
+      const status = data.status;
+      const updatedStatus = status === "active" ? "inactive" : "active";
+      const response = await axios.patch(
+        `${process.env.REACT_APP_PATH}api/library/status`,
+        { id: data.id, status: updatedStatus }
+      );
+      if (response) {
+        console.log(response);
+        getLibraries();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function handleDelete(data) {
+    console.log(data);
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_PATH}api/library/delete`,
+        { params: { id: data.id } }
+      );
+      if (response) {
+        toast.success("Library Has Been Deleted");
+        getLibraries();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function addLibrary() {
+    setIsDisabled(true);
+    try {
+      const res = axios.post(
+        `${process.env.REACT_APP_PATH}api/library/create`,
+        { name: newLibrary }
+      );
+      if (res) {
+        toast.success("New Library Created");
+        setIsDisabled(false);
+      }
+    } catch (error) {
+      setIsDisabled(false);
+      console.log(error);
+    }
+    getLibraries();
+  }
+
+  const getLibraries = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_PATH}api/library`);
+      if (res) {
+        setLibraries(res.data);
+        console.log(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLibraries();
+  }, []);
+
+  return (
+    <div className={style.AdminLibrariesContainer}>
+      <button
+        className={style.addLibraryBtn}
+        onClick={() => setIsAdding(!isAdding)}
+      >
+        Add Library
+      </button>
+      <DataGrid
+        columns={[
+          { field: "id", headerName: "ID", width: 100 },
+          { field: "name", headerName: "Name", width: 300 },
+          { field: "Books", headerName: "Number of Books", width: 300 },
+          { field: "status", headerName: "Status", width: 300 },
+          {
+            field: "actions",
+            width: 400,
+            renderCell: (params) => {
+              return (
+                <div className={style.buttonsContainer}>
+                  <div
+                    className={style.changeStatusBtn}
+                    onClick={() => changeStatus(params.row)}
+                  >
+                    {params.row.status === "active" ? "Deactivate" : "Activate"}
+                  </div>
+                  <div
+                    className={`${style.changeStatusBtn} ${
+                      params.row.status === "inactive" && style.disabledBtn
+                    }`}
+                    onClick={() => {
+                      navigate("/dashboard/libraries", { state: params.row });
+                    }}
+                  >
+                    Edit
+                  </div>
+                  <div
+                    className={`${style.deleteBtn}`}
+                    onClick={() => handleDelete(params.row)}
+                  >
+                    Delete
+                  </div>
+                </div>
+              );
+            },
+          },
+        ]}
+        rows={libraries.map((item) => {
+          return {
+            id: item.id,
+            name: item.name,
+            Books: item.Books.length,
+            status: item.status,
+          };
+        })}
+      ></DataGrid>
+      {isAdding && (
+        <div className={style.addLibraryContainer}>
+          <label htmlFor="libraryName">Library Name</label>
+          <input
+            type="text"
+            id="libraryName"
+            className={style.libraryInput}
+            value={newLibrary}
+            onChange={(e) => setNewLibrary(e.target.value)}
+          />
+          <button
+            className={style.addLibraryBtn}
+            onClick={() => addLibrary()}
+            disabled={isDisabled}
+          >
+            {" "}
+            Submit{" "}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default AdminLibraries;

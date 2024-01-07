@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import AllBooksStyle from "../AllBooks/AllBooks.module.css";
-
+import author from '../../assets/icons/writer.png'
 import axios from "axios";
 import magnifire from "../../assets/icons/magnifire.jpeg";
 import TemAuthorCard from "./TemAuthorCard";
+import {Helmet} from 'react-helmet'
 import { Link } from "react-router-dom";
+
 const AllAuthors = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +15,7 @@ const AllAuthors = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_PATH}/api/authors`)
+      .get(`${process.env.REACT_APP_PATH}api/authors`)
       .then((res) => {
         setAuthors(res.data);
         setIsLoading(false);
@@ -37,6 +39,12 @@ const AllAuthors = () => {
   const authorsFiltred = filterAuthorsByName(authors, searchInput);
   return (
     <div>
+         <Helmet>
+        <meta charSet="utf-8" />
+        <title>All Authors</title>
+        <meta name="description" content="all authors" />
+        <link rel="icon" href={author} />
+      </Helmet>
       <h1 className={AllBooksStyle.titleh1}>Authors List</h1>
       <form className={AllBooksStyle.bookSearch}>
         <input
@@ -60,7 +68,7 @@ const AllAuthors = () => {
             <div className={AllBooksStyle.booksList}>
               {authorsFiltred.map((author) => {
                 return (
-                  <Link to="/SingleAuthor" state={{ author: author }}>
+                  <Link to={`/SingleAuthor/${author.slug}`} state={{ author: author }}>
                     <TemAuthorCard
                       authorName={`${author.firstName} ${author.lastName} `}
                       image={author.image}

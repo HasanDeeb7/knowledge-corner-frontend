@@ -1,14 +1,40 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { createContext } from "react";
 import AppRoutes from "./routes/AppRoutes";
+import axios from "axios";
+import { HelmetProvider } from "react-helmet-async";
+export const userContext = createContext();
 
 function App() {
-  return (
-    <div className="App">
+  const [user, setUser] = useState();
+  axios.defaults.withCredentials = true;
 
-      <AppRoutes/>
-      
-    </div>
+  async function getUser() {
+    if (!user) {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_PATH}api/user/getUser`
+        );
+        if (response) {
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  return (
+    <HelmetProvider>
+      <userContext.Provider value={{ user, setUser }}>
+        <div className="App">
+          <AppRoutes />
+        </div>
+      </userContext.Provider>
+    </HelmetProvider>
   );
 }
 
