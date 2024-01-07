@@ -52,6 +52,8 @@ function AdminLibraries() {
       );
       if (res) {
         toast.success("New Library Created");
+        getLibraries()
+        setNewLibrary('')
         setIsDisabled(false);
       }
     } catch (error) {
