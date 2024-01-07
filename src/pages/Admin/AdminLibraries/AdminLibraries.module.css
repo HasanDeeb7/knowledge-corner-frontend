@@ -1,11 +1,12 @@
 .AdminLibrariesContainer {
-  margin: 10rem auto;
+  margin: 5rem auto;
   width: 80%;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
   gap: 1rem;
+  border:1px solid red
 }
 .changeStatusBtn {
   padding: 10px;

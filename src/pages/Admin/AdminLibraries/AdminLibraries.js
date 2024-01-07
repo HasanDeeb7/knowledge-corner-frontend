@@ -89,8 +89,8 @@ function AdminLibraries() {
         columns={[
           { field: "id", headerName: "ID", width: 100 },
           { field: "name", headerName: "Name", width: 300 },
-          { field: "Books", headerName: "Number of Books", width: 300 },
-          { field: "status", headerName: "Status", width: 300 },
+          { field: "Books", headerName: "Number of Books", width: 200 },
+          { field: "status", headerName: "Status", width: 200 },
           {
             field: "actions",
             width: 400,

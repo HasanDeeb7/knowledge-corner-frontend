@@ -113,25 +113,41 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ...(!open && {
       ...closedMixin(theme),
       '& .MuiDrawer-paper': closedMixin(theme),
+      '@media (max-width: 500px)': {
+        display: 'none',
+      },
     }),
   }),
 );
 
+
+
 export default function SideBar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const accountPopover = usePopover();
 
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-
+  
+  React.useEffect(() => {
+    console.log(window.innerWidth)
+    const handleResize = () => {
+      setOpen(window.innerWidth > 500);
+    };
+    
+    handleResize()
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   return (
     <>
