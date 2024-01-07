@@ -7,7 +7,8 @@ import { useState,useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import { useContext } from 'react';
 import { userContext } from "../../App";
-import PersonIcon from '@mui/icons-material/Person';
+// import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from '../../assets/icons/user.png'
 export const Profile = () => {
   const [user,setUser]=useState(null)
     const [loading,setLoading]=useState(true)
@@ -89,12 +90,11 @@ export const Profile = () => {
         <meta name="description" content="Profile" />
         <link rel="icon" href={PersonIcon} />
       </Helmet>
-    <div className={style.fromContainer}>
+    <div className={style.fromContainer} style={{marginTop:'150px'}}>
       {!loading&&(
         <form className={style.bookform} id="bookForm" >
 
-<h1 className={style.title}>
-</h1>
+<h1 className={style.title}>My Profile</h1>
 <div className={style.inputContainer}>
   <label className={style.label}>First Name</label>
   <input

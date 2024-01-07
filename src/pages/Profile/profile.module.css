@@ -53,6 +53,7 @@
       background: #03151E;
       color: white;
       border: none;
+      width: 40%;
   }
   .add:hover{
     background: #09202b;
