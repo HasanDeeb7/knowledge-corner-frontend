@@ -133,7 +133,10 @@ function Dashboard({ user }) {
           <Route exact path="/" element={<Overview />}></Route>
           <Route
             element={
-              <ProtectedRoute isAllowed={user && user.role === "superAdmin"} />
+              <ProtectedRoute
+                isAllowed={user && user.role === "superAdmin"}
+                redirectPath="/notauth"
+              />
             }
           >
             <Route
@@ -172,7 +175,10 @@ function Dashboard({ user }) {
           <Route
             path="/adminAllUsers"
             element={
-              <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
+              <ProtectedRoute
+                isAllowed={user && user.role === "superAdmin"}
+                redirectPath="/notauth"
+              >
                 {" "}
                 <Users />{" "}
               </ProtectedRoute>
@@ -187,29 +193,28 @@ function Dashboard({ user }) {
                   user &&
                   (user.role === "manager" || user.role === "superAdmin")
                 }
+                redirectPath="/notauth"
               >
                 <AdminLibraries />{" "}
               </ProtectedRoute>
             }
           ></Route>
 
-          <Route path="/adminAddBook/:type" element={<AddBookForm handleClick={handleClick} />}></Route>
+          <Route
+            path="/adminAddBook/:type"
+            element={<AddBookForm handleClick={handleClick} />}
+          ></Route>
           <Route
             path="/adminAddAuthor/:type"
-            element={<AddAuthorForm  handleClick={handleClick}/>
-          }
+            element={<AddAuthorForm handleClick={handleClick} />}
           ></Route>
           <Route
             path="/adminAddCategory/:type"
             element={<AddCategoryForm handleClick={handleClick} />}
-           
           ></Route>
           {/* /****************************************** */}
 
-          <Route
-            path="/adminAddLibrary/:type"
-            element={<AddLibrary />}
-          ></Route>
+          <Route path="/adminAddLibrary/:type" element={<AddLibrary />}></Route>
           <Route path="/libraries" element={<LibraryManagement />}></Route>
           {/* /****************************************** */}
         </Route>

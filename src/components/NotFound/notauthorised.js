@@ -4,10 +4,11 @@ import styles from './AdminNotFound.module.css';
 function NotAuthorised() {
   return (
     <div className={styles.adminNotFound}>
+      
       <div className={styles.errorMessage}>
-        oh NO ! You are not authorised here..
+        Access Denied
       </div>
-      <div className={styles.sadEmoji}>😞</div>
+      <div className={styles.sadEmoji}>⛔</div>
     </div>
   );
 }

@@ -37,13 +37,20 @@ function AppRoutes() {
         <Route path="/SingleAuthor/:slug" element={<SingleAuther />}></Route>
         <Route path="/Libraries" element={<Libraries />}></Route>
       </Route>
-      <Route path="/login" element={<Login />}></Route>
+      <Route
+        path="/login"
+        element={
+          <ProtectedRoute isAllowed={!user} redirectPath="/">
+            <Login />
+          </ProtectedRoute>
+        }
+      ></Route>
       {user && (
         <Route
           path="/dashboard/*"
           element={
             <ProtectedRoute isAllowed={user}>
-              <Dashboard user={user} /> 
+              <Dashboard user={user} />
             </ProtectedRoute>
           }
         ></Route>
