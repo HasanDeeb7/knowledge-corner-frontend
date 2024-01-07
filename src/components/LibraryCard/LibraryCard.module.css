@@ -1,0 +1,48 @@
+    /* .figure{
+    width: 250px;
+    margin: 0 ;
+    height: 440px;
+    transition: transform 0.3s;
+}
+.figure:hover{
+    transform: scale(1.1);
+}
+
+.image{
+    width: 250px;
+    height: 350px;
+}
+
+.figcaption>p{
+    margin: 10px 0;
+   }
+   a{
+       text-decoration: none;
+       color: black;
+   } */
+
+   .figure{
+    width: 250px;
+    margin: 0 ;
+    height: 440px;
+    transition: transform 0.3s;
+}
+.figure:hover{
+    transform: scale(1.1);
+}
+.image{
+    width: 250px;
+    height: 350px;
+}
+.figcaption{
+    text-align: center;
+    width: 200px;
+    line-height: 1.5em;
+}
+.figcaption>p{
+ margin: 10px 0;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
