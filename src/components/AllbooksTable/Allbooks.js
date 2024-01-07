@@ -28,8 +28,10 @@ import AddCategory from '../../pages/Admin/addCategory';
 
 export default function ToolbarGrid({ books ,libraries, authors, categories, handleDeleteBook,handleDeleteAuthor,handleDeleteCategory ,type}) {
 const [loading,setLoading]=useState(false)
+
 const [open, setOpen] = React.useState(false);
 const [library, setLibrary] = React.useState([]);
+
 
 
   const booksColumns = [
@@ -340,11 +342,5 @@ const CustomToolbar = () => {
     </GridToolbar>
   );
 };
-
-
-
-
-
-
 
 

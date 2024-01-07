@@ -72,8 +72,8 @@ console.log()
 
   const editCategory=(e)=>{
     e.preventDefault();
-    axios
-      .patch(`${process.env.REACT_APP_PATH}api/categories/${category?.id}`,{ name: categoryName })
+    axios.patch(`${process.env.REACT_APP_PATH}api/categories/${category?.id}`,{ name: categoryName })
+
       .then((response) => {
         console.log("Category edited");
         // setCategoryName("");

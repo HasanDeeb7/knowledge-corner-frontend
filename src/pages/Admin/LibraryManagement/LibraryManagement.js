@@ -6,22 +6,42 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-
+import { useLocation, useNavigate } from "react-router";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function LibraryManagement() {
+  const libraryData = useLocation().state;
   const [isLoading, setIsLoading] = useState(true);
   const [libraryBooks, setLibraryBooks] = useState();
   const [allBooks, setAllBooks] = useState();
-
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [search, setSearch] = useState();
-  const [action, setAction] = useState("editLibrary");
+  const [editing, setEditing] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newLibraryName, setNewLibraryName] = useState(libraryData.name);
+  const navigate = useNavigate();
 
-  const id = 1;
-
+  const id = libraryData.id;
+  console.log(id);
+  async function handleConfirmLibraryName() {
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_PATH}api/library/update`,
+        { id: libraryData.id, name: newLibraryName }
+      );
+      if (res) {
+        console.log(res.data);
+        toast.success("New Name is Set");
+        navigate("/dashboard/adminAllLibraries");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleSubmit(e) {
     try {
@@ -33,7 +53,8 @@ function LibraryManagement() {
       if (res) {
         console.log(res.data);
         toast.success("Books has Been Added to the Library");
-        setAction('e')
+        setModalOpen(false);
+        getLibraryBooks();
       }
     } catch (error) {
       console.log(error);
@@ -47,6 +68,7 @@ function LibraryManagement() {
       );
       if (res) {
         toast.success(res.data);
+        getLibraryBooks();
       }
     } catch (error) {
       console.log(error);
@@ -63,10 +85,11 @@ function LibraryManagement() {
     try {
       const responseLibraryBooks = await axios.get(
         `${process.env.REACT_APP_PATH}api/books/libraryBooks`,
-        { params: { id: 1 } }
+        { params: { id: id } }
       );
       if (responseLibraryBooks) {
         setLibraryBooks(responseLibraryBooks.data);
+        console.log(responseLibraryBooks.data);
         try {
           const responseAllBooks = await axios.get(
             `${process.env.REACT_APP_PATH}api/books/`
@@ -103,74 +126,101 @@ function LibraryManagement() {
   useEffect(() => {
     getLibraryBooks();
   }, []);
+
   return !isLoading ? (
-    action === "editLibrary" ? (
-      <div className={style.libraryManagementContainer}>
-        <div className={style.optionsContainer}>
-          <TextField
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-            sx={{ width: 300 }}
-            label="Search..."
+    <div className={style.libraryManagementContainer}>
+      <div className={style.optionsContainer}>
+        <TextField
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          sx={{ width: 300 }}
+          label="Search..."
+        />
+        <div>
+          <input
+            type="text"
+            value={newLibraryName}
+            className={editing ? style.editingName : style.libraryName}
+            onChange={(e) => setNewLibraryName(e.target.value)}
+            disabled={!editing}
           />
-          <button
-            className={style.addBookBtn}
-            onClick={() => setAction("addBook")}
-          >
-            Add Book
-          </button>
+          {editing ? (
+            <CheckIcon
+              className={style.editLibraryNameBtn}
+              onClick={() => handleConfirmLibraryName()}
+            />
+          ) : (
+            <EditIcon
+              className={style.editLibraryNameBtn}
+              onClick={() => setEditing(true)}
+            />
+          )}
         </div>
-        <DataGrid
-          columns={[
-            { field: "id", headerName: "ID", width: 100 },
-            { field: "title", headerName: "Title", width: 300 },
-            {
-              field: "actions",
-              width: 300,
-              renderCell: (params) => {
-
-                return (
-                  <button
-                    onClick={() => removeFromLibrary(params.id)}
-                    className={style.submitBtn}
-                  >
-                    Remove
-                  </button>
-                );
-
-              },
-            },
-          ]}
-          rows={getData().map((item) => {
-            return {
-              id: item.id,
-              title: item.title,
-            };
-          })}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      </div>
-    ) : (
-      <div style={{ marginTop: 30 }}>
-        <Autocomplete
-          className={style.autoCompleteText}
-          limitTags={1}
-          options={allBooks}
-          disableClearable
-          getOptionLabel={(option) => option.title}
-          filterSelectedOptions
-          renderInput={(params) => <TextField {...params} label="Book" />}
-          multiple
-          onChange={handleAutocompleteChange}
-        />
-        <button className={style.submitBtn} onClick={handleSubmit}>
-          Submit
+        <button className={style.addBookBtn} onClick={() => setModalOpen(true)}>
+          Add Book
         </button>
       </div>
+      <DataGrid
+        columns={[
+          { field: "id", headerName: "ID", width: 100 },
+          { field: "title", headerName: "Title", width: 300 },
+          {
+            field: "actions",
+            width: 300,
+            renderCell: (params) => {
+              return (
+                <button
+                  onClick={() => removeFromLibrary(params.id)}
+                  className={style.submitBtn}
+                >
+                  Remove
+                </button>
+              );
+            },
+          },
+        ]}
+        rows={getData().map((item) => {
+          return {
+            id: item.id,
+            title: item.title,
+          };
+        })}
+        checkboxSelection
+        disableRowSelectionOnClick
+      />
 
-    )
+      <>
+        {modalOpen && (
+          <div className={style.addBookModalContainer}>
+            <div className={style.addBookModal}>
+              <Autocomplete
+                className={style.autoCompleteText}
+                limitTags={1}
+                options={allBooks}
+                disableClearable
+                getOptionLabel={(option) => option.title}
+                filterSelectedOptions
+                renderInput={(params) => <TextField {...params} label="Book" />}
+                multiple
+                onChange={handleAutocompleteChange}
+              />
+              <div className={style.btnContainer}>
+                <button className={style.submitBtn} onClick={handleSubmit}>
+                  Submit
+                </button>
+                <button
+                  className={style.cancelBtn}
+                  onClick={() => setModalOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    </div>
   ) : (
     ""
   );

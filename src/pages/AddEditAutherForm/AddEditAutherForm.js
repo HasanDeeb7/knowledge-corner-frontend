@@ -86,7 +86,9 @@ function AddEditAutherForm({handleClick}) {
     } else if (type === "Edit") {
       showWaitingToast();
       axios
+
         .patch(`${process.env.REACT_APP_PATH}api/authors/${author.id}`, newFormData)
+
         .then(() => {
           handleSuccessAlert();
           handleClick()
