@@ -12,76 +12,80 @@ import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input'
 import Modal from '@mui/material/Modal';
 
-function AddCategory({handleAdd}) {
+function AddCategory({handleClick}) {
   const [categoryName, setCategoryName] = useState("");
   const location=useLocation()
   const [open, setOpen] = React.useState(true);
-  const [category,setCategory]=useState(location.state)
+  // const categoryState=location.state.category && []
+  console.log(location.state)
+  const [category,setCategory]=useState(location.state?location.state.category: [])
   const {type}=useParams()
-
 
 const handleOpen = (data) => {
   setOpen(true);
 }
-
 const handleClose = () => setOpen(false);
 
+
+const submit=(e)=>{
+  e.preventDefault()
+  if(type==="Add"){
+    addCategory(e)
+  }
+  else{
+    editCategory(e)
+  }
+}
 console.log()
   const handleCategoryNameChange = (e) => {
     setCategoryName(e.target.value);
+    console.log("cavvsbd"+categoryName)
   };
 
   const navigate=useNavigate()
 
   const Back=()=>{
-    navigate(-1)
+    navigate('/dashboard/adminAllCategories')
   }
-// console.log(type)
-const refetchCategory=async()=>{
-try{
-const res=await axios.get(`${process.env.REACT_APP_PATH}api/categories/one`,{
-  params:{id:category.category.id}})
-if(res){
-  setCategory(res.data)
-}
-else{
-  console.log("Error fetching the category")
-}
-}
-catch(err){
-  console.log("Error fetching the category"+err.message)
-}
-}
-  const addCategory = (e) => {
-    e.preventDefault();
-    axios
-      .post(`${process.env.REACT_APP_PATH}api/categories`, { name: categoryName })
-      .then((response) => {
-        console.log("Category created");
-        setCategoryName("");
-        handleAdd()
 
-      })
-      .catch((error) => {
-        console.log("Error creating category");
-      });
+   const addCategory = async(e) => {
+    e.preventDefault();
+    console.log("Creatonggggggggggg");
+
+    try{
+      const response=await  axios.post(`${process.env.REACT_APP_PATH}api/categories`, { name: categoryName })
+      if(response.status===200){
+           console.log("Category created");
+        // setCategoryName("");
+        handleClick()
+        handleClose()
+        navigate('/dashboard/adminAllCategories')
+      }
+      else{
+        console.log("no response")
+      }
+    }
+      catch(error) {
+        console.log("Error creating category"+error.message);
+      };
   };
 
   const editCategory=(e)=>{
     e.preventDefault();
     axios
-      .patch(`${process.env.REACT_APP_PATH}api/categories/${category.category.id}`, { name: categoryName })
+      .patch(`${process.env.REACT_APP_PATH}api/categories/${category?.id}`,{ name: categoryName })
       .then((response) => {
         console.log("Category edited");
         // setCategoryName("");
         // setCategory(reps.data)
         // refetchCategory()
-        handleAdd()
-        navigate(-1)
+        handleClick()
+        handleClose()
+        navigate('/dashboard/adminAllCategories')
 
       })
       .catch((error) => {
-        console.log("Error creating category");
+        console.log("Error creating category"+error.message);
       });
   }
   const style = {
@@ -100,38 +104,17 @@ catch(err){
     <div className={addCategoryStyle.addCategoryComponent}>
          <Helmet>
         <meta charSet="utf-8" />
-        <title>Add Category</title>
-        <meta name="description" content="Admin Dashboard add category" />
+        <title>{type+" Category"}</title>
+        <meta name="description" content="Admin Dashboard manage  category" />
         <link rel="icon"  href={bookIcon} sizes="16x16" />
       </Helmet>
-
-      {/* <h1>{type+" Category"} </h1>
-
-      <form className={addCategoryStyle.formCategory} onSubmit={type===`Add`?addCategory:editCategory}>
-        <label for="category">Category's name</label>
-        <input
-          type="text"
-          placeholder="Category Name"
-          defaultValue={type==='Edit' && category.category.Name}
-          onChange={handleCategoryNameChange}
-          required
-        />
-
-        <button className={addCategoryStyle.cancelButton} onClick={Back}>Cancel</button>
-        <button type="submit" className={addCategoryStyle.addButton} >
-          {type}
-        </button>
-      </form> */}
 <Modal
         open={open}
-        onClose={handleClose}
+        onClose={Back}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-Edit Article
-          </Typography>
           <Box
       component="form"
       sx={{
@@ -142,23 +125,23 @@ Edit Article
     >
 
 
-{/* <h1>{type+" Category"} </h1> */}
+<h1>{type+" Category"} </h1>
 
-<form className={addCategoryStyle.formCategory} onSubmit={type===`Add`?addCategory:editCategory}>
+<div className={addCategoryStyle.formCategory}  >
   <label for="category">Category's name</label>
   <input
     type="text"
     placeholder="Category Name"
-    defaultValue={type==='Edit' && category.category.Name}
+    defaultValue={type==='Edit' ? category?.Name:categoryName}
     onChange={handleCategoryNameChange}
     required
   />
 
   <button className={addCategoryStyle.cancelButton} onClick={Back}>Cancel</button>
-  <button type="submit" className={addCategoryStyle.addButton} >
+  <button type="submit" onClick={(e)=>submit(e)} className={addCategoryStyle.addButton} >
     {type}
   </button>
-</form>
+</div>
       </Box>
         </Box>
       </Modal>   

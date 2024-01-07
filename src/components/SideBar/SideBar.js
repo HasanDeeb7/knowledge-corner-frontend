@@ -38,6 +38,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import DrawIcon from '@mui/icons-material/Draw';
 import CategoryIcon from '@mui/icons-material/Category';
+import { Helmet } from 'react-helmet';
 
 
 const menuItems=[
@@ -77,7 +78,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -132,10 +132,6 @@ export default function SideBar() {
   };
 
 
-
-
-  /********* */
-
   
   return (
     <>
@@ -150,20 +146,16 @@ export default function SideBar() {
                 onClick={handleDrawerOpen}
                 edge="start"
                 sx={{
-                //   marginRight: 5,
                   ...(open && { display: 'none' }),
-                //   border:"1px solid green",
                   width:"50px",
                   height:"50px",
                   color:"black"
                 }}
               >
-                {/* <img src={logo} alt='logo' /> */}
                 <ChevronRightIcon />
               </IconButton>
               <Typography variant="h6" noWrap component={NavLink}  to={'/'} className='logo' sx={{
                 color: 'white',
-                // background: '#4CD080',
                 color:"black",
                 mr: 2,
                 display: 'flex',
@@ -180,7 +172,6 @@ export default function SideBar() {
 justifyContent:"space-between",
 alignItems:"center"
               }}>
-                {/* M<Typography component='s' color='green' fontWeight='900' fontSize='20px'>Y</Typography>wallet */}
                 <img src={Books} style={{width:"50px"}}/>
                 <h1  style={{
   fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif",
@@ -189,8 +180,8 @@ alignItems:"center"
 
               </Typography>
             </Box>
+            
             <Box component='nav' sx={{ display: 'flex' }}>
-              {/* <Notifications /> */}
               <Avatar
                 onClick={accountPopover.handleOpen}
                 ref={accountPopover.anchorRef}
@@ -217,11 +208,9 @@ alignItems:"center"
           <DrawerHeader sx={{display:"flex",justifyContent:"space-between"}}>
             <Typography variant="h6" noWrap component={NavLink}  to={'/'} className='logo' sx={{
               color: 'Black',
-            //   background: '#4CD080',
               mr: 2,
               display: { md: 'flex' },
               fontFamily: 'fantasy',
-            //   fontWeight: 700,
               letterSpacing: '.1rem',
               textDecoration: 'none',
               borderRadius: 1,
@@ -229,26 +218,6 @@ alignItems:"center"
               justifyContent:"space-between",
 alignItems:"center"
             }}>
-
-                {/**
-                 *               color: 'white',
-                // background: '#4CD080',
-                color:"black",
-                mr: 2,
-                display: 'flex',
-                fontFamily: 'fantasy',
-                // fontWeight: 700,
-                letterSpacing: '.1rem',
-                textDecoration: 'none',
-                borderRadius: 1,
-                p: 1,
-                ...(open && { display: 'none' }),
-                '@media(width<500px)': {
-                  display: 'none',
-                },
-justifyContent:"space-between",
-alignItems:"center"
-                 */}
               
               <img src={Books} style={{width:"50px"}}/>
                 <h1  style={{
@@ -263,7 +232,6 @@ alignItems:"center"
 
           </DrawerHeader>
 
-          {/* <Divider /> */}
           <List>
 
             {menuItems.map((menuItem, index) => (
@@ -285,17 +253,14 @@ alignItems:"center"
 
                 >
 
-                  {/* add icons  */}
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
-                      // color: '#00000',
-                      // opacity:1
+                    
                     }}
                   >
-                    {/* {icons[index]} */}
                     {menuItem.icon}
                   </ListItemIcon>
                   <ListItemText primary={menuItem.text} sx={{opacity: open ? 1 : 0 }} />

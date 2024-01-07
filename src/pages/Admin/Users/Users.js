@@ -13,7 +13,9 @@ import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input'
 import Modal from '@mui/material/Modal';
 // import style from "./Users.module.css";
-
+import { Helmet } from "react-helmet";
+import PersonIcon from '@mui/icons-material/Person';
+import userIcon from '../../../assets/icons/user.png'
 function Users() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -115,7 +117,15 @@ if(user){
 
   return (
     !isLoading && (
+      <>
+            <Helmet>
+        <meta charSet="utf-8" />
+        <title>Admin-Users</title>
+        <meta name="description" content="all Users" />
+        <link rel="icon" href={userIcon} />
+      </Helmet>
       <section className={style.allUsersContainer}>
+    
         <DataGrid
           columns={[
             { field: "id", headerName: "ID", width: 100 },
@@ -234,48 +244,10 @@ if(user){
           </Box>
         </Modal>
       </section>
+      </>
+
     )
   );
 }
 
 export default Users;
-
-/***
- * 
- * 
- * <div className={style.inputContainer}>
-  <label className={style.label}>Name</label>
-  <input
-    className={style.input}
-    type="text"
-    placeholder="user's Name"
-    name="name"
-    id="name"
-    value={ user.name?user.name : ""}
-    readOnly
-  />
-</div>
-<div className={style.inputContainer}>
-  <label>Role</label>
-  <select
-   className={style.input}
-   type="status"
-   placeholder="user Role"
-   name="status"
-   id="status"
-   defaultValue={user.role}
-   >
-    <option value='user'></option>
-    <option value='admin'></option>
-    <option value='superAdmin'></option>
-    <option value='manager'></option>
-
-  </select>
-</div>
-
-<div className={style.buttonContainer}>
-  <button className={style.add}  style={{opacity:1}} >
-    Update User Role
-  </button>
-</div>
- */

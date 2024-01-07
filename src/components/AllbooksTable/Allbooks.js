@@ -208,7 +208,6 @@ style={{background:'darkred'}}
   };
   const emptyRow = { id: 'Loading...'};
 
-
   return (
     <div style={{  width: '100%', margin: 'auto', height: "100%", marginTop: "3rem" }}>
     <DataGrid

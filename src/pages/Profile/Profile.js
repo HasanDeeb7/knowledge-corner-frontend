@@ -4,15 +4,12 @@ import style from "./profile.module.css";
 import { useParams, useLocation,Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
-
+import { Helmet } from "react-helmet";
 import { useContext } from 'react';
 import { userContext } from "../../App";
-
+import PersonIcon from '@mui/icons-material/Person';
 export const Profile = () => {
-  // const { user, setUser } = useContext(userContext);
-
-// 
-    const [user,setUser]=useState(null)
+  const [user,setUser]=useState(null)
     const [loading,setLoading]=useState(true)
     const [editLoading, setEditLoading] = useState(false)
 
@@ -67,7 +64,6 @@ export const Profile = () => {
           const res = await axios.put(`${process.env.REACT_APP_PATH}api/user/update`, requestedData)
           if (res) {
             console.log('profile updated!!')
-            //  fetchUser()
             setEditLoading(false)
     
           }
@@ -86,13 +82,18 @@ export const Profile = () => {
 
 
   return (
+    <>
+       <Helmet>
+        <meta charSet="utf-8" />
+        <title>Profile</title>
+        <meta name="description" content="Profile" />
+        <link rel="icon" href={PersonIcon} />
+      </Helmet>
     <div className={style.fromContainer}>
-      {/* <form className={style.bookform} id="bookForm" onSubmit={addBook}> */}
       {!loading&&(
         <form className={style.bookform} id="bookForm" >
 
 <h1 className={style.title}>
-  {/* {type === "Add" ? "Launch Book" : "Edit Book"} */}
 </h1>
 <div className={style.inputContainer}>
   <label className={style.label}>First Name</label>
@@ -149,5 +150,7 @@ export const Profile = () => {
       )}
       
     </div>
+    </>
+
   )
 }

@@ -194,8 +194,8 @@ function Dashboard() {
           ></Route>
           <Route
             path="/adminAddCategory/:type"
-            element={<AddCategoryForm />}
-            handleAdd={handleClick}
+            element={<AddCategoryForm handleClick={handleClick} />}
+           
           ></Route>
           {/* /****************************************** */}
 
