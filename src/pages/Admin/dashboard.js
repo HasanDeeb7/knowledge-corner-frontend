@@ -166,7 +166,7 @@ function Dashboard({ user }) {
               element={
                 <AdminAllCategories
                   categories={categories}
-                  // handleDeleteCategory={handleDeleteCategory}
+                  handleDeleteCategory={handleDeleteCategory}
                 />
               }
             ></Route>

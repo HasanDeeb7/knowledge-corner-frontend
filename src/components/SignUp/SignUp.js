@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import style from "./SignUp.module.css";
 import OAuth from "../../OAuth";
 
 import axios from "axios";
+import { setUserId } from "firebase/analytics";
 function SignUp({ setLogin }) {
-
-
   const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
     password: "",
     email: "",
+    image: null,
   });
   const [confirmPassword, setConfirmPassword] = useState("");
+  const fileInputRef = useRef(null);
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,6 +29,11 @@ function SignUp({ setLogin }) {
     setMessage();
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   }
+  function fileInput() {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
 
   const signUp = async () => {
     setEmailMessage();
@@ -39,9 +45,11 @@ function SignUp({ setLogin }) {
       return setMessage("Password confirmed incorrectly");
     }
     try {
+      console.log(newUser);
       const res = await axios.post(
         `${process.env.REACT_APP_PATH}api/user/signup`,
-        newUser
+        newUser,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res) {
         setLogin(true);
@@ -112,6 +120,27 @@ function SignUp({ setLogin }) {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
+
+        <div className={style.uploadImageContainer}>
+          <span>{newUser.image?.name || "No Chosen Image"}</span>
+          <label
+            className={style.uploadBtn}
+            htmlFor="fileInput"
+            onClick={fileInput}
+          >
+            Upload Image
+          </label>
+        </div>
+        <input
+          name="image"
+          className={style.hiddenInput}
+          type="file"
+          ref={fileInputRef}
+          onChange={(e) => {
+            console.log(e.target.files[0]);
+            setNewUser({ ...newUser, image: e.target.files[0] });
+          }}
+        />
       </div>
       <div style={{ color: "red" }}>{message ? message : ""}</div>
       <div className={style.signUpBtnWrapper}>

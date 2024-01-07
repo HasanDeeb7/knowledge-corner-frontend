@@ -5,7 +5,7 @@
   gap: 2rem;
 }
 .signUpInput {
-  width: 100%;
+  width: 60%;
   padding: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -25,7 +25,33 @@
   background-color: #fff;
 }
 .inputLabelWrapper {
+  width: 100%;
+  display: flex;  
+  justify-content: space-between;
+}
+.uploadBtn {
+  cursor: pointer;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.uploadBtn:hover {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+.hiddenInput{
+  display: none;
+}
+.uploadImageContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

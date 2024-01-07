@@ -5,11 +5,11 @@ function TemAuthorCard(props) {
   // console.log(authorId)
   return (
     <figure className={AllBooksStyle.figure}>
-        <img
-          src={`${process.env.REACT_APP_PATH}/images/${image}`}
-          alt="Book cover"
-          className={AllBooksStyle.image}
-        />
+      <img
+        src={`${process.env.REACT_APP_PATH}/images/${image}`}
+        alt="Book cover"
+        className={AllBooksStyle.image}
+      />
 
       <figcaption className={AllBooksStyle.figcaption}>
         <p> {authorName}</p>
