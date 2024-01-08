@@ -14,9 +14,9 @@ const NavBar = () => {
     false,
     false,
     false,
-    false,
-    false,
-    false,
+    // false,
+    // false,
+    // false,
   ]);
   const navigate = useNavigate();
   const [isResponsive, setIsResponsive] = useState(window.innerWidth <= 480);
@@ -48,7 +48,7 @@ const NavBar = () => {
         <div className={navBarStyle.logoContainer}>
           <NavLink
             onClick={() => {
-              setActive([true, false, false, false, false, false]);
+              setActive([true, false, false, false, false]);
             }}
             to={"./"}
           >
@@ -87,7 +87,7 @@ const NavBar = () => {
               Home
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               onClick={() => {
                 setActive([false, true, false, false, false, false]);
@@ -99,11 +99,11 @@ const NavBar = () => {
             >
               Libraries
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               onClick={() => {
-                setActive([false, false, true, false, false, false]);
+                setActive([false, false,true, false, false, false]);
               }}
               className={`${navBarStyle.navLi} ${
                 isActive[2] ? navBarStyle.active : ""
@@ -116,7 +116,7 @@ const NavBar = () => {
           <li>
             <NavLink
               onClick={() => {
-                setActive([false, false, false, true, false, false, false]);
+                setActive([false,false, false, true, false, false, false]);
               }}
               className={`${navBarStyle.navLi} ${
                 isActive[3] ? navBarStyle.active : ""
@@ -129,7 +129,7 @@ const NavBar = () => {
           <li>
             <NavLink
               onClick={() => {
-                setActive([false, false, false, false, true, false, false]);
+                setActive([false, false, false,false,  true]);
               }}
               className={`${navBarStyle.navLi} ${
                 isActive[4] ? navBarStyle.active : ""

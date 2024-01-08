@@ -22,7 +22,7 @@ const AllBooks = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [totalBooks, setTotalBooks] = useState([]);
-  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 20 });
+  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 1 });
   
 
   // This function handles the click event for showing/hiding the category filter.

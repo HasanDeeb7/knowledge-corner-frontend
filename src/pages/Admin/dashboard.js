@@ -130,7 +130,7 @@ function Dashboard({ user }) {
           path="/"
           element={<AdminOutlet handleClick={handleClick} />}
         >
-          <Route exact path="/" element={<Overview />}></Route>
+          <Route exact path="/" element={<ProtectedRoute isAllowed={user&& user.role !== 'user'} redirectPath="/notauth"><Overview /></ProtectedRoute>}></Route>
           <Route
             element={
               <ProtectedRoute
